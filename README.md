@@ -1,8 +1,10 @@
 
 
-# THREE:
+# 3. Technology Stack
 
-## TECHNOLOGIES:
+The project uses a React frontend and a Node.js/Express backend, with Prisma managing the PostgreSQL database hosted on Neon.
+
+## Technologies
 
 ### Frontend
 - React
@@ -17,7 +19,7 @@
 - PostgreSQL on Neon
 
 
-## DEPENDENCIES:
+## Dependencies
 
 ### Authentication
 - JWT
@@ -29,19 +31,22 @@
 - nodemon
 
 
-## NPM FRONTEND INSTALLATION:
+## Frontend Setup
 ![Frontend Installation](./00-getHealth-Resources/Frontend-Installation.png)
 
+```bash
 npm create vite@latest 
 npm install
 npm install tailwindcss @tailwindcss/vite
 npm install react-router-dom@latest  OR npm install react-router-dom@7.11.0 
 npm install axios 
+```
 
 
-## NPM BACKEND INSTALLATION:
+## Backend Setup
 ![Backend Installation](./00-getHealth-Resources/Backend-Installation.png)
 
+```bash
 npm init -y
 npm install express
 npm install cors
@@ -50,22 +55,29 @@ npm install bcrypt
 npm install @prisma/client
 npm install @prisma/adapter-pg
 npm install pg
+```
 
-Development Dependencies:
+### Development dependencies
 
+```bash
 npm install -D nodemon prisma 
 npm install -D prettier 
+```
 
 
 
 
-# FOURTH:
+---
+
+# 4. Database Design
+
+The following entity-relationship diagram represents the initial database structure and the relationships between the main entities.
 
 ![Entity Relationships Diagram](./00-getHealth-Resources/ERD-Database.png)
 
-## Tables:
+## Database Tables
 
-#### specialties:
+### `specialties`
 - id
 - name
 - description
@@ -73,27 +85,27 @@ npm install -D prettier
 - created_at
 - updated_at
 
-#### professional_specialties:
+### `professional_specialties`
 - id
 - professional_id
 - specialty_id
 - created_at
 
-#### Patient_profiles Table:
+### `patient_profiles`
 - id
 - user_id
 - phone
 - date_of_birth
 - identification_number
 
-#### Professional_profiles Table:
+### `professional_profiles`
 - id
 - user_id
 - license_number
 - biography
 - approval_status
 
-#### Availabilities Table:
+### `availabilities`
 - id
 - professional_id
 - weekday
@@ -104,7 +116,7 @@ npm install -D prettier
 - created_at
 - updated_at
 
-#### Appointment Table:
+### `appointments`
 
 - id
 - patient_id
@@ -120,7 +132,7 @@ npm install -D prettier
 - updated_at
 
 
-#### Users Table:
+### `users`
 - id            
 - first_name
 - last_name
@@ -132,66 +144,62 @@ npm install -D prettier
 - updated_at
 
 
-# FIFTH:
+---
+
+# 5. REST API
+
+The REST API is organized by domain. The list below provides a quick endpoint overview; the complete contract is maintained in a separate Markdown document.
 
 ## API Contract
 
-The complete REST API contract is available here:
-[View the complete API Contract](./00-getHealth-Resources/API-Contract.md)
+For detailed request bodies, responses, access rules, status codes, and error cases, see the dedicated API documentation:
+
+**[View the complete REST API Contract →](./00-getHealth-Resources/API-Contract.md)**
 
 
-### Authentication:
+### Authentication
 
-- POST /api/auth/register/patient
-- POST /api/auth/register/professional
-- POST /api/auth/login
-- GET  /api/auth/profile
-
-
-### Specialities:
-
-- GET    /api/specialties
-- GET    /api/specialties/:id
-- POST   /api/specialties
-- PUT    /api/specialties/:id
-- PATCH /api/specialties/:id/status
+- `POST /api/auth/register/patient`
+- `POST /api/auth/register/professional`
+- `POST /api/auth/login`
+- `GET /api/auth/profile`
 
 
-### Professionals:
+### Specialties
 
-- GET   /api/professionals
-- GET   /api/professionals/:id
-- PATCH /api/professionals/:id
-- PATCH /api/professionals/:id/status
-
-- POST /api/professionals/:id/specialties
-- DELETE /api/professionals/:id/specialties/:specialtyId 
+- `GET /api/specialties`
+- `GET /api/specialties/:id`
+- `POST /api/specialties`
+- `PUT /api/specialties/:id`
+- `PATCH /api/specialties/:id/status`
 
 
-### Availavility:
+### Professionals
 
-- GET    /api/professionals/:id/availability
-- POST   /api/professionals/:id/availability
-- PUT    /api/availability/:id
-- DELETE /api/availability/:id
+- `GET /api/professionals`
+- `GET /api/professionals/:id`
+- `PATCH /api/professionals/:id`
+- `PATCH /api/professionals/:id/status`
 
-- GET /api/professionals/:id/available-slots(This is going to be to incorporate the calendar)
-
-
-### Appointments:
-
-- POST   /api/appointments
-- GET    /api/appointments/me
-- GET    /api/appointments/:id
-- PATCH  /api/appointments/:id/reschedule
-- PATCH  /api/appointments/:id/cancel
-- PATCH  /api/appointments/:id/status
+- `POST /api/professionals/:id/specialties`
+- `DELETE /api/professionals/:id/specialties/:specialtyId` 
 
 
+### Availability
+
+- `GET /api/professionals/:id/availability`
+- `POST /api/professionals/:id/availability`
+- `PUT /api/availability/:id`
+- `DELETE /api/availability/:id`
+
+- `GET /api/professionals/:id/available-slots` — *(This is going to be to incorporate the calendar)
 
 
+### Appointments
 
-
-
-
-
+- `POST /api/appointments`
+- `GET /api/appointments/me`
+- `GET /api/appointments/:id`
+- `PATCH /api/appointments/:id/reschedule`
+- `PATCH /api/appointments/:id/cancel`
+- `PATCH /api/appointments/:id/status`
