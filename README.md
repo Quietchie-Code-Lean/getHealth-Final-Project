@@ -93,58 +93,16 @@ For the complete entity-relationship diagram, database tables, fields, and relat
 
 # 5. REST API
 
-The REST API is organized by domain. The list below provides a quick endpoint overview; the complete contract is maintained in a separate Markdown document.
+The REST API is organized by domain and provides the endpoints required for authentication, specialty management, healthcare professionals, availability, and appointments.
 
-## API Contract
+The main API domains are:
 
-For detailed request bodies, responses, access rules, status codes, and error cases, see the dedicated API documentation:
+- Authentication
+- Specialties
+- Professionals
+- Availability
+- Appointments
 
-**[View the complete REST API Contract →](./00-getHealth-Resources/API-Contract.md)**
+The complete API contract includes request bodies, response structures, access rules, HTTP status codes, and error handling.
 
-
-### Authentication
-
-- `POST /api/auth/register/patient`
-- `POST /api/auth/register/professional`
-- `POST /api/auth/login`
-- `GET /api/auth/profile`
-
-
-### Specialties
-
-- `GET /api/specialties`
-- `GET /api/specialties/:id`
-- `POST /api/specialties`
-- `PUT /api/specialties/:id`
-- `PATCH /api/specialties/:id/status`
-
-
-### Professionals
-
-- `GET /api/professionals`
-- `GET /api/professionals/:id`
-- `PATCH /api/professionals/:id`
-- `PATCH /api/professionals/:id/status`
-
-- `POST /api/professionals/:id/specialties`
-- `DELETE /api/professionals/:id/specialties/:specialtyId` 
-
-
-### Availability
-
-- `GET /api/professionals/:id/availability`
-- `POST /api/professionals/:id/availability`
-- `PUT /api/availability/:id`
-- `DELETE /api/availability/:id`
-
-- `GET /api/professionals/:id/available-slots` — *(This is going to be to incorporate the calendar)
-
-
-### Appointments
-
-- `POST /api/appointments`
-- `GET /api/appointments/me`
-- `GET /api/appointments/:id`
-- `PATCH /api/appointments/:id/reschedule`
-- `PATCH /api/appointments/:id/cancel`
-- `PATCH /api/appointments/:id/status`
+[**View the complete REST API Contract →**](00-getHealth-Resources/API-Contract.md)
