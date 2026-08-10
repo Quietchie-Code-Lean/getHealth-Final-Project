@@ -2,70 +2,37 @@
 
 # 3. Technology Stack
 
-The project uses a React frontend and a Node.js/Express backend, with Prisma managing the PostgreSQL database hosted on Neon.
+The project uses a React frontend and a Node.js/Express backend, with Prisma ORM managing the PostgreSQL database hosted on Neon.
 
-## Technologies
+## Frontend
 
-### Frontend
 - React
 - React Router
 - Tailwind CSS
 - Axios
 
-### Backend
+## Backend
+
 - Node.js
 - Express
 - Prisma ORM
 - PostgreSQL on Neon
 
+## Authentication
 
-## Dependencies
-
-### Authentication
 - JWT
 - bcrypt
 
-### Utilities
+## Development Tools
+
 - dotenv
 - cors
 - nodemon
+- Prettier
 
+For detailed installation and configuration instructions:
 
-## Frontend Setup
-![Frontend Installation](./00-getHealth-Resources/Frontend-Installation.png)
-
-```bash
-npm create vite@latest 
-npm install
-npm install tailwindcss @tailwindcss/vite
-npm install react-router-dom@latest  OR npm install react-router-dom@7.11.0 
-npm install axios 
-```
-
-
-## Backend Setup
-![Backend Installation](./00-getHealth-Resources/Backend-Installation.png)
-
-```bash
-npm init -y
-npm install express
-npm install cors
-npm install dotenv
-npm install bcrypt
-npm install @prisma/client
-npm install @prisma/adapter-pg
-npm install pg
-```
-
-### Development dependencies
-
-```bash
-npm install -D nodemon prisma 
-npm install -D prettier 
-```
-
-
-
+[**View the Setup Guide →**](00-getHealth-Resources/Setup-Guide.md)
 
 ---
 
