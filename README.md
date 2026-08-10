@@ -71,78 +71,23 @@ npm install -D prettier
 
 # 4. Database Design
 
-The following entity-relationship diagram represents the initial database structure and the relationships between the main entities.
+The application uses PostgreSQL as its relational database, hosted on Neon and managed through Prisma ORM.
 
-![Entity Relationships Diagram](./00-getHealth-Resources/ERD-Database.png)
+The database is structured around the main entities required for user management, healthcare professionals, specialties, availability, and appointments.
 
-## Database Tables
+The main entities include:
 
-### `specialties`
-- id
-- name
-- description
-- is_active
-- created_at
-- updated_at
+- Users
+- Patient Profiles
+- Professional Profiles
+- Specialties
+- Professional Specialties
+- Availabilities
+- Appointments
 
-### `professional_specialties`
-- id
-- professional_id
-- specialty_id
-- created_at
+For the complete entity-relationship diagram, database tables, fields, and relationships:
 
-### `patient_profiles`
-- id
-- user_id
-- phone
-- date_of_birth
-- identification_number
-
-### `professional_profiles`
-- id
-- user_id
-- license_number
-- biography
-- approval_status
-
-### `availabilities`
-- id
-- professional_id
-- weekday
-- start_time
-- end_time
-- slot_duration
-- available_slot
-- created_at
-- updated_at
-
-### `appointments`
-
-- id
-- patient_id
-- professional_id
-- specialty_id
-- appointment_date
-- start_time
-- end_time
-- status
-- reason
-- cancellation_reason
-- created_at
-- updated_at
-
-
-### `users`
-- id            
-- first_name
-- last_name
-- email
-- password_hash
-- role
-- is_active
-- created_at
-- updated_at
-
+[**View the complete Database Design →**](00-getHealth-Resources/Database-Design.md)
 
 ---
 
