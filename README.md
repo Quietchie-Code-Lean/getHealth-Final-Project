@@ -1,4 +1,24 @@
+---
 
+# 1. Interface Design
+
+The initial interface design defines the main structure, navigation, and user experience of the getHealth application.
+
+The documentation includes the initial wireframes for the main views, including the Home, Specialties, Professionals, Profiles, Authentication, and Appointment Scheduling views.
+
+[**View the complete Interface Design →**](00-getHealth-Resources/Interface-Design.md)
+
+---
+
+## 2. Navigation Between Views
+
+The getHealth application defines public and private views, with private views requiring user authentication.
+
+The complete navigation structure and access classification are documented in:
+
+[View the complete Navigation Definition →](./00-getHealth-Resources/Navigation-Views.md)
+
+---
 
 # 3. Technology Stack
 
