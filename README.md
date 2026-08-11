@@ -10,7 +10,7 @@ The documentation includes the initial wireframes for the main views, including 
 
 ---
 
-## 2. Navigation Between Views
+# 2. Navigation Between Views
 
 The getHealth application defines public and private views, with private views requiring user authentication.
 
