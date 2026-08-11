@@ -10,6 +10,16 @@ The documentation includes the initial wireframes for the main views, including 
 
 ---
 
+## 2. Navigation Between Views
+
+The getHealth application defines public and private views, with private views requiring user authentication.
+
+The complete navigation structure and access classification are documented in:
+
+[View the complete Navigation Definition →](./00-getHealth-Resources/Navigation-Views.md)
+
+---
+
 # 3. Technology Stack
 
 The project uses a React frontend and a Node.js/Express backend, with Prisma ORM managing the PostgreSQL database hosted on Neon.
