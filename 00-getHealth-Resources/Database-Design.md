@@ -4,7 +4,7 @@ The following entity-relationship diagram represents the initial database struct
 
 ## Entity Relationship Diagram
 
-![getHealth Entity Relationship Diagram](./ERD-Database.png)
+![GetHealth Entity Relationship Diagram](./assets/wireframes/ERD-Database.png)
 
 ## Database Tables
 
