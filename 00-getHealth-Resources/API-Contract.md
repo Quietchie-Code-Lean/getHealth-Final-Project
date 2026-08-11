@@ -13,7 +13,8 @@
 
 ## Authentication
 
-### `POST /api/auth/register/patient`
+<details>
+  <summary><strong><code>POST /api/auth/register/patient</code></strong></summary>
 
 **Access**
 
@@ -69,9 +70,12 @@ body: {
 **500 Internal Server Error**
 - Unexpected server error
 
+</details>
+
 ---
 
-### `POST /api/auth/register/professional`
+<details>
+  <summary><strong><code>POST /api/auth/register/professional</code></strong></summary>
 
 **Access**
 
@@ -129,9 +133,12 @@ body: {
 **500 Internal Server Error**
 - Unexpected server error
 
+</details>
+
 ---
 
-### `POST /api/auth/login`
+<details>
+  <summary><strong><code>POST /api/auth/login</code></strong></summary>
 
 **Access**
 
@@ -178,9 +185,12 @@ body: {
 **500 Internal Server Error**
 - Unexpected server error
 
+</details>
+
 ---
 
-### `GET /api/auth/profile`
+<details>
+  <summary><strong><code>GET /api/auth/profile</code></strong></summary>
 
 **Access**
 
@@ -225,11 +235,14 @@ body: {
 **500 Internal Server Error**
 - Unexpected server error
 
+</details>
+
 ---
 
 ## Specialties
 
-### `GET /api/specialties`
+<details>
+  <summary><strong><code>GET /api/specialties</code></strong></summary>
 
 **Access**
 
@@ -265,9 +278,12 @@ body: {
 **500 Internal Server Error**
 - Unexpected server error
 
+</details>
+
 ---
 
-### `GET /api/specialties/:id`
+<details>
+  <summary><strong><code>GET /api/specialties/:id</code></strong></summary>
 
 **Access**
 
@@ -309,9 +325,12 @@ body: {
 **500 Internal Server Error**
 - Unexpected server error
 
+</details>
+
 ---
 
-### `POST /api/specialties`
+<details>
+  <summary><strong><code>POST /api/specialties</code></strong></summary>
 
 **Access**
 
@@ -367,9 +386,12 @@ body: {
 **500 Internal Server Error**
 - Unexpected server error
 
+</details>
+
 ---
 
-### `PUT /api/specialties/:id`
+<details>
+  <summary><strong><code>PUT /api/specialties/:id</code></strong></summary>
 
 **Access**
 
@@ -433,9 +455,12 @@ body: {
 **500 Internal Server Error**
 - Unexpected server error
 
+</details>
+
 ---
 
-### `PATCH /api/specialties/:id/status`
+<details>
+  <summary><strong><code>PATCH /api/specialties/:id/status</code></strong></summary>
 
 **Access**
 
@@ -493,11 +518,14 @@ body: {
 **500 Internal Server Error**
 - Unexpected server error
 
+</details>
+
 ---
 
 ## Professionals
 
-### `GET /api/professionals`
+<details>
+  <summary><strong><code>GET /api/professionals</code></strong></summary>
 
 **Access**
 
@@ -546,9 +574,12 @@ body: {
 **500 Internal Server Error**
 - Unexpected server error
 
+</details>
+
 ---
 
-### `GET /api/professionals/:id`
+<details>
+  <summary><strong><code>GET /api/professionals/:id</code></strong></summary>
 
 **Access**
 
@@ -597,9 +628,12 @@ body: {
 **500 Internal Server Error**
 - Unexpected server error
 
+</details>
+
 ---
 
-### `PATCH /api/professionals/:id`
+<details>
+  <summary><strong><code>PATCH /api/professionals/:id</code></strong></summary>
 
 **Access**
 
@@ -669,9 +703,12 @@ body: {
 **500 Internal Server Error**
 - Unexpected server error
 
+</details>
+
 ---
 
-### `PATCH /api/professionals/:id/status`
+<details>
+  <summary><strong><code>PATCH /api/professionals/:id/status</code></strong></summary>
 
 **Access**
 
@@ -735,9 +772,12 @@ body: {
 **500 Internal Server Error**
 - Unexpected server error
 
+</details>
+
 ---
 
-### `POST /api/professionals/:id/specialties`
+<details>
+  <summary><strong><code>POST /api/professionals/:id/specialties</code></strong></summary>
 
 **Access**
 
@@ -797,9 +837,12 @@ body: {
 **500 Internal Server Error**
 - Unexpected server error
 
+</details>
+
 ---
 
-### `DELETE /api/professionals/:id/specialties/:specialtyId`
+<details>
+  <summary><strong><code>DELETE /api/professionals/:id/specialties/:specialtyId</code></strong></summary>
 
 **Access**
 
@@ -848,11 +891,14 @@ body: {
 **500 Internal Server Error**
 - Unexpected server error
 
+</details>
+
 ---
 
 ## Availability
 
-### `GET /api/professionals/:id/availability`
+<details>
+  <summary><strong><code>GET /api/professionals/:id/availability</code></strong></summary>
 
 **Access**
 
@@ -897,9 +943,12 @@ body: {
 **500 Internal Server Error**
 - Unexpected server error
 
+</details>
+
 ---
 
-### `POST /api/professionals/:id/availability`
+<details>
+  <summary><strong><code>POST /api/professionals/:id/availability</code></strong></summary>
 
 **Access**
 
@@ -980,9 +1029,12 @@ body: {
 **500 Internal Server Error**
 - Unexpected server error
 
+</details>
+
 ---
 
-### `PUT /api/availability/:id`
+<details>
+  <summary><strong><code>PUT /api/availability/:id</code></strong></summary>
 
 **Access**
 
@@ -1055,9 +1107,12 @@ body: {
 **500 Internal Server Error**
 - Unexpected server error
 
+</details>
+
 ---
 
-### `DELETE /api/availability/:id`
+<details>
+  <summary><strong><code>DELETE /api/availability/:id</code></strong></summary>
 
 **Access**
 
@@ -1109,9 +1164,12 @@ body: {
 **500 Internal Server Error**
 - Unexpected server error
 
+</details>
+
 ---
 
-### `GET /api/professionals/:id/available-slots`
+<details>
+  <summary><strong><code>GET /api/professionals/:id/available-slots</code></strong></summary>
 
 **Access**
 
@@ -1161,11 +1219,14 @@ body: {
 **500 Internal Server Error**
 - Unexpected server error
 
+</details>
+
 ---
 
 ## Appointments
 
-### `POST /api/appointments`
+<details>
+  <summary><strong><code>POST /api/appointments</code></strong></summary>
 
 **Access**
 
@@ -1238,9 +1299,12 @@ body: {
 **500 Internal Server Error**
 - Unexpected server error
 
+</details>
+
 ---
 
-### `GET /api/appointments/me`
+<details>
+  <summary><strong><code>GET /api/appointments/me</code></strong></summary>
 
 **Access**
 
@@ -1307,9 +1371,12 @@ body: {
 **500 Internal Server Error**
 - Unexpected server error
 
+</details>
+
 ---
 
-### `GET /api/appointments/:id`
+<details>
+  <summary><strong><code>GET /api/appointments/:id</code></strong></summary>
 
 **Access**
 
@@ -1386,9 +1453,12 @@ body: {
 **500 Internal Server Error**
 - Unexpected server error
 
+</details>
+
 ---
 
-### `PATCH /api/appointments/:id/reschedule`
+<details>
+  <summary><strong><code>PATCH /api/appointments/:id/reschedule</code></strong></summary>
 
 **Access**
 
@@ -1457,9 +1527,12 @@ body: {
 **500 Internal Server Error**
 - Unexpected server error
 
+</details>
+
 ---
 
-### `PATCH /api/appointments/:id/cancel`
+<details>
+  <summary><strong><code>PATCH /api/appointments/:id/cancel</code></strong></summary>
 
 **Access**
 
@@ -1520,9 +1593,12 @@ body: {
 **500 Internal Server Error**
 - Unexpected server error
 
+</details>
+
 ---
 
-### `PATCH /api/appointments/:id/status`
+<details>
+  <summary><strong><code>PATCH /api/appointments/:id/status</code></strong></summary>
 
 **Access**
 
@@ -1586,3 +1662,5 @@ body: {
 
 **500 Internal Server Error**
 - Unexpected server error
+
+</details>
