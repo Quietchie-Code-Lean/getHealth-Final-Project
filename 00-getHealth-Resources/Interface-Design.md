@@ -12,7 +12,7 @@ The wireframes define the main structure, navigation, and distribution of the ap
 
 The Home view includes the main navigation, search functionality, access to professionals and specialties, authentication options, and a dynamic content area.
 
-[Home wireframe](assets/wireframes/Home-getHealth().png)
+![Home wireframe](assets/wireframes/Home-getHealth().png)
 
 ---
 
@@ -20,7 +20,7 @@ The Home view includes the main navigation, search functionality, access to prof
 
 The Specialties view presents the available medical specialties through cards.
 
-[Specialties wireframe](assets/wireframes/specialties-getHealth.png)
+![Specialties wireframe](assets/wireframes/specialties-getHealth.png)
 
 ---
 
@@ -28,7 +28,7 @@ The Specialties view presents the available medical specialties through cards.
 
 The Professionals view displays professionals associated with a selected specialty and allows dynamic navigation between them.
 
-[Professionals wireframe](assets/wireframes/Professionals-getHealth.png)
+![Professionals wireframe](assets/wireframes/Professionals-getHealth.png)
 
 ---
 
@@ -36,7 +36,7 @@ The Professionals view displays professionals associated with a selected special
 
 The Doctor Profile view includes professional information, a calendar, and the list of appointments for the selected day.
 
-[Doctor Profile wireframe](assets/wireframes/Doctor's-profile-getHealth.png)
+![Doctor Profile wireframe](assets/wireframes/Doctor's-profile-getHealth.png)
 
 ---
 
@@ -44,7 +44,7 @@ The Doctor Profile view includes professional information, a calendar, and the l
 
 The Patient Profile view includes patient information, the option to schedule an appointment, and a list of scheduled appointments.
 
-[Patient Profile wireframe](assets/wireframes/Patient-profile-getHealth.png)
+![Patient Profile wireframe](assets/wireframes/Patient-profile-getHealth.png)
 
 ---
 
@@ -52,7 +52,7 @@ The Patient Profile view includes patient information, the option to schedule an
 
 The Schedule Appointment view allows the patient to select a specialty, professional, date, and available appointment time.
 
-[Schedule Appointment wireframe](assets/wireframes/Schedule-appointment-getHealth.png)
+![Schedule Appointment wireframe](assets/wireframes/Schedule-appointment-getHealth.png)
 
 ---
 
@@ -60,7 +60,7 @@ The Schedule Appointment view allows the patient to select a specialty, professi
 
 The Login view provides separate access options for professionals and patients.
 
-[Login wireframe](assets/wireframes/Login-getHealth.png)
+![Login wireframe](assets/wireframes/Login-getHealth.png)
 
 ---
 
@@ -68,6 +68,6 @@ The Login view provides separate access options for professionals and patients.
 
 The Register view provides separate registration options for professionals and patients.
 
-[Register wireframe](assets/wireframes/Register-getHealth.png)
+![Register wireframe](assets/wireframes/Register-getHealth.png)
 
 ---
