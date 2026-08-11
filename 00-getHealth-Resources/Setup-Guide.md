@@ -18,7 +18,7 @@ The complete frontend installation process and its dependencies are documented b
 
 ### Frontend Installation Reference
 
-![Frontend Installation](Frontend-Installation.png)
+![Frontend Installation](./assets/wireframes/Frontend-Installation.png)
 
 ## Backend Setup
 
@@ -28,4 +28,4 @@ The complete backend installation process and its dependencies are documented be
 
 ### Backend Installation Reference
 
-![Backend Installation](Backend-Installation.png)
+![Backend Installation](./assets/wireframes/Backend-Installation.png)
