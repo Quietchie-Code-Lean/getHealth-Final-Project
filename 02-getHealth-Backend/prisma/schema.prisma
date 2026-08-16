@@ -23,6 +23,19 @@ enum Weekday {
   SUNDAY
 }
 
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum AppointmentStatus {
+  SCHEDULED
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
 model User {
   id           Int      @id @default(autoincrement())
   firstName    String   @db.VarChar(100)
@@ -50,12 +63,12 @@ model PatientProfile {
 }
 
 model ProfessionalProfile {
-  id                   Int       @id @default(autoincrement())
-  professionalId       Int       @unique
-  licenseNumber        String    @unique @db.VarChar(50)
-  approvalStatus       String    @db.VarChar(20)
-  dateOfBirth          DateTime? @db.Date
-  identificationNumber String?   @unique @db.VarChar(50)
+  id                   Int            @id @default(autoincrement())
+  professionalId       Int            @unique
+  licenseNumber        String         @unique @db.VarChar(50)
+  approvalStatus       ApprovalStatus
+  dateOfBirth          DateTime?      @db.Date
+  identificationNumber String?        @unique @db.VarChar(50)
 
   user                    User                     @relation(fields: [professionalId], references: [id])
   appointments            Appointment[]
@@ -102,18 +115,18 @@ model Availability {
 }
 
 model Appointment {
-  id                    Int      @id @default(autoincrement())
+  id                    Int               @id @default(autoincrement())
   patientProfileId      Int
   professionalProfileId Int
   specialityId          Int
-  appointmentDate       DateTime @db.Date
-  startAppointment      DateTime @db.Time
-  endAppointment        DateTime @db.Time
-  status                String   @db.VarChar(20)
-  reason                String?  @db.VarChar(500)
-  cancellationReason    String?  @db.VarChar(500)
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
+  appointmentDate       DateTime          @db.Date
+  startAppointment      DateTime          @db.Time
+  endAppointment        DateTime          @db.Time
+  status                AppointmentStatus
+  reason                String?           @db.VarChar(500)
+  cancellationReason    String?           @db.VarChar(500)
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
 
   patientProfile      PatientProfile      @relation(fields: [patientProfileId], references: [id])
   professionalProfile ProfessionalProfile @relation(fields: [professionalProfileId], references: [id])
