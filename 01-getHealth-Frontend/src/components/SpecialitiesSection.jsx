@@ -1,44 +1,56 @@
-import React from 'react'
-import CardGen from './CardGen.jsx';
+import { useEffect, useState } from "react";
+import { getSpecialities } from "../services/Speciality.services.js";
+import CardGen from "./CardGen.jsx";
+import { Link } from "react-router-dom";
 
 const SpecialitiesSection = () => {
+  const [specialities, setSpecialities] = useState([]);
+  const [error, setError] = useState(false);
 
-    /* Preset Tailwind Styles */
-    const btnSpecClass = "rounded-lg bg-blue-600 px-4 py-2 text-white";
-    const cardsContainer = "grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3";
+  useEffect(() => {
+    const loadSpecialities = async () => {
+      try {
+        const data = await getSpecialities();
+        setSpecialities(data);
+      } catch (error) {
+        console.error("Error loading specialities:", error);
+        setError(true);
+      }
+    };
 
-    return (
+    loadSpecialities();
+  }, []);
 
-        <div>
-            <h1>Our Specialities</h1>
-            <br />
-            <h3>Find the care you need</h3>
-            <br />
-            <div className={cardsContainer}>
-                <CardGen
-                    title="Cardiology"
-                    icon=""
-                    description="Search by speciality and find the right healthcare professional for you" />
+  const btnSpecClass =
+    "inline-block rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700";
 
-                <CardGen
-                    title="Dermatology"
-                    icon=""
-                    description="Check the professional’s availability and select the date and time that works best for you." />
+  return (
+    <section>
+      <h2>Our Specialities</h2>
 
+      <p>Find the care you need</p>
 
-                <CardGen
-                    title="Traumatology"
-                    icon=""
-                    description="Review the details and confirm your booking. Your appointment is ready!" />
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {error ? (
+          <p>Unable to load specialties. Please try again later.</p>
+        ) : (
+          specialities
+            .slice(0, 3)
+            .map((speciality) => (
+              <CardGen
+                key={speciality.id}
+                title={speciality.name}
+                description={speciality.description}
+              />
+            ))
+        )}
+      </div>
 
-            </div>
-            <button className={btnSpecClass}>
-                View all Specialities
-            </button>
-
-        </div>
-
-    );
+      <Link to="/specialities" className={btnSpecClass}>
+        View all Specialities
+      </Link>
+    </section>
+  );
 };
 
 export default SpecialitiesSection;
