@@ -12,6 +12,7 @@ import NotFound from "../pages/NotFound.jsx";
 import Specialities from "../pages/Specialities.jsx";
 
 const AppRoutes = () => {
+  // Defines the application's public and protected page routes.
   return (
     <Routes>
       <Route element={<MainLayout />}>
@@ -21,8 +22,12 @@ const AppRoutes = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="*" element={<NotFound />} />
+
+        {/* Displays the complete specialties page. */}
         <Route path="/specialities" element={<Specialities />} />
+
+        {/* Catches any URL that does not match an existing route. */}
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   );

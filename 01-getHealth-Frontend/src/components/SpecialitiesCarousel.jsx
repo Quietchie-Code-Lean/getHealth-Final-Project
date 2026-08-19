@@ -2,11 +2,14 @@ import { useRef, useState, useEffect } from "react";
 import CardGen from "./CardGen.jsx";
 
 const SpecialitiesCarousel = ({ specialities }) => {
+  // References the carousel element to control and read its scroll position.
   const carouselRef = useRef(null);
 
+  // Determines whether the user can navigate to the previous or next cards.
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
 
+  // Updates the navigation buttons according to the current carousel position.
   const updateScrollButtons = () => {
     const carousel = carouselRef.current;
 
@@ -19,10 +22,12 @@ const SpecialitiesCarousel = ({ specialities }) => {
     );
   };
 
+  // Recalculates the navigation state whenever the specialties list changes.
   useEffect(() => {
     updateScrollButtons();
   }, [specialities]);
 
+  // Moves the carousel one card to the left.
   const scrollLeft = () => {
     const carousel = carouselRef.current;
 
@@ -32,6 +37,7 @@ const SpecialitiesCarousel = ({ specialities }) => {
 
     if (!card) return;
 
+    // Includes the card width and the gap between cards in the scroll amount.
     const gap = 24;
     const scrollAmount = card.clientWidth + gap;
 
@@ -41,6 +47,7 @@ const SpecialitiesCarousel = ({ specialities }) => {
     });
   };
 
+  // Moves the carousel one card to the right.
   const scrollRight = () => {
     const carousel = carouselRef.current;
 
@@ -50,6 +57,7 @@ const SpecialitiesCarousel = ({ specialities }) => {
 
     if (!card) return;
 
+    // Includes the card width and the gap between cards in the scroll amount.
     const gap = 24;
     const scrollAmount = card.clientWidth + gap;
 
@@ -61,6 +69,7 @@ const SpecialitiesCarousel = ({ specialities }) => {
 
   return (
     <div className="relative">
+      {/* Previous button is disabled when the carousel is at the beginning. */}
       <button
         type="button"
         onClick={scrollLeft}
@@ -90,6 +99,7 @@ const SpecialitiesCarousel = ({ specialities }) => {
         ))}
       </div>
 
+      {/* Next button is disabled when there are no more cards to display. */}
       <button
         type="button"
         onClick={scrollRight}
