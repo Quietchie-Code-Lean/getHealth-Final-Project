@@ -3,19 +3,16 @@ import prisma from "../config/prisma.js";
 
 // Find user by email
 export const findUserByEmail = async (email) => {
-
     return await prisma.user.findUnique({
         where: {
             email,
         },
     });
-
 };
 
 
 // Find user by id
 export const findUserById = async (id) => {
-
     return await prisma.user.findUnique({
         where: {
             id,
@@ -26,11 +23,42 @@ export const findUserById = async (id) => {
             professionalProfile: true,
         },
     });
-
 };
 
 
 // Register patient
+export const registerPatient = async ({
+    firstName,
+    lastName,
+    email,
+    hashedPassword,
+    dateOfBirth,
+    identificationNumber,
+}) => {
+    return await prisma.user.create({
+        data: {
+            firstName,
+            lastName,
+            email,
+            passwordHash: hashedPassword,
+            role: "PATIENT",
+
+            patientProfile: {
+                create: {
+                    dateOfBirth,
+                    identificationNumber,
+                },
+            },
+        },
+
+        include: {
+            patientProfile: true,
+        },
+    });
+};
+
+
+// Register professional
 export const registerProfessional = async ({
     firstName,
     lastName,
@@ -40,11 +68,8 @@ export const registerProfessional = async ({
     specialityId,
     dateOfBirth,
     identificationNumber,
-    
 }) => {
-
     return await prisma.user.create({
-
         data: {
             firstName,
             lastName,
@@ -61,9 +86,9 @@ export const registerProfessional = async ({
 
                     professionalSpecialties: {
                         create: {
-                            specialityId
-                        }
-                    }
+                            specialityId,
+                        },
+                    },
                 },
             },
         },
@@ -73,51 +98,11 @@ export const registerProfessional = async ({
                 include: {
                     professionalSpecialties: {
                         include: {
-                            speciality: true
-                        }
-                    }
-                }
-            },
-        },
-    }
-);
-
-};
-
-
-// Register professional
-export const registerProfessional = async ({
-    firstName,
-    lastName,
-    email,
-    hashedPassword,
-    licenseNumber,
-    dateOfBirth,
-    identificationNumber,
-
-}) => {
-
-    return await prisma.user.create({
-
-        data: {
-            firstName,
-            lastName,
-            email,
-            passwordHash: hashedPassword,
-            role: "PROFESSIONAL",
-
-            professionalProfile: {
-                create: {
-                    licenseNumber,
-                    approvalStatus: "PENDING",
-                    dateOfBirth,
-                    identificationNumber,
+                            speciality: true,
+                        },
+                    },
                 },
             },
-        },
-
-        include: {
-            professionalProfile: true,
         },
     });
 };
