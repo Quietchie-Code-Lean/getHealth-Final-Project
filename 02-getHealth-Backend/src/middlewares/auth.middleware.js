@@ -15,7 +15,11 @@ export const credentialsMiddleware = (req, res, next) => {
 }
 
 
+/* 
+
 registerPatientMiddleware
 
 
 registerProfessionalMiddleware
+
+ */
