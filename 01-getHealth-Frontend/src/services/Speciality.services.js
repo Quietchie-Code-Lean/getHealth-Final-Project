@@ -1,17 +1,21 @@
-const API_URL = "http://localhost:3000/api/specialties";
+import axios from "axios";
 
-// Fetches the specialties from the backend API and returns the specialties list.
+const API_URL = `${import.meta.env.VITE_API_URL}/api/specialties`;
+
+// ============================================================
+// GET SPECIALTIES
+// ============================================================
+
+// Fetches the specialties from the backend API.
 export const getSpecialities = async () => {
-  const response = await fetch(API_URL);
+  try {
+    // Send a GET request to the specialties endpoint.
+    const response = await axios.get(API_URL);
 
-  // Converts unsuccessful HTTP responses into an error handled by the components.
-  if (!response.ok) {
+    // Return only the specialties data needed by the frontend.
+    return response.data.specialties;
+  } catch (error) {
+    // Convert API or network errors into a frontend-friendly error.
     throw new Error("Failed to fetch specialties");
   }
-
-  // Parses the API response body as JSON.
-  const data = await response.json();
-
-  // Returns only the specialties data needed by the frontend.
-  return data.specialties;
 };
