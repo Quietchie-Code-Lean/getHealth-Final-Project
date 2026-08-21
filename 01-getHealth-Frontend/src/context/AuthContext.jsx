@@ -1,5 +1,5 @@
-import { createContext, useContext, useState } from "react";
-import { loginRequest, registerPatientRequest, registerProfessionalRequest } from "../services/Auth.services";
+import { createContext, useContext, useEffect, useState } from "react";
+import { loginRequest, registerPatientRequest, registerProfessionalRequest, getProfileRequest } from "../services/Auth.services.js";
 
 
 const AuthContext = createContext();
@@ -9,6 +9,48 @@ export const AuthProvider = ({ children }) => {
 
   const [token, setToken] = useState(localStorage.getItem("token") || null);
   const [user, setUser] = useState(null);
+
+  const [authLoading, setAuthLoading] = useState(true);
+
+
+  // Restore session when application starts
+  useEffect(() => {
+
+    const restoreSession = async () => {
+
+      if (!token) {
+        setAuthLoading(false);
+        return;
+      }
+
+      try {
+
+        const data = await getProfileRequest(token);
+
+        setUser({
+          ...data.user,
+          profile: data.profile
+        });
+
+      } catch (error) {
+
+        console.error("Session restoration failed:", error);
+
+        localStorage.removeItem("token");
+
+        setToken(null);
+        setUser(null);
+
+      } finally {
+
+        setAuthLoading(false);
+
+      }
+    };
+
+    restoreSession();
+
+  }, [token]);
 
 
   const login = async (credentials) => {
@@ -26,38 +68,39 @@ export const AuthProvider = ({ children }) => {
 
   const registerPatient = async (patientData) => {
 
-    const data = await registerPatientRequest(patientData);
+    return await registerPatientRequest(patientData);
 
-    return data;
   };
 
 
   const registerProfessional = async (professionalData) => {
 
-    const data = await registerProfessionalRequest(professionalData);
-    
-    return data;
+    return await registerProfessionalRequest(professionalData);
 
   };
 
 
   const logout = () => {
+    localStorage.removeItem("token");
     setToken(null);
     setUser(null);
-    localStorage.removeItem("token");
   };
 
 
   return (
-        <AuthContext.Provider value={{  token,
-                                        user,
-                                        login,
-                                        logout,
-                                        registerPatient,
-                                        registerProfessional,}}>
-                                        {children}
-        </AuthContext.Provider>
-    );
+    <AuthContext.Provider 
+    value={{
+      token,
+      user,
+      authLoading,
+      login,
+      logout,
+      registerPatient,
+      registerProfessional,
+    }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 //hook to avoid call and import traditionally
