@@ -20,8 +20,7 @@ export const registerPatientController = async (req, res, next) => {
             password,
             phone,
             dateOfBirth,
-            identificationNumber
-        } = req.body;
+            identificationNumber } = req.body;
 
         const existingUser = await findUserByEmail(email);
 
@@ -39,7 +38,10 @@ export const registerPatientController = async (req, res, next) => {
             email,
             hashedPassword,
             phone,
-            dateOfBirth: new Date(dateOfBirth),
+            // Convert only if frontend actually sends a date
+            dateOfBirth: dateOfBirth
+                ? new Date(dateOfBirth)
+                : undefined,
             identificationNumber
         });
 

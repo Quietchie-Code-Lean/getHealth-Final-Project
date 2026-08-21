@@ -31,15 +31,16 @@ export const findUserById = async (id) => {
 
 
 // Register patient
-export const registerPatient = async ({
+export const registerProfessional = async ({
     firstName,
     lastName,
     email,
     hashedPassword,
-    phone,
+    licenseNumber,
+    specialityId,
     dateOfBirth,
     identificationNumber,
-
+    
 }) => {
 
     return await prisma.user.create({
@@ -49,21 +50,37 @@ export const registerPatient = async ({
             lastName,
             email,
             passwordHash: hashedPassword,
-            role: "PATIENT",
+            role: "PROFESSIONAL",
 
-            patientProfile: {
+            professionalProfile: {
                 create: {
-                    phone,
+                    licenseNumber,
+                    approvalStatus: "PENDING",
                     dateOfBirth,
                     identificationNumber,
+
+                    professionalSpecialties: {
+                        create: {
+                            specialityId
+                        }
+                    }
                 },
             },
         },
 
         include: {
-            patientProfile: true,
+            professionalProfile: {
+                include: {
+                    professionalSpecialties: {
+                        include: {
+                            speciality: true
+                        }
+                    }
+                }
+            },
         },
-    });
+    }
+);
 
 };
 
