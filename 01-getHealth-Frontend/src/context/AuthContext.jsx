@@ -19,6 +19,7 @@ export const AuthProvider = ({ children }) => {
     const restoreSession = async () => {
 
       if (!token) {
+        setUser(null);
         setAuthLoading(false);
         return;
       }
@@ -57,12 +58,13 @@ export const AuthProvider = ({ children }) => {
 
     const data = await loginRequest(credentials);
 
+    localStorage.setItem("token", data.token);
+
     setToken(data.token);
     setUser(data.user);
 
-    localStorage.setItem("token", data.token);
-
     return data;
+    
   };
 
 
