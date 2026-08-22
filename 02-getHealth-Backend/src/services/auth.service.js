@@ -1,7 +1,7 @@
 import prisma from "../config/prisma.js";
+import { emptyToUndefined } from "../utils/helpers.js";
 
 
-// Find user by email
 export const findUserByEmail = async (email) => {
     return await prisma.user.findUnique({
         where: {
@@ -11,7 +11,6 @@ export const findUserByEmail = async (email) => {
 };
 
 
-// Find user by id
 export const findUserById = async (id) => {
     return await prisma.user.findUnique({
         where: {
@@ -20,18 +19,26 @@ export const findUserById = async (id) => {
 
         include: {
             patientProfile: true,
-            professionalProfile: true,
+            professionalProfile: {
+                include: {
+                    professionalSpecialties: {
+                        include: {
+                            speciality: true,
+                        },
+                    },
+                },
+            },
         },
     });
 };
 
 
-// Register patient
 export const registerPatient = async ({
     firstName,
     lastName,
     email,
     hashedPassword,
+    phone,
     dateOfBirth,
     identificationNumber,
 }) => {
@@ -45,8 +52,9 @@ export const registerPatient = async ({
 
             patientProfile: {
                 create: {
+                    phone: emptyToUndefined(phone),
                     dateOfBirth,
-                    identificationNumber,
+                    identificationNumber: emptyToUndefined(identificationNumber),
                 },
             },
         },
@@ -58,7 +66,6 @@ export const registerPatient = async ({
 };
 
 
-// Register professional
 export const registerProfessional = async ({
     firstName,
     lastName,
@@ -69,6 +76,18 @@ export const registerProfessional = async ({
     dateOfBirth,
     identificationNumber,
 }) => {
+    const speciality = await prisma.speciality.findUnique({
+        where: {
+            id: specialityId,
+        },
+    });
+
+    if (!speciality) {
+        const error = new Error("Specialty not found");
+        error.statusCode = 404;
+        throw error;
+    }
+
     return await prisma.user.create({
         data: {
             firstName,
@@ -82,7 +101,7 @@ export const registerProfessional = async ({
                     licenseNumber,
                     approvalStatus: "PENDING",
                     dateOfBirth,
-                    identificationNumber,
+                    identificationNumber: emptyToUndefined(identificationNumber),
 
                     professionalSpecialties: {
                         create: {
