@@ -5,6 +5,18 @@ import { useAuth } from "../context/AuthContext.jsx";
 
 const Login = () => {
 
+  /* Preset Tailwind Styles */
+  const pageClass = "flex min-h-[calc(100vh-80px)] items-center justify-center bg-slate-100 px-6";
+  const cardClass = "w-full max-w-md rounded-md bg-white p-8";
+  const headerClass = "mb-6";
+  const titleClass = "text-3xl font-semibold text-slate-800";
+  const subtitleClass = "mt-2 text-sm text-slate-600";
+  const formClass = "space-y-5";
+  const labelClass = "mb-2 block text-sm font-medium text-slate-800";
+  const inputClass = "w-full rounded-md border border-slate-300 px-4 py-3 text-slate-800 outline-none transition-colors duration-200 focus:border-slate-800";
+  const errorClass = "text-sm text-red-600";
+  const buttonClass = "w-full rounded-md bg-slate-800 px-4 py-3 font-semibold text-white transition-colors duration-200 hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-60";
+
   const navigate = useNavigate();
 
   const { login } = useAuth();
@@ -16,6 +28,7 @@ const Login = () => {
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
   const handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -50,62 +63,59 @@ const Login = () => {
   };
 
   return (
-    <main className="flex min-h-[calc(100vh-80px)] items-center justify-center bg-gray-50 px-4">
+    <main className={pageClass}>
 
-      <section className="w-full max-w-md rounded-2xl bg-white p-8 shadow-sm">
+      <section className={cardClass}>
 
-            <div className="mb-6">
-                <h1 className="text-3xl font-bold text-gray-900">Login</h1>
-                <p className="mt-2 text-sm text-gray-600">Access your getHealth account</p>
-            </div>
+        <div className={headerClass}>
+          <h1 className={titleClass}>Login</h1>
+          <p className={subtitleClass}>Access your getHealth account</p>
+        </div>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div>
-                <label
-                  htmlFor="email"
-                  className="mb-2 block text-sm font-medium text-gray-700">Email</label>
+        <form onSubmit={handleSubmit} className={formClass}>
+          <div>
+            <label htmlFor="email" className={labelClass}>Email</label>
 
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="example@email.com"
-                  autoComplete="email"
-                  required
-                  className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500"/>
-              </div>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="example@email.com"
+              autoComplete="email"
+              required
+              className={inputClass}
+            />
+          </div>
 
-              <div>
-                <label
-                  htmlFor="password"
-                  className="mb-2 block text-sm font-medium text-gray-700">Password</label>
+          <div>
+            <label htmlFor="password" className={labelClass}>Password</label>
 
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  placeholder="Enter your password"
-                  autoComplete="current-password"
-                  required
-                  className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500"/>
-              </div>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Enter your password"
+              autoComplete="current-password"
+              required
+              className={inputClass}
+            />
+          </div>
 
-              {error && (<p className="text-sm text-red-600">{error}</p>)}
+          {error && (<p className={errorClass}>{error}</p>)}
 
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full rounded-lg bg-blue-600 px-4 py-3 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60">
-                
-                {loading ? "Logging in..." : "Login"}
+          <button
+            type="submit"
+            disabled={loading}
+            className={buttonClass}
+          >
+            {loading ? "Logging in..." : "Login"}
+          </button>
 
-              </button>
-
-            </form>
+        </form>
 
       </section>
 

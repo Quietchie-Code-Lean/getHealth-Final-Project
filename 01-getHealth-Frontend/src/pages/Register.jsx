@@ -5,10 +5,25 @@ import { useAuth } from "../context/AuthContext";
 
 const Register = () => {
 
+  /* Preset Tailwind Styles */
+  const pageClass = "flex min-h-[calc(100vh-80px)] items-center justify-center bg-slate-100 px-6 py-10";
+  const cardClass = "w-full max-w-lg rounded-md bg-white p-8";
+  const headerClass = "mb-6";
+  const titleClass = "text-3xl font-semibold text-slate-800";
+  const subtitleClass = "mt-2 text-sm text-slate-600";
+  const tabsClass = "mb-8 grid grid-cols-2 rounded-md bg-slate-100 p-1";
+  const tabBaseClass = "rounded-md px-4 py-2 text-sm font-medium transition-colors duration-200";
+  const tabActiveClass = `${tabBaseClass} bg-slate-800 text-white`;
+  const tabInactiveClass = `${tabBaseClass} text-slate-600 hover:text-slate-800`;
+  const formClass = "space-y-5";
+  const labelClass = "mb-2 block text-sm font-medium text-slate-800";
+  const inputClass = "w-full rounded-md border border-slate-300 px-4 py-3 text-slate-800 outline-none transition-colors duration-200 focus:border-slate-800";
+  const errorClass = "text-sm text-red-600";
+  const buttonClass = "w-full rounded-md bg-slate-800 px-4 py-3 font-semibold text-white transition-colors duration-200 hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-60";
+
   const navigate = useNavigate();
 
   const { registerPatient, registerProfessional } = useAuth();
-
 
   const [activeTab, setActiveTab] = useState("patient");
 
@@ -99,48 +114,38 @@ const Register = () => {
   };
 
   return (
-    <main className="flex min-h-[calc(100vh-80px)] items-center justify-center bg-gray-50 px-4 py-10">
-      <section className="w-full max-w-lg rounded-2xl bg-white p-8 shadow-sm">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900">
+    <main className={pageClass}>
+      <section className={cardClass}>
+        <div className={headerClass}>
+          <h1 className={titleClass}>
             Create your account
           </h1>
 
-          <p className="mt-2 text-sm text-gray-600">
+          <p className={subtitleClass}>
             Register as a patient or healthcare professional.
           </p>
         </div>
 
-        {/* REGISTER TYPE TABS */}
-        <div className="mb-8 grid grid-cols-2 rounded-xl bg-gray-100 p-1">
+        <div className={tabsClass}>
 
           <button
             type="button"
             onClick={() => handleTabChange("patient")}
-            className={`rounded-lg px-4 py-2 text-sm font-medium transition ${
-              activeTab === "patient"
-                ? "bg-white text-blue-600 shadow-sm"
-                : "text-gray-600 hover:text-gray-900"}`}>Patient</button>
+            className={activeTab === "patient" ? tabActiveClass : tabInactiveClass}
+          >Patient</button>
 
           <button
             type="button"
             onClick={() => handleTabChange("professional")}
-            className={`rounded-lg px-4 py-2 text-sm font-medium transition ${
-              activeTab === "professional"
-                ? "bg-white text-blue-600 shadow-sm"
-                : "text-gray-600 hover:text-gray-900"}`}>Professional</button>
+            className={activeTab === "professional" ? tabActiveClass : tabInactiveClass}
+          >Professional</button>
 
         </div>
 
-        {/* REGISTER FORM */}
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form onSubmit={handleSubmit} className={formClass}>
 
-          {/* FIRST NAME */}
           <div>
-
-            <label
-              htmlFor="firstName"
-              className="mb-2 block text-sm font-medium text-gray-700">First name</label>
+            <label htmlFor="firstName" className={labelClass}>First name</label>
 
             <input
               id="firstName"
@@ -151,16 +156,12 @@ const Register = () => {
               placeholder="Enter your first name"
               autoComplete="given-name"
               required
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500"/>
-
+              className={inputClass}
+            />
           </div>
 
-          {/* LAST NAME */}
           <div>
-
-            <label
-              htmlFor="lastName"
-              className="mb-2 block text-sm font-medium text-gray-700">Last name</label>
+            <label htmlFor="lastName" className={labelClass}>Last name</label>
 
             <input
               id="lastName"
@@ -171,16 +172,12 @@ const Register = () => {
               placeholder="Enter your last name"
               autoComplete="family-name"
               required
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500"
+              className={inputClass}
             />
           </div>
 
-          {/* EMAIL */}
           <div>
-
-            <label
-              htmlFor="email"
-              className="mb-2 block text-sm font-medium text-gray-700">Email</label>
+            <label htmlFor="email" className={labelClass}>Email</label>
 
             <input
               id="email"
@@ -191,17 +188,12 @@ const Register = () => {
               placeholder="example@email.com"
               autoComplete="email"
               required
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500"/>
-
+              className={inputClass}
+            />
           </div>
 
-          {/* PASSWORD */}
           <div>
-
-            <label
-              htmlFor="password"
-              className="mb-2 block text-sm font-medium text-gray-700"
-            >Password</label>
+            <label htmlFor="password" className={labelClass}>Password</label>
 
             <input
               id="password"
@@ -212,17 +204,14 @@ const Register = () => {
               placeholder="Create a password"
               autoComplete="new-password"
               required
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500"/>
-
+              className={inputClass}
+            />
           </div>
 
-          {/* PROFESSIONAL ONLY */}
           {activeTab === "professional" && (
             <>
               <div>
-                <label
-                  htmlFor="specialityId"
-                  className="mb-2 block text-sm font-medium text-gray-700">Speciality</label>
+                <label htmlFor="specialityId" className={labelClass}>Speciality</label>
 
                 <select
                   id="specialityId"
@@ -230,22 +219,18 @@ const Register = () => {
                   value={formData.specialityId}
                   onChange={handleChange}
                   required
-                  className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500">
-
+                  className={inputClass}
+                >
                   <option value="">Select a speciality</option>
                   <option value="1">General Medicine</option>
                   <option value="2">Cardiology</option>
                   <option value="3">Dermatology</option>
                   <option value="4">Pediatrics</option>
                 </select>
-
               </div>
 
               <div>
-                <label
-                  htmlFor="licenseNumber"
-                  className="mb-2 block text-sm font-medium text-gray-700"
-                >
+                <label htmlFor="licenseNumber" className={labelClass}>
                   Professional license number
                 </label>
 
@@ -257,24 +242,22 @@ const Register = () => {
                   onChange={handleChange}
                   placeholder="Enter your license number"
                   required
-                  className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500"
+                  className={inputClass}
                 />
               </div>
             </>
           )}
 
-          {/* ERROR */}
           {error && (
-            <p className="text-sm text-red-600">
+            <p className={errorClass}>
               {error}
             </p>
           )}
 
-          {/* SUBMIT */}
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-lg bg-blue-600 px-4 py-3 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
+            className={buttonClass}
           >
             {loading
               ? "Creating account..."
