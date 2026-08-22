@@ -3,17 +3,27 @@ import cors from "cors";
 
 import specialtyRouter from "./routes/specialty.routes.js";
 import appointmentRouter from "./routes/appointment.routes.js";
+import authRoutes from "./routes/auth.routes.js";
+
+
+import { errorMiddleware } from "./middlewares/error.middleware.js";
+
 
 const app = express();
 
 app.use(cors());
-
 app.use(express.json());
 
-// SPECIALTIES ROUTES
-app.use("/api/specialties", specialtyRouter);
 
-// APPOINTMENTS ROUTES
+//Routes
+app.use("/api/auth", authRoutes);
+app.use("/api/specialties", specialtyRouter);
 app.use("/api/appointments", appointmentRouter);
+
+
+// Global error handler
+app.use(errorMiddleware);
+
+
 
 export default app;
