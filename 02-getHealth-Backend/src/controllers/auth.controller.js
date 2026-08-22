@@ -6,9 +6,28 @@ import {
     registerPatient,
     registerProfessional
 } from "../services/auth.service.js";
+import { emptyToUndefined } from "../utils/helpers.js";
 
 
-//Patient----------------------------------------------
+const optionalDate = (value) => {
+    const cleanValue = emptyToUndefined(value);
+
+    if (!cleanValue) {
+        return undefined;
+    }
+
+    const parsedDate = new Date(cleanValue);
+
+    if (Number.isNaN(parsedDate.getTime())) {
+        const error = new Error("Invalid date of birth");
+        error.statusCode = 400;
+        throw error;
+    }
+
+    return parsedDate;
+};
+
+
 export const registerPatientController = async (req, res, next) => {
 
     try {
@@ -20,7 +39,8 @@ export const registerPatientController = async (req, res, next) => {
             password,
             phone,
             dateOfBirth,
-            identificationNumber } = req.body;
+            identificationNumber
+        } = req.body;
 
         const existingUser = await findUserByEmail(email);
 
@@ -28,7 +48,7 @@ export const registerPatientController = async (req, res, next) => {
             return res.status(409).json({
                 message: "User already exists"
             });
-        };
+        }
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -38,17 +58,12 @@ export const registerPatientController = async (req, res, next) => {
             email,
             hashedPassword,
             phone,
-            // Convert only if frontend actually sends a date
-            dateOfBirth: dateOfBirth
-                ? new Date(dateOfBirth)
-                : undefined,
+            dateOfBirth: optionalDate(dateOfBirth),
             identificationNumber
         });
 
         return res.status(201).json({
-
             message: "Patient registered successfully",
-
             user: {
                 id: user.id,
                 firstName: user.firstName,
@@ -57,17 +72,15 @@ export const registerPatientController = async (req, res, next) => {
                 role: user.role,
                 patientProfile: user.patientProfile
             }
-
         });
 
     } catch (error) {
-        next(error)
-
+        next(error);
     }
 
 };
 
-//Professional------------------------------------------
+
 export const registerProfessionalController = async (req, res, next) => {
 
     try {
@@ -78,10 +91,10 @@ export const registerProfessionalController = async (req, res, next) => {
             email,
             password,
             licenseNumber,
+            specialityId,
             dateOfBirth,
             identificationNumber
         } = req.body;
-
 
         const existingUser = await findUserByEmail(email);
 
@@ -91,9 +104,7 @@ export const registerProfessionalController = async (req, res, next) => {
             });
         }
 
-
         const hashedPassword = await bcrypt.hash(password, 10);
-
 
         const user = await registerProfessional({
             firstName,
@@ -101,15 +112,13 @@ export const registerProfessionalController = async (req, res, next) => {
             email,
             hashedPassword,
             licenseNumber,
-            dateOfBirth: new Date(dateOfBirth),
+            specialityId,
+            dateOfBirth: optionalDate(dateOfBirth),
             identificationNumber
         });
 
-
         return res.status(201).json({
-
             message: "Professional registered successfully",
-
             user: {
                 id: user.id,
                 firstName: user.firstName,
@@ -118,30 +127,28 @@ export const registerProfessionalController = async (req, res, next) => {
                 role: user.role,
                 professionalProfile: user.professionalProfile
             }
-
         });
 
-
     } catch (error) {
-
         next(error);
-
     }
 
 };
 
 
-
-//login user--------------------------------------
 export const loginController = async (req, res, next) => {
 
     try {
 
         const { email, password } = req.body;
 
+        if (!process.env.JWT_SECRET) {
+            const error = new Error("JWT_SECRET is not configured");
+            error.statusCode = 500;
+            throw error;
+        }
 
         const user = await findUserByEmail(email);
-
 
         if (!user) {
             return res.status(401).json({
@@ -149,12 +156,10 @@ export const loginController = async (req, res, next) => {
             });
         }
 
-
         const passwordIsValid = await bcrypt.compare(
             password,
             user.passwordHash
         );
-
 
         if (!passwordIsValid) {
             return res.status(401).json({
@@ -162,37 +167,27 @@ export const loginController = async (req, res, next) => {
             });
         }
 
-
         if (!user.isActive) {
             return res.status(403).json({
                 message: "User account is inactive",
             });
         }
 
-
         const token = jwt.sign(
-
             {
                 id: user.id,
                 email: user.email,
                 role: user.role
             },
-
             process.env.JWT_SECRET,
-
             {
                 expiresIn: "2h"
             }
-
         );
 
-
         return res.status(200).json({
-
             message: "Login successful",
-
             token,
-
             user: {
                 id: user.id,
                 firstName: user.firstName,
@@ -200,29 +195,22 @@ export const loginController = async (req, res, next) => {
                 email: user.email,
                 role: user.role,
             },
-
         });
 
-
     } catch (error) {
-
         next(error);
-
     }
 
 };
 
 
-//Profile----------------------------------------
 export const profileController = async (req, res, next) => {
 
     try {
 
         const { id } = req.user;
 
-
         const user = await findUserById(id);
-
 
         if (!user) {
             return res.status(404).json({
@@ -230,9 +218,7 @@ export const profileController = async (req, res, next) => {
             });
         }
 
-
         return res.status(200).json({
-
             user: {
                 id: user.id,
                 firstName: user.firstName,
@@ -241,19 +227,14 @@ export const profileController = async (req, res, next) => {
                 role: user.role,
                 isActive: user.isActive,
             },
-
             profile:
                 user.role === "PATIENT"
                     ? user.patientProfile
                     : user.professionalProfile
-
         });
 
-
     } catch (error) {
-
         next(error);
-
     }
 
 };
