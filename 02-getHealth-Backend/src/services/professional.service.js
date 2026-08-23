@@ -99,3 +99,67 @@ export const getProfessionalByIdService = async (professionalId) => {
     return professional;
 };
 
+
+export const findProfessionalByIdService = async (professionalId) => {
+
+    return await prisma.professionalProfile.findUnique({
+
+        where: {
+            id: professionalId,
+        },
+
+        select: {
+            id: true,
+            professionalId: true,
+            licenseNumber: true,
+            approvalStatus: true,
+            dateOfBirth: true,
+            identificationNumber: true,
+        },
+
+    });
+};
+
+export const updateProfessionalService = async (professionalId, updateData) => {
+
+    return await prisma.professionalProfile.update({
+
+        where: {
+            id: professionalId,
+        },
+
+        data: updateData,
+
+        select: {
+            id: true,
+            professionalId: true,
+            licenseNumber: true,
+            dateOfBirth: true,
+            identificationNumber: true,
+            approvalStatus: true,
+        },
+
+    });
+};
+
+
+export const updateProfessionalStatusService = async (professionalId, approvalStatus) => {
+
+  return await prisma.professionalProfile.update({
+
+    where: {
+      id: professionalId,
+    },
+
+    data: {
+      approvalStatus,
+    },
+
+    select: {
+      id: true,
+      approvalStatus: true,
+    },
+
+  });
+};
+
