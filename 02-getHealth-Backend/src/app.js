@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import express from "express";
 import cors from "cors";
 
@@ -45,3 +46,35 @@ app.use("/api/appointments", appointmentRouter);
 app.use(errorMiddleware);
 
 export default app;
+=======
+import express from "express";
+import cors from "cors";
+
+import specialtyRouter from "./routes/specialty.routes.js";
+import appointmentRouter from "./routes/appointment.routes.js";
+import authRoutes from "./routes/auth.routes.js";
+import professionalRoutes from "./routes/professional.routes.js";
+
+import { errorMiddleware } from "./middlewares/error.middleware.js";
+
+
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+
+
+//Routes
+app.use("/api/auth", authRoutes);
+app.use("/api/specialties", specialtyRouter);
+app.use("/api/appointments", appointmentRouter);
+app.use("/api/professionals", professionalRoutes)
+
+
+// Global error handler
+app.use(errorMiddleware);
+
+
+
+export default app;
+>>>>>>> 21ffe6c (feat: configure professional API routes)
