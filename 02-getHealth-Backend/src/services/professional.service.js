@@ -163,3 +163,72 @@ export const updateProfessionalStatusService = async (professionalId, approvalSt
   });
 };
 
+
+export const findSpecialityByIdService = async (specialityId) => {
+
+  const speciality = await prisma.speciality.findUnique({
+
+      where: {
+        id: specialityId,
+      },
+
+      select: {
+        id: true,
+        name: true,
+        isActive: true,
+      },
+
+    });
+
+  return speciality;
+};
+
+
+export const findProfessionalSpecialityService = async (professionalId, specialityId) => {
+
+  const professionalSpeciality = await prisma.professionalSpeciality.findFirst({
+
+      where: {
+        professionalId,
+        specialityId,
+      },
+
+    });
+
+  return professionalSpeciality;
+};
+
+
+
+export const addProfessionalSpecialityService = async (professionalId, specialityId) => {
+
+  const professionalSpeciality = await prisma.professionalSpeciality.create({
+
+      data: {
+        professionalId,
+        specialityId,
+      },
+
+      select: {
+        professionalId: true,
+        specialityId: true,
+      },
+
+    });
+
+  return professionalSpeciality;
+};
+
+
+export const removeProfessionalSpecialityService = async (professionalSpecialityId) => {
+
+  const deletedProfessionalSpeciality = await prisma.professionalSpeciality.delete({
+
+      where: {
+        id: professionalSpecialityId,
+      },
+
+    });
+
+  return deletedProfessionalSpeciality;
+};

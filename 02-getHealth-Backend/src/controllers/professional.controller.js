@@ -563,3 +563,258 @@ export const updateProfessionalStatusController = async ( req, res, next ) => {
 };
 
 
+export const addProfessionalSpecialityController = async (req, res, next) => {
+
+  try {
+
+    // ---------------------------------------------
+    // AUTHORIZATION
+    // ---------------------------------------------
+
+    // validateTokenMiddleware already verified
+    // the token and attached the user to req.user.
+    const authenticatedUser = req.user;
+
+
+    // This endpoint is ADMIN ONLY.
+    if (authenticatedUser.role !== "ADMIN") {
+
+      const error = new Error("Admin role required");
+
+      error.statusCode = 403;
+
+      throw error;
+    }
+
+
+    // ---------------------------------------------
+    // PROFESSIONAL ID
+    // ---------------------------------------------
+
+    const { id } = req.params;
+
+
+    // :id represents ProfessionalProfile.id.
+    const professionalId = Number(id);
+
+
+    if (!Number.isInteger(professionalId) || professionalId <= 0) {
+
+      const error = new Error("Invalid professional id");
+
+      error.statusCode = 400;
+
+      throw error;
+    }
+
+
+    // ---------------------------------------------
+    // SPECIALITY ID
+    // ---------------------------------------------
+
+    // API Contract uses specialty_id.
+    const { specialty_id } = req.body;
+
+
+    // Internal variable follows schema.prisma naming.
+    const specialityId = Number(specialty_id);
+
+
+    if (!Number.isInteger(specialityId) || specialityId <= 0) {
+
+      const error = new Error("Invalid specialty id");
+
+      error.statusCode = 400;
+
+      throw error;
+    }
+
+
+    // ---------------------------------------------
+    // CHECK PROFESSIONAL EXISTS
+    // ---------------------------------------------
+
+    const professional = await findProfessionalByIdService(professionalId);
+
+    if (!professional) {
+
+      const error = new Error("Professional not found");
+
+      error.statusCode = 404;
+
+      throw error;
+    }
+
+
+    // ---------------------------------------------
+    // CHECK SPECIALITY EXISTS
+    // ---------------------------------------------
+
+    const speciality = await findSpecialityByIdService(specialityId);
+
+    if (!speciality) {
+
+      const error = new Error("Specialty not found");
+
+      error.statusCode = 404;
+
+      throw error;
+    }
+
+
+    // ---------------------------------------------
+    // CHECK DUPLICATE RELATION
+    // ---------------------------------------------
+
+    const existingProfessionalSpeciality = await findProfessionalSpecialityService(professionalId, specialityId);
+
+    if (existingProfessionalSpeciality) {
+
+      const error = new Error("Specialty already assigned to this professional");
+
+      error.statusCode = 409;
+
+      throw error;
+    }
+
+
+    // ---------------------------------------------
+    // CREATE PROFESSIONAL ↔ SPECIALITY RELATION
+    // ---------------------------------------------
+
+    const professionalSpeciality = await addProfessionalSpecialityService(professionalId, specialityId);
+
+    // ---------------------------------------------
+    // RESPONSE
+    // ---------------------------------------------
+
+    return res.status(201).json({
+
+      message:"Specialty assigned to professional successfully",
+
+      professional_specialty: {
+        professional_id: professionalSpeciality.professionalId,
+        specialty_id: professionalSpeciality.specialityId,
+      },
+
+    });
+
+  } catch (error) {
+
+    next(error);
+
+  }
+
+};
+
+
+export const removeProfessionalSpecialityController = async (req, res, next) => {
+
+  try {
+
+    // ---------------------------------------------
+    // AUTHORIZATION
+    // ---------------------------------------------
+
+    // validateTokenMiddleware already verified
+    // the JWT and attached the decoded user to req.user.
+    const authenticatedUser = req.user;
+
+
+    // This endpoint is ADMIN ONLY.
+    if (authenticatedUser.role !== "ADMIN") {
+
+      const error = new Error("Admin role required");
+
+      error.statusCode = 403;
+
+      throw error;
+    }
+
+
+    // ---------------------------------------------
+    // ROUTE PARAMS
+    // ---------------------------------------------
+
+    const { id, specialtyId } = req.params;
+
+
+    // :id represents ProfessionalProfile.id.
+    const professionalId = Number(id);
+
+
+    // API uses specialtyId.
+    // Internal variable follows schema.prisma naming.
+    const specialityId = Number(specialtyId);
+
+
+    // ---------------------------------------------
+    // VALIDATE PROFESSIONAL ID
+    // ---------------------------------------------
+
+    if (!Number.isInteger(professionalId) || professionalId <= 0) {
+
+      const error = new Error("Invalid professional id");
+
+      error.statusCode = 400;
+
+      throw error;
+    }
+
+
+    // ---------------------------------------------
+    // VALIDATE SPECIALITY ID
+    // ---------------------------------------------
+
+    if (!Number.isInteger(specialityId) || specialityId <= 0) {
+
+      const error = new Error("Invalid specialty id");
+
+      error.statusCode = 400;
+
+      throw error;
+    }
+
+
+    // ---------------------------------------------
+    // FIND PROFESSIONAL ↔ SPECIALITY RELATION
+    // ---------------------------------------------
+
+    const professionalSpeciality = await findProfessionalSpecialityService(professionalId, specialityId);
+
+    // when this relationship does not exist.
+    if (!professionalSpeciality) {
+
+      const error = new Error("Professional-specialty relationship not found");
+
+      error.statusCode = 404;
+
+      throw error;
+    }
+
+
+    // ---------------------------------------------
+    // DELETE RELATION
+    // ---------------------------------------------
+
+    await removeProfessionalSpecialityService(professionalSpeciality.id);
+
+
+    // ---------------------------------------------
+    // RESPONSE
+    // ---------------------------------------------
+
+    return res.status(200).json({
+
+      message:"Specialty removed from professional successfully",
+
+    });
+
+  } catch (error) {
+
+    next(error);
+
+  }
+};
+
+
