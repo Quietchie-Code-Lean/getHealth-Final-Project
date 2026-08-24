@@ -1,0 +1,12 @@
+{
+  "watch": ["src"],
+  "ext": "js,mjs",
+  "exec": "node src/index.js",
+  "ignore": [
+    "node_modules/",
+    ".git/",
+    ".env",
+    "package.json",
+    "package-lock.json"
+  ]
+}
