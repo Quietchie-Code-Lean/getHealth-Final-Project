@@ -8,9 +8,12 @@ import SpecialitiesSection from '../components/SpecialitiesSection.jsx';
 
 const Home = () => {
 
+  /* Preset Tailwind Styles */
+  const pageClass = "bg-slate-100";
+
   return (
 
-    <div>
+    <div className={pageClass}>
 
       <HeroSection />
       <HowItWorks />
