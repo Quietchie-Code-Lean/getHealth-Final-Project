@@ -2,7 +2,8 @@ import express from "express";
 import cors from "cors";
 
 import authRoutes from "./routes/auth.routes.js";
-import router from "./routes/specialty.routes.js";
+import specialtyRouter from "./routes/specialty.routes.js";
+import appointmentRouter from "./routes/appointment.routes.js";
 
 import { errorMiddleware } from "./middlewares/error.middleware.js";
 
@@ -16,6 +17,8 @@ app.use(express.json());
 //Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/specialties", router);
+app.use("/api/specialties", specialtyRouter);
+app.use("/api/appointments", appointmentRouter);
 
 
 // Global error handler
