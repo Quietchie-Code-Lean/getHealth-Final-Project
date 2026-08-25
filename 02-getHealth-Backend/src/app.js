@@ -2,25 +2,46 @@ import express from "express";
 import cors from "cors";
 
 import authRoutes from "./routes/auth.routes.js";
-import router from "./routes/specialty.routes.js";
+import specialtyRouter from "./routes/specialty.routes.js";
+import appointmentRouter from "./routes/appointment.routes.js";
 
 import { errorMiddleware } from "./middlewares/error.middleware.js";
 
+// ============================================================
+// APPLICATION CONFIGURATION
+// ============================================================
 
+// Creates the Express application instance.
 const app = express();
 
+// ============================================================
+// GLOBAL MIDDLEWARE
+// ============================================================
+
+// Enables Cross-Origin Resource Sharing for client requests.
 app.use(cors());
+
+// Parses incoming requests with JSON payloads.
 app.use(express.json());
 
+// ============================================================
+// API ROUTES
+// ============================================================
 
-//Routes
+// Registers the authentication routes under the /api/auth path.
 app.use("/api/auth", authRoutes);
-app.use("/api/specialties", router);
 
+// Registers the speciality routes under the /api/specialties path.
+app.use("/api/specialties", specialtyRouter);
 
-// Global error handler
+// Registers the appointment routes under the /api/appointments path.
+app.use("/api/appointments", appointmentRouter);
+
+// ============================================================
+// GLOBAL ERROR HANDLER
+// ============================================================
+
+// Handles errors passed through the application middleware chain.
 app.use(errorMiddleware);
-
-
 
 export default app;

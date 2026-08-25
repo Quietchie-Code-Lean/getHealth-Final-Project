@@ -1,5 +1,8 @@
 import { useAuth } from "../context/AuthContext";
 
+// ============================================================
+// PROFILE COMPONENT
+// ============================================================
 
 const Profile = () => {
 
@@ -26,7 +29,7 @@ const Profile = () => {
   const logoutContainerClass = "flex justify-end";
   const logoutButtonClass = "rounded-lg bg-red-600 px-5 py-2.5 font-medium text-white transition hover:bg-red-700";
 
-
+  // Provides access to the authenticated user data and logout action.
   const { user, logout, authLoading } = useAuth();
 
 
@@ -41,11 +44,18 @@ const Profile = () => {
     );
   }
 
+  // ============================================================
+  // USER VALIDATION
+  // ============================================================
 
+  // Displays a loading message while the authenticated user data is not yet available.
   if (!user) {
     return null;
   }
 
+  // ============================================================
+  // PROFILE RENDER
+  // ============================================================
 
   const profile = user.profile;
 
@@ -207,7 +217,6 @@ const Profile = () => {
       </section>
 
     </main>
-
   );
 
 };
@@ -248,6 +257,5 @@ const formatDate = (date) => {
   return new Date(date).toLocaleDateString();
 
 };
-
 
 export default Profile;
