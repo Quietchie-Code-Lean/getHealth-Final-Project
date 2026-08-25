@@ -9,7 +9,7 @@ const SpecialitiesCarousel = ({ specialities }) => {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
 
-  // Updates the navigation buttons according to the current carousel position.
+  // Updates theto navigation buttons according to the current carousel position.
   const updateScrollButtons = () => {
     const carousel = carouselRef.current;
 

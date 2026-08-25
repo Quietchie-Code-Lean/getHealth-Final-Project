@@ -1,35 +1,56 @@
 import { useState } from "react";
 
+// ============================================================
+// SEARCH BAR COMPONENT
+// ============================================================
+
 const SearchBar = () => {
-    /* Preset Tailwind styles */
-    const formClass = "flex items-center w-full max-w-md bg-white border border-gray-200 rounded-full shadow-sm overflow-hidden focus-within:ring-2 focus-within:ring-blue-400";
-    const inputClass = "flex-1 px-4 py-2 outline-none text-sm text-gray-700";
-    const btnClass = /* "mr-1 flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition"; */
-    "px-4 py-2 text-gray-500 hover:bg-slate-800 transition";
+  /* Preset Tailwind styles */
+  const formClass =
+    "flex items-center w-full max-w-md bg-white border border-gray-200 rounded-full shadow-sm overflow-hidden focus-within:ring-2 focus-within:ring-blue-400";
+  const inputClass = "flex-1 px-4 py-2 outline-none text-sm text-gray-700";
+  const btnClass = "px-4 py-2 text-gray-500 hover:bg-slate-800 transition";
 
-    const [search, setSearch] = useState("");
+  // ============================================================
+  // SEARCH STATE
+  // ============================================================
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+  // Stores the current search input value.
+  const [search, setSearch] = useState("");
 
-        console.log("Searching for:", search);
+  // ============================================================
+  // SEARCH SUBMISSION
+  // ============================================================
 
-    };
+  // Prevents the default form submission and processes the current search value.
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-    return (
-        <form onSubmit={handleSubmit} className={formClass}>
+    console.log("Searching for:", search);
+  };
 
-            <input
-                type="text"
-                placeholder="Search doctors or specialities..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className={inputClass}/>
+  // ============================================================
+  // SEARCH BAR RENDER
+  // ============================================================
 
-            <button type="submit" className={btnClass}>🔍</button>
+  // Renders the search form with an input field an a button to submit the search.
+  return (
+    <form onSubmit={handleSubmit} className={formClass}>
+      {/* Search input field */}
+      <input
+        type="text"
+        placeholder="Search doctors or specialities..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className={inputClass}
+      />
 
-        </form>
-    );
+      {/* Search submission button */}
+      <button type="submit" className={btnClass}>
+        🔍
+      </button>
+    </form>
+  );
 };
 
 export default SearchBar;

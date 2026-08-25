@@ -1,93 +1,42 @@
-const isNonEmptyString = (value) => {
-    return typeof value === "string" && value.trim() !== "";
-};
+import jwt from "jsonwebtoken";
 
+// ============================================================
+// AUTHENTICATION MIDDLEWARE
+// ============================================================
 
-export const credentialsMiddleware = (req, res, next) => {
+// Verifies the JWT provided by the client and attaches the authenticated user's information to the request.
+export const authMiddleware = (req, res, next) => {
+  // ============================================================
+  // TOKEN EXTRACTION
+  // ============================================================
 
-    const { email, password } = req.body;
+  // Retrieves the authorization header and extracts the bearer token.
+  const authHeader = req.headers.authorization;
 
-    if (!isNonEmptyString(email) || !isNonEmptyString(password)) {
-        return res.status(400).json({
-            message: "Email and password are required"
-        });
-    }
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({
+      message: "Authentication token required",
+    });
+  }
 
-    req.body.email = email.trim().toLowerCase();
+  const token = authHeader.split(" ")[1];
 
-    next();
+  // ============================================================
+  // TOKEN VALIDATION
+  // ============================================================
 
-};
+  // Verifies the token signature and decodes the authenticated user's information.
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-
-export const registerPatientMiddleware = (req, res, next) => {
-
-    const { firstName, lastName, email, password } = req.body;
-
-    if (!isNonEmptyString(firstName) || !isNonEmptyString(lastName)) {
-        return res.status(400).json({
-            message: "First name and last name are required"
-        });
-    }
-
-    if (!isNonEmptyString(email) || !isNonEmptyString(password)) {
-        return res.status(400).json({
-            message: "Email and password are required"
-        });
-    }
-
-    req.body.firstName = firstName.trim();
-    req.body.lastName = lastName.trim();
-    req.body.email = email.trim().toLowerCase();
+    // Stores the decoded user information in the request so protected controllers can access the authenticated user.
+    req.user = decoded;
 
     next();
-
-};
-
-
-export const registerProfessionalMiddleware = (req, res, next) => {
-
-    const {
-        firstName,
-        lastName,
-        email,
-        password,
-        licenseNumber,
-        specialityId
-    } = req.body;
-
-    if (!isNonEmptyString(firstName) || !isNonEmptyString(lastName)) {
-        return res.status(400).json({
-            message: "First name and last name are required"
-        });
-    }
-
-    if (!isNonEmptyString(email) || !isNonEmptyString(password)) {
-        return res.status(400).json({
-            message: "Email and password are required"
-        });
-    }
-
-    if (!isNonEmptyString(licenseNumber)) {
-        return res.status(400).json({
-            message: "License number is required"
-        });
-    }
-
-    const parsedSpecialityId = Number(specialityId);
-
-    if (!Number.isInteger(parsedSpecialityId) || parsedSpecialityId <= 0) {
-        return res.status(400).json({
-            message: "A valid specialityId is required"
-        });
-    }
-
-    req.body.firstName = firstName.trim();
-    req.body.lastName = lastName.trim();
-    req.body.email = email.trim().toLowerCase();
-    req.body.licenseNumber = licenseNumber.trim();
-    req.body.specialityId = parsedSpecialityId;
-
-    next();
-
+  } catch (error) {
+    // Rejects the request when the token is invalid or expired.
+    return res.status(401).json({
+      message: "Invalid or expired token",
+    });
+  }
 };
