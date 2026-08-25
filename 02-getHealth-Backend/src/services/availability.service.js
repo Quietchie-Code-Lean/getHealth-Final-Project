@@ -3,8 +3,29 @@ import prisma from "../config/prisma.js";
 
 export const getProfessionalAvailability = async (professionalId) => {
 
-  // Prisma logic will be implemented in Endpoint 1
+  const professionalProfile = await prisma.professionalProfile.findFirst({
 
+      where: {
+        professionalId: professionalId,
+      },
+      
+      select: {
+        id: true,
+        professionalId: true,
+        availability: {
+          select: {
+            id: true,
+            weekday: true,
+            startTime: true,
+            endTime: true,
+            slotDuration: true,
+            availableSlot: true,
+          },
+        },
+      },
+    });
+
+  return professionalProfile;
 };
 
 
