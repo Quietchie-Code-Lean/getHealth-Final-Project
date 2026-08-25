@@ -34,6 +34,15 @@ export const minutesToDate = (minutes) => {
   return date;
 };
 
+
+//
+export const timeStringToDate = (timeString) => {
+
+  return new Date(`1970-01-01T${timeString}:00.000Z`);
+
+};
+
+
 // Converts a Date object into HH:mm format.
 export const dateToTimeString = (date) => {
   return date.toISOString().slice(11, 16);
