@@ -7,12 +7,14 @@ import {
     updateAvailability,
     getFutureProfessionalAppointments,
     deleteAvailability,
-    //getProfessionalAvailableSlots,
+    getProfessionalAvailabilityByWeekday,
+    getProfessionalAppointmentsByDate,
 } from "../services/availability.services.js";
 
 import {
     timeToMinutes,
     minutesToDate,
+    parseAppointmentDate,
     getWeekday,
 } from "../utils/dateTime.utils.js";
 
@@ -21,6 +23,9 @@ import {
     formatAvailabilityResponse,
     formatCreatedAvailabilityResponse,
     formatUpdatedAvailabilityResponse,
+    generateAvailabilitySlots,
+    isAvailabilitySlotOccupied,
+    formatAvailableSlotResponse,
 } from "../utils/availability.utils.js";
 
 
@@ -387,35 +392,93 @@ export const deleteAvailabilityController = async (req, res, next) => {
 };
 
 
-/* 
-
-
+// ============================================================
+// GET PROFESSIONAL AVAILABLE SLOTS
+// ============================================================
 
 export const getProfessionalAvailableSlotsController = async (req, res, next) => {
 
-    try {
+  try {
 
-        const professionalId = Number(req.params.id);
-        const requestedDate = req.query.date;
+    const professionalId = Number(req.params.id);
 
-        const availableSlots = await getProfessionalAvailableSlots(
-            professionalId,
-            requestedDate
-        );
+    const requestedDateString = req.query.date;
 
-        return res.status(200).json({
-            availableSlots,
-        });
+    // Validate professional ID.
+    if (!Number.isInteger(professionalId) || professionalId <= 0) {
 
-    } catch (error) {
+      const error = new Error("Invalid professional id");
 
-        next(error);
+      error.statusCode = 400;
 
+      throw error;
     }
-}; 
 
+    // Convert requested date into a Prisma-compatible Date.
+    const requestedDate = parseAppointmentDate(requestedDateString);
 
+    // Determine the weekday represented by the requested date.
+    const requestedWeekday = getWeekday(requestedDate);
 
+    // Find active professional availability for the requested weekday.
+    const professionalProfile = await getProfessionalAvailabilityByWeekday(
+        professionalId,
+        requestedWeekday
+      );
 
+    if (!professionalProfile) {
 
-*/
+      const error = new Error("Professional not found");
+
+      error.statusCode = 404;
+
+      throw error;
+    }
+
+    if (professionalProfile.availabilities.length === 0) {
+
+      const error = new Error("No availability configured for this day");
+
+      error.statusCode = 404;
+
+      throw error;
+    }
+
+    // Find appointments already booked for the requested date.
+    const appointments = await getProfessionalAppointmentsByDate(
+        professionalProfile.id,
+        requestedDate
+      );
+
+    const availableSlots = [];
+
+    // Generate slots from every availability schedule configured for the day.
+    for (const availability of professionalProfile.availabilities) {
+
+      const generatedSlots = generateAvailabilitySlots(availability);
+
+      for (const slot of generatedSlots) {
+
+        const occupied = isAvailabilitySlotOccupied(slot, appointments);
+
+        if (!occupied) {
+
+          const formattedSlot = formatAvailableSlotResponse(slot);
+
+          availableSlots.push(formattedSlot);
+          
+        }
+      }
+    }
+
+    return res.status(200).json({
+      professional_id: professionalId,
+      date: requestedDateString,
+      available_slots: availableSlots,
+    });
+
+  } catch (error) {
+
+    next(error);
+  }
+};

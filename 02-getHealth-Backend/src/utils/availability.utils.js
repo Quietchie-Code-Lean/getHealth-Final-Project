@@ -49,3 +49,61 @@ export const formatUpdatedAvailabilityResponse = (availability, professionalId) 
     updated_at: availability.updatedAt,
   };
 };
+
+
+// ============================================================
+// AVAILABLE SLOT GENERATION
+// ============================================================
+
+// Generates appointment slots from a professional availability schedule.
+export const generateAvailabilitySlots = (availability) => {
+
+  const slots = [];
+
+  const startTime = dateToTimeString(availability.startTime);
+  const endTime = dateToTimeString(availability.endTime);
+  const startMinutes =timeToMinutes(startTime);
+  const endMinutes = timeToMinutes(endTime);
+
+  let currentStartMinutes = startMinutes;
+
+  while (currentStartMinutes + availability.slotDuration <= endMinutes) {
+
+    const currentEndMinutes = currentStartMinutes + availability.slotDuration;
+
+    slots.push({
+      startTime: minutesToDate(currentStartMinutes),
+      endTime: minutesToDate(currentEndMinutes),
+    });
+
+    currentStartMinutes = currentEndMinutes;
+
+  }
+
+  return slots;
+};
+
+
+
+// Checks whether an appointment already occupies a generated slot.
+export const isAvailabilitySlotOccupied = (slot, appointments) => {
+
+  return appointments.some((appointment) => {
+
+    const appointmentStart = appointment.startAppointment;
+    const appointmentEnd = appointment.endAppointment;
+
+    return (appointmentStart < slot.endTime && appointmentEnd > slot.startTime);
+
+  });
+};
+
+
+// Converts an available appointment slot into the API response format.
+export const formatAvailableSlotResponse = (slot) => {
+
+  return {
+    start_time: dateToTimeString(slot.startTime),
+    end_time: dateToTimeString(slot.endTime),
+  };
+};

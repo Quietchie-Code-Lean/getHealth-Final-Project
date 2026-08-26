@@ -5,12 +5,12 @@ import {
   createProfessionalAvailabilityController,
   updateAvailabilityController,
   deleteAvailabilityController,
-  //getProfessionalAvailableSlotsController,
+  getProfessionalAvailableSlotsController,
 } from "../controllers/availability.controllers.js";
 
 import { authMiddleware } from "../middlewares/auth.middleware.js";
 import { authorizeRoles } from "../middlewares/role.middleware.js";
-import { createAvailabilityMiddleware, updateAvailabilityMiddleware } from "../middlewares/validation.middleware.js";
+import { createAvailabilityMiddleware, updateAvailabilityMiddleware, availableSlotsMiddleware, } from "../middlewares/validation.middleware.js";
 
 // ============================================================
 // ROUTER CONFIGURATION
@@ -54,16 +54,11 @@ router.delete(
   deleteAvailabilityController
 );
 
-/* 
-
-
-
-// GET AVAILABLE APPOINTMENT SLOTS
 router.get(
   "/professionals/:id/available-slots",
+  availableSlotsMiddleware,
   getProfessionalAvailableSlotsController
-
 );
- */
+
 
 export default router;

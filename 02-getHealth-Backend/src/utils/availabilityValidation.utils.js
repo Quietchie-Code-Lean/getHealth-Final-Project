@@ -1,4 +1,7 @@
-import { timeToMinutes } from "./dateTime.utils.js";
+import { 
+    timeToMinutes,
+    parseAppointmentDate,
+} from "./dateTime.utils.js";
 
 // ============================================================
 // AVAILABILITY VALIDATION CONFIGURATION
@@ -115,4 +118,32 @@ export const validateAvailabilityActiveStatus = (
 
     throw error;
   }
+};
+
+
+// ============================================================
+// BOOKING DATE VALIDATION
+// ============================================================
+
+// Validates and converts the requested booking date.
+export const validateAvailabilityDate = (date) => {
+
+  if (!date) {
+
+    const error = new Error("Date is required");
+    error.statusCode = 400;
+
+    throw error;
+  }
+
+  if (typeof date !== "string") {
+
+    const error = new Error("Invalid date format");
+    error.statusCode = 400;
+
+    throw error;
+  }
+
+  return parseAppointmentDate(date);
+  
 };
