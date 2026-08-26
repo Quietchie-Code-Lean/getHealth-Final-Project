@@ -218,16 +218,134 @@ export const updateAvailability = async (availabilityId, availabilityData) => {
 };
 
 
+// ============================================================
+// FIND FUTURE APPOINTMENT FOR AVAILABILITY
+// ============================================================
 
-/* 
+// Finds a future appointment that depends on the availability schedule.
+export const findFutureAppointmentForAvailability = async (
+  professionalProfileId,
+  weekday,
+  startTime,
+  endTime
+) => {
+
+  const currentDate = new Date();
+
+  const futureAppointments =
+    await prisma.appointment.findMany({
+
+      where: {
+        professionalProfileId: professionalProfileId,
+
+        appointmentDate: {
+          gte: currentDate,
+        },
+
+        status: {
+          in: [
+            "SCHEDULED",
+            "CONFIRMED",
+          ],
+        },
+      },
+
+      select: {
+        id: true,
+        appointmentDate: true,
+        startAppointment: true,
+        endAppointment: true,
+      },
+    });
+
+  const dependentAppointment =
+    futureAppointments.find((appointment) => {
+
+      const appointmentWeekday =
+        getWeekday(appointment.appointmentDate);
+
+      const sameWeekday =
+        appointmentWeekday === weekday;
+
+      const insideAvailability =
+        appointment.startAppointment >= startTime &&
+        appointment.endAppointment <= endTime;
+
+      return sameWeekday && insideAvailability;
+    });
+
+  return dependentAppointment;
+};
 
 
 
+// ============================================================
+// GET FUTURE PROFESSIONAL APPOINTMENTS
+// ============================================================
+
+// Retrieves future active appointments for a professional profile.
+export const getFutureProfessionalAppointments = async (
+  professionalProfileId
+) => {
+
+  const currentDate = new Date();
+
+  const futureAppointments =
+    await prisma.appointment.findMany({
+
+      where: {
+        professionalProfileId: professionalProfileId,
+
+        appointmentDate: {
+          gte: currentDate,
+        },
+
+        status: {
+          in: [
+            "SCHEDULED",
+            "CONFIRMED",
+          ],
+        },
+      },
+
+      select: {
+        id: true,
+        appointmentDate: true,
+        startAppointment: true,
+        endAppointment: true,
+      },
+    });
+
+  return futureAppointments;
+};
+
+
+
+
+// ============================================================
+// DELETE AVAILABILITY
+// ============================================================
+
+// Deletes an availability schedule by its ID.
 export const deleteAvailability = async (availabilityId) => {
 
-  // Prisma logic will be implemented in Endpoint 4
+  const deletedAvailability =
+    await prisma.availability.delete({
 
+      where: {
+        id: availabilityId,
+      },
+    });
+
+  return deletedAvailability;
 };
+
+
+
+
+
+
+/* 
 
 
 export const getProfessionalAvailableSlots = async (professionalId, requestedDate) => {

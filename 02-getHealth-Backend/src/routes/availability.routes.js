@@ -4,7 +4,7 @@ import {
   getProfessionalAvailabilityController,
   createProfessionalAvailabilityController,
   updateAvailabilityController,
-  //deleteAvailabilityController,
+  deleteAvailabilityController,
   //getProfessionalAvailableSlotsController,
 } from "../controllers/availability.controllers.js";
 
@@ -46,18 +46,16 @@ router.put(
   updateAvailabilityController
 );
 
-
-
+// Deletes an existing professional availability schedule.
+router.delete(
+  "/availability/:id",
+  authMiddleware,
+  authorizeRoles("PROFESSIONAL", "ADMIN"),
+  deleteAvailabilityController
+);
 
 /* 
 
-
-// DELETE AVAILABILITY
-router.delete(
-  "/availability/:id",
-  validateTokenMiddleware,
-  deleteAvailabilityController
-);
 
 
 // GET AVAILABLE APPOINTMENT SLOTS
