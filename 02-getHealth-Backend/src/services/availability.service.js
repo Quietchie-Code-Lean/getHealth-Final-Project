@@ -120,15 +120,107 @@ export const createProfessionalAvailability = async (
 
 
 
-/* 
+// ============================================================
+// GET AVAILABILITY BY ID
+// ============================================================
 
+// Retrieves an availability together with its professional profile.
+export const getAvailabilityById = async (availabilityId) => {
 
+  const availability = await prisma.availability.findUnique({
 
+    where: {
+      id: availabilityId,
+    },
+
+    select: {
+      id: true,
+      professionalProfileId: true,
+      weekday: true,
+      startTime: true,
+      endTime: true,
+      slotDuration: true,
+      availableSlot: true,
+
+      professionalProfile: {
+        select: {
+          id: true,
+          professionalId: true,
+        },
+      },
+    },
+  });
+
+  return availability;
+};
+
+// ============================================================
+// FIND UPDATE AVAILABILITY OVERLAP
+// ============================================================
+
+// Finds another active availability that overlaps the updated time range.
+export const findUpdatedAvailabilityOverlap = async (
+  availabilityId,
+  professionalProfileId,
+  weekday,
+  startTime,
+  endTime
+) => {
+
+  const overlappingAvailability =
+    await prisma.availability.findFirst({
+
+      where: {
+        professionalProfileId: professionalProfileId,
+        weekday: weekday,
+        availableSlot: true,
+
+        id: {
+          not: availabilityId,
+        },
+
+        startTime: {
+          lt: endTime,
+        },
+
+        endTime: {
+          gt: startTime,
+        },
+      },
+    });
+
+  return overlappingAvailability;
+};
+
+// ============================================================
+// UPDATE AVAILABILITY
+// ============================================================
+
+// Updates an existing professional availability schedule.
 export const updateAvailability = async (availabilityId, availabilityData) => {
 
-  // Prisma logic will be implemented in Endpoint 3
+  const updatedAvailability = await prisma.availability.update({
 
+      where: {
+        id: availabilityId,
+      },
+
+      data: {
+        weekday: availabilityData.weekday,
+        startTime: availabilityData.startTime,
+        endTime: availabilityData.endTime,
+        slotDuration: availabilityData.slotDuration,
+        availableSlot: availabilityData.availableSlot,
+      },
+    });
+
+  return updatedAvailability;
 };
+
+
+
+/* 
+
 
 
 export const deleteAvailability = async (availabilityId) => {
@@ -143,8 +235,6 @@ export const getProfessionalAvailableSlots = async (professionalId, requestedDat
   // Slot generation logic will be implemented in Endpoint 5
 
 }; 
-
-
 
 
 

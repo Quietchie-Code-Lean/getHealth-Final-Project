@@ -3,14 +3,14 @@ import { Router } from "express";
 import {
   getProfessionalAvailabilityController,
   createProfessionalAvailabilityController,
-  //updateAvailabilityController,
+  updateAvailabilityController,
   //deleteAvailabilityController,
   //getProfessionalAvailableSlotsController,
 } from "../controllers/availability.controllers.js";
 
 import { authMiddleware } from "../middlewares/auth.middleware.js";
 import { authorizeRoles } from "../middlewares/role.middleware.js";
-import { createAvailabilityMiddleware } from "../middlewares/validation.middleware.js";
+import { createAvailabilityMiddleware, updateAvailabilityMiddleware } from "../middlewares/validation.middleware.js";
 
 // ============================================================
 // ROUTER CONFIGURATION
@@ -37,14 +37,19 @@ router.post(
   createProfessionalAvailabilityController
 );
 
-/* 
-
-// UPDATE AVAILABILITY
+// Updates an existing professional availability schedule.
 router.put(
   "/availability/:id",
-  validateTokenMiddleware,
+  authMiddleware,
+  authorizeRoles("PROFESSIONAL", "ADMIN"),
+  updateAvailabilityMiddleware,
   updateAvailabilityController
 );
+
+
+
+
+/* 
 
 
 // DELETE AVAILABILITY

@@ -32,3 +32,20 @@ export const formatCreatedAvailabilityResponse = (availability, professionalId) 
     is_active: availability.availableSlot,
   };
 };
+
+
+
+// Converts an updated availability into the PUT response format.
+export const formatUpdatedAvailabilityResponse = (availability, professionalId) => {
+
+  return {
+    id: availability.id,
+    professional_id: professionalId,
+    weekday: availability.weekday,
+    start_time: dateToTimeString(availability.startTime),
+    end_time: dateToTimeString(availability.endTime),
+    slot_duration: availability.slotDuration,
+    is_active: availability.availableSlot,
+    updated_at: availability.updatedAt,
+  };
+};

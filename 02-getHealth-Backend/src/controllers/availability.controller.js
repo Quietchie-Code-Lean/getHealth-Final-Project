@@ -3,6 +3,7 @@ import {
     getProfessionalProfileByUserId,
     findProfessionalAvailabilityOverlap,
     createProfessionalAvailability,
+    getAvailabilityById,
     //updateAvailability,
     //deleteAvailability,
     //getProfessionalAvailableSlots,
@@ -17,6 +18,7 @@ import {
 import {
     formatAvailabilityResponse,
     formatCreatedAvailabilityResponse,
+    formatUpdatedAvailabilityResponse,
 } from "../utils/availability.utils.js";
 
 
