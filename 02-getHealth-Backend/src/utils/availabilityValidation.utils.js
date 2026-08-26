@@ -3,6 +3,9 @@ import {
     parseAppointmentDate,
 } from "./dateTime.utils.js";
 
+
+const MAX_BOOKING_DAYS = 30;
+
 // ============================================================
 // AVAILABILITY VALIDATION CONFIGURATION
 // ============================================================
@@ -41,19 +44,11 @@ export const validateAvailabilityWeekday = (weekday) => {
 // ============================================================
 
 // Validates availability times and ensures the start time is before the end time.
-export const validateAvailabilityTimeRange = (
-  startTime,
-  endTime
-) => {
+export const validateAvailabilityTimeRange = (startTime, endTime) => {
 
-  if (
-    typeof startTime !== "string" ||
-    typeof endTime !== "string"
-  ) {
+  if (typeof startTime !== "string" || typeof endTime !== "string") {
 
-    const error = new Error(
-      "Start time and end time must be strings."
-    );
+    const error = new Error("Start time and end time must be strings.");
 
     error.statusCode = 400;
 
@@ -65,9 +60,7 @@ export const validateAvailabilityTimeRange = (
 
   if (startMinutes >= endMinutes) {
 
-    const error = new Error(
-      "Start time must be earlier than end time."
-    );
+    const error = new Error("Start time must be earlier than end time.");
 
     error.statusCode = 400;
 
@@ -80,18 +73,11 @@ export const validateAvailabilityTimeRange = (
 // ============================================================
 
 // Validates that the slot duration is a positive integer.
-export const validateAvailabilitySlotDuration = (
-  slotDuration
-) => {
+export const validateAvailabilitySlotDuration = (slotDuration) => {
 
-  if (
-    !Number.isInteger(slotDuration) ||
-    slotDuration <= 0
-  ) {
+  if (!Number.isInteger(slotDuration) || slotDuration <= 0) {
 
-    const error = new Error(
-      "Slot duration must be a positive integer."
-    );
+    const error = new Error("Slot duration must be a positive integer.");
 
     error.statusCode = 400;
 
@@ -104,15 +90,11 @@ export const validateAvailabilitySlotDuration = (
 // ============================================================
 
 // Validates that the availability active status is a boolean.
-export const validateAvailabilityActiveStatus = (
-  isActive
-) => {
+export const validateAvailabilityActiveStatus = (isActive) => {
 
   if (typeof isActive !== "boolean") {
 
-    const error = new Error(
-      "Active status must be a boolean."
-    );
+    const error = new Error("Active status must be a boolean.");
 
     error.statusCode = 400;
 
@@ -145,5 +127,34 @@ export const validateAvailabilityDate = (date) => {
   }
 
   return parseAppointmentDate(date);
-  
+
+};
+
+
+// ============================================================
+// BOOKING PERIOD VALIDATION
+// ============================================================
+
+// Validates that the requested date is within the allowed booking period.
+export const validateBookingPeriod = (requestedDate) => {
+
+  const today = new Date();
+
+  // Normalize today to midnight UTC.
+  today.setUTCHours(0, 0, 0, 0);
+
+  const maximumDate = new Date(today);
+
+  // Calculate the last allowed booking date.
+  maximumDate.setUTCDate(maximumDate.getUTCDate() + MAX_BOOKING_DAYS);
+
+  // Reject past dates and dates beyond the booking window.
+  if (requestedDate < today || requestedDate > maximumDate) {
+
+    const error = new Error("Date is outside the allowed booking period");
+
+    error.statusCode = 400;
+
+    throw error;
+  }
 };

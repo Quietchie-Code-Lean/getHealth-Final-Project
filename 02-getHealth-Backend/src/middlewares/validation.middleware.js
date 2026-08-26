@@ -4,6 +4,7 @@ import {
   validateAvailabilitySlotDuration,
   validateAvailabilityActiveStatus,
   validateAvailabilityDate,
+  validateBookingPeriod,
 } from "../utils/availabilityValidation.utils.js";
 
 // ============================================================
@@ -273,18 +274,18 @@ export const updateAvailabilityMiddleware = (req, res, next) => {
 };
 
 
-// ============================================================
-// AVAILABLE SLOTS VALIDATION
-// ============================================================
-
-// Validates the query data required to retrieve available appointment slots.
 export const availableSlotsMiddleware = (req, res, next) => {
 
   try {
 
-    const requestedDate = req.query.date;
+    const requestedDateString = req.query.date;
 
-    validateAvailabilityDate(requestedDate);
+    const requestedDate = validateAvailabilityDate(requestedDateString);
+    
+    validateBookingPeriod(requestedDate);
+
+    // Store the validated Date for the controller.
+    req.requestedDate = requestedDate;
 
     next();
 
@@ -292,4 +293,5 @@ export const availableSlotsMiddleware = (req, res, next) => {
 
     next(error);
   }
+
 };

@@ -14,7 +14,6 @@ import {
 import {
     timeToMinutes,
     minutesToDate,
-    parseAppointmentDate,
     getWeekday,
 } from "../utils/dateTime.utils.js";
 
@@ -404,6 +403,9 @@ export const getProfessionalAvailableSlotsController = async (req, res, next) =>
 
     const requestedDateString = req.query.date;
 
+    // The date was already validated and converted by availableSlotsMiddleware.
+    const requestedDate = req.requestedDate;    
+
     // Validate professional ID.
     if (!Number.isInteger(professionalId) || professionalId <= 0) {
 
@@ -413,9 +415,6 @@ export const getProfessionalAvailableSlotsController = async (req, res, next) =>
 
       throw error;
     }
-
-    // Convert requested date into a Prisma-compatible Date.
-    const requestedDate = parseAppointmentDate(requestedDateString);
 
     // Determine the weekday represented by the requested date.
     const requestedWeekday = getWeekday(requestedDate);
@@ -466,7 +465,7 @@ export const getProfessionalAvailableSlotsController = async (req, res, next) =>
           const formattedSlot = formatAvailableSlotResponse(slot);
 
           availableSlots.push(formattedSlot);
-          
+
         }
       }
     }
