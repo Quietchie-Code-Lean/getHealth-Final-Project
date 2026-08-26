@@ -219,67 +219,6 @@ export const updateAvailability = async (availabilityId, availabilityData) => {
 
 
 // ============================================================
-// FIND FUTURE APPOINTMENT FOR AVAILABILITY
-// ============================================================
-
-// Finds a future appointment that depends on the availability schedule.
-export const findFutureAppointmentForAvailability = async (
-  professionalProfileId,
-  weekday,
-  startTime,
-  endTime
-) => {
-
-  const currentDate = new Date();
-
-  const futureAppointments =
-    await prisma.appointment.findMany({
-
-      where: {
-        professionalProfileId: professionalProfileId,
-
-        appointmentDate: {
-          gte: currentDate,
-        },
-
-        status: {
-          in: [
-            "SCHEDULED",
-            "CONFIRMED",
-          ],
-        },
-      },
-
-      select: {
-        id: true,
-        appointmentDate: true,
-        startAppointment: true,
-        endAppointment: true,
-      },
-    });
-
-  const dependentAppointment =
-    futureAppointments.find((appointment) => {
-
-      const appointmentWeekday =
-        getWeekday(appointment.appointmentDate);
-
-      const sameWeekday =
-        appointmentWeekday === weekday;
-
-      const insideAvailability =
-        appointment.startAppointment >= startTime &&
-        appointment.endAppointment <= endTime;
-
-      return sameWeekday && insideAvailability;
-    });
-
-  return dependentAppointment;
-};
-
-
-
-// ============================================================
 // GET FUTURE PROFESSIONAL APPOINTMENTS
 // ============================================================
 
@@ -341,19 +280,90 @@ export const deleteAvailability = async (availabilityId) => {
 };
 
 
+// ============================================================
+// GET PROFESSIONAL AVAILABILITY BY WEEKDAY
+// ============================================================
+
+// Retrieves active availability schedules for a professional on a specific weekday.
+export const getProfessionalAvailabilityByWeekday = async (
+  professionalId,
+  weekday
+) => {
+
+  const professionalProfile =
+    await prisma.professionalProfile.findUnique({
+
+      where: {
+        professionalId: professionalId,
+      },
+
+      select: {
+        id: true,
+        professionalId: true,
+
+        availabilities: {
+
+          where: {
+            weekday: weekday,
+            availableSlot: true,
+          },
+
+          select: {
+            id: true,
+            startTime: true,
+            endTime: true,
+            slotDuration: true,
+          },
+
+          orderBy: {
+            startTime: "asc",
+          },
+        },
+      },
+    });
+
+  return professionalProfile;
+};
+
+
+// ============================================================
+// GET PROFESSIONAL APPOINTMENTS BY DATE
+// ============================================================
+
+// Retrieves active appointments for a professional on a specific date.
+export const getProfessionalAppointmentsByDate = async (
+  professionalProfileId,
+  requestedDate
+) => {
+
+  const appointments =
+    await prisma.appointment.findMany({
+
+      where: {
+        professionalProfileId: professionalProfileId,
+        appointmentDate: requestedDate,
+
+        status: {
+          in: [
+            "SCHEDULED",
+            "CONFIRMED",
+          ],
+        },
+      },
+
+      select: {
+        id: true,
+        startAppointment: true,
+        endAppointment: true,
+      },
+
+      orderBy: {
+        startAppointment: "asc",
+      },
+    });
+
+  return appointments;
+};
 
 
 
-
-/* 
-
-
-export const getProfessionalAvailableSlots = async (professionalId, requestedDate) => {
-
-  // Slot generation logic will be implemented in Endpoint 5
-
-}; 
-
-
-
-*/
