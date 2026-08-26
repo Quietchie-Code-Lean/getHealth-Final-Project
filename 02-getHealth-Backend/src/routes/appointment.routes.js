@@ -1,5 +1,8 @@
 import { Router } from "express";
 
+import { authMiddleware } from "../middlewares/auth.middleware.js";
+import { authorizeRoles } from "../middlewares/role.middleware.js";
+
 import {
   createAppointmentController,
   getMyAppointmentsController,
@@ -15,42 +18,71 @@ const router = Router();
 // CREATE APPOINTMENT
 // ============================================================
 
-// Creates a new appointment for a patient.
-router.post("/", createAppointmentController);
+// Creates an appointment. Only patients are authorized.
+router.post(
+  "/",
+  authMiddleware,
+  authorizeRoles("PATIENT"),
+  createAppointmentController,
+);
 
 // ============================================================
 // GET MY APPOINTMENTS
 // ============================================================
 
 // Returns appointments associated with the authenticated user.
-router.get("/me", getMyAppointmentsController);
+router.get(
+  "/me",
+  authMiddleware,
+  authorizeRoles("PATIENT", "PROFESSIONAL"),
+  getMyAppointmentsController,
+);
 
 // ============================================================
 // GET APPOINTMENT BY ID
 // ============================================================
 
-// Returns a specific appointment.
-router.get("/:id", getAppointmentByIdController);
+// Returns an appointment by ID for authorized users.
+router.get(
+  "/:id",
+  authMiddleware,
+  authorizeRoles("PATIENT", "PROFESSIONAL", "ADMIN"),
+  getAppointmentByIdController,
+);
 
 // ============================================================
 // RESCHEDULE APPOINTMENT
 // ============================================================
 
-// Changes the date and time of an existing appointment.
-router.patch("/:id/reschedule", rescheduleAppointmentController);
+// Reschedules an appointment. Patients and administrators are authorized.
+router.patch(
+  "/:id/reschedule",
+  authMiddleware,
+  authorizeRoles("PATIENT", "ADMIN"),
+  rescheduleAppointmentController,
+);
 
 // ============================================================
 // CANCEL APPOINTMENT
 // ============================================================
 
-// Cancels an existing appointment.
-router.patch("/:id/cancel", cancelAppointmentController);
+// Cancels an appointment for authorized users.
+router.patch(
+  "/:id/cancel",
+  authMiddleware,
+  authorizeRoles("PATIENT", "PROFESSIONAL", "ADMIN"),
+  cancelAppointmentController,
+);
 
 // ============================================================
 // UPDATE APPOINTMENT STATUS
 // ============================================================
 
-// Updates the status of an existing appointment.
-router.patch("/:id/status", updateAppointmentStatusController);
-
+// Updates appointment status. Professionals and administrators are authorized.
+router.patch(
+  "/:id/status",
+  authMiddleware,
+  authorizeRoles("PROFESSIONAL", "ADMIN"),
+  updateAppointmentStatusController,
+);
 export default router;
