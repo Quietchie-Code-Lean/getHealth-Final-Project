@@ -9,8 +9,8 @@ import {
   credentialsMiddleware,
   registerPatientMiddleware,
   registerProfessionalMiddleware,
-} from "../middlewares/auth.middleware.js";
-import { validateTokenMiddleware } from "../middlewares/token.middleware.js";
+} from "../middlewares/validation.middleware.js";
+import { authMiddleware } from "../middlewares/auth.middleware.js";
 
 // ============================================================
 // AUTH ROUTER
@@ -54,6 +54,6 @@ router.post("/login", credentialsMiddleware, loginController);
 // ============================================================
 
 // Validates the authentication token before returning the authenticated user's profile information.
-router.get("/profile", validateTokenMiddleware, profileController);
+router.get("/profile", authMiddleware, profileController);
 
 export default router;

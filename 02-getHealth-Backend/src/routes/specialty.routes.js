@@ -1,5 +1,8 @@
 import { Router } from "express";
 
+import { authMiddleware } from "../middlewares/auth.middleware.js";
+import { authorizeRoles } from "../middlewares/role.middleware.js";
+
 import {
   getSpecialtiesController,
   getSpecialtyByIdController,
@@ -28,21 +31,35 @@ router.get("/:id", getSpecialtyByIdController);
 // CREATE SPECIALTY
 // ============================================================
 
-// Creates a new specialty.
-router.post("/", createSpecialtyController);
+// Creates a new specialty. Only administrators are authorized.
+router.post(
+  "/",
+  authMiddleware,
+  authorizeRoles("ADMIN"),
+  createSpecialtyController,
+);
 
 // ============================================================
 // UPDATE SPECIALTY
 // ============================================================
 
-// Updates an existing specialty.
-router.put("/:id", updateSpecialtyController);
+// Updates an existing specialty. Only administrators are authorized.
+router.put(
+  "/:id",
+  authMiddleware,
+  authorizeRoles("ADMIN"),
+  updateSpecialtyController,
+);
 
 // ============================================================
 // UPDATE SPECIALTY STATUS
 // ============================================================
 
-// Updates the active status of a specialty.
-router.patch("/:id/status", updateSpecialtyStatusController);
-
+// Updates the active status of a specialty. Only administrators are authorized.
+router.patch(
+  "/:id/status",
+  authMiddleware,
+  authorizeRoles("ADMIN"),
+  updateSpecialtyStatusController,
+);
 export default router;
