@@ -1,3 +1,6 @@
+import { timeToMinutes } from "../utils/dateTime.utils.js";
+
+
 // ============================================================
 // LOGIN CREDENTIALS VALIDATION
 // ============================================================
@@ -171,4 +174,99 @@ export const registerProfessionalMiddleware = (req, res, next) => {
   }
 
   next();
+};
+
+
+// ============================================================
+// CREATE AVAILABILITY VALIDATION
+// ============================================================
+
+// Validates the data required to create a professional availability schedule.
+export const createAvailabilityMiddleware = (req, res, next) => {
+
+  try {
+
+    const {
+      weekday,
+      start_time,
+      end_time,
+      slot_duration,
+    } = req.body;
+
+    const allowedWeekdays = [
+      "MONDAY",
+      "TUESDAY",
+      "WEDNESDAY",
+      "THURSDAY",
+      "FRIDAY",
+      "SATURDAY",
+      "SUNDAY",
+    ];
+
+    // Validate required fields.
+    if (
+      !weekday ||
+      !start_time ||
+      !end_time ||
+      slot_duration === undefined
+    ) {
+
+      const error = new Error("Weekday, start time, end time, and slot duration are required.");
+
+      error.statusCode = 400;
+
+      throw error;
+    }
+
+    // Validate weekday.
+    if (typeof weekday !== "string" || !allowedWeekdays.includes(weekday)) {
+
+      const error = new Error("Invalid weekday.");
+      error.statusCode = 400;
+
+      throw error;
+    }
+
+    // Validate time field types.
+    if (typeof start_time !== "string" || typeof end_time !== "string") {
+
+      const error = new Error("Start time and end time must be strings.");
+
+      error.statusCode = 400;
+
+      throw error;
+    }
+
+    // Convert and validate time values.
+    const startMinutes = timeToMinutes(start_time);
+    const endMinutes = timeToMinutes(end_time);
+
+    // Validate time range.
+    if (startMinutes >= endMinutes) {
+
+      const error = new Error(
+        "Start time must be earlier than end time."
+      );
+
+      error.statusCode = 400;
+
+      throw error;
+    }
+
+    // Validate slot duration.
+    if (!Number.isInteger(slot_duration) || slot_duration <= 0) {
+
+      const error = new Error("Slot duration must be a positive integer.");
+
+      error.statusCode = 400;
+
+      throw error;
+    }
+
+    next();
+
+  } catch (error) {
+
+    next(error);
+  }
 };
