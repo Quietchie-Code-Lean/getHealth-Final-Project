@@ -1,6 +1,7 @@
 import {
     getProfessionalAvailability,
     getProfessionalProfileByUserId,
+    findUpdatedAvailabilityOverlap,
     findProfessionalAvailabilityOverlap,
     createProfessionalAvailability,
     getAvailabilityById,
@@ -9,7 +10,7 @@ import {
     deleteAvailability,
     getProfessionalAvailabilityByWeekday,
     getProfessionalAppointmentsByDate,
-} from "../services/availability.services.js";
+} from "../services/availability.service.js";
 
 import {
     timeToMinutes,
@@ -481,3 +482,4 @@ export const getProfessionalAvailableSlotsController = async (req, res, next) =>
     next(error);
   }
 };
+

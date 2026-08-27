@@ -6,7 +6,7 @@ import {
   updateAvailabilityController,
   deleteAvailabilityController,
   getProfessionalAvailableSlotsController,
-} from "../controllers/availability.controllers.js";
+} from "../controllers/availability.controller.js";
 
 import { authMiddleware } from "../middlewares/auth.middleware.js";
 import { authorizeRoles } from "../middlewares/role.middleware.js";
