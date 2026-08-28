@@ -2,6 +2,7 @@ import { Router } from "express";
 
 import { authMiddleware } from "../middlewares/auth.middleware.js";
 import { authorizeRoles } from "../middlewares/role.middleware.js";
+import { appointmentDateMiddleware } from "../middlewares/validation.middleware.js";
 
 import {
   createAppointmentController,
@@ -23,6 +24,7 @@ router.post(
   "/",
   authMiddleware,
   authorizeRoles("PATIENT"),
+  appointmentDateMiddleware,
   createAppointmentController,
 );
 
@@ -59,6 +61,7 @@ router.patch(
   "/:id/reschedule",
   authMiddleware,
   authorizeRoles("PATIENT", "ADMIN"),
+  appointmentDateMiddleware,
   rescheduleAppointmentController,
 );
 

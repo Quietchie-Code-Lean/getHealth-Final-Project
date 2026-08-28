@@ -182,24 +182,14 @@ export const registerProfessionalMiddleware = (req, res, next) => {
   next();
 };
 
-
-
-
 // ============================================================
 // CREATE AVAILABILITY VALIDATION
 // ============================================================
 
 // Validates the data required to create a professional availability schedule.
 export const createAvailabilityMiddleware = (req, res, next) => {
-
   try {
-
-    const {
-      weekday,
-      start_time,
-      end_time,
-      slot_duration,
-    } = req.body;
+    const { weekday, start_time, end_time, slot_duration } = req.body;
 
     // Validate required fields.
     if (
@@ -208,8 +198,9 @@ export const createAvailabilityMiddleware = (req, res, next) => {
       end_time === undefined ||
       slot_duration === undefined
     ) {
-
-      const error = new Error("Weekday, start time, end time, and slot duration are required.");
+      const error = new Error(
+        "Weekday, start time, end time, and slot duration are required.",
+      );
       error.statusCode = 400;
       throw error;
     }
@@ -220,13 +211,10 @@ export const createAvailabilityMiddleware = (req, res, next) => {
     validateAvailabilitySlotDuration(slot_duration);
 
     next();
-
   } catch (error) {
-
     next(error);
   }
 };
-
 
 // ============================================================
 // UPDATE AVAILABILITY VALIDATION
@@ -234,16 +222,9 @@ export const createAvailabilityMiddleware = (req, res, next) => {
 
 // Validates the data required to update a professional availability schedule.
 export const updateAvailabilityMiddleware = (req, res, next) => {
-
   try {
-
-    const {
-      weekday,
-      start_time,
-      end_time,
-      slot_duration,
-      is_active,
-    } = req.body;
+    const { weekday, start_time, end_time, slot_duration, is_active } =
+      req.body;
 
     // Validate required fields.
     if (
@@ -253,8 +234,9 @@ export const updateAvailabilityMiddleware = (req, res, next) => {
       slot_duration === undefined ||
       is_active === undefined
     ) {
-
-      const error = new Error("Weekday, start time, end time, slot duration, and active status are required.");
+      const error = new Error(
+        "Weekday, start time, end time, slot duration, and active status are required.",
+      );
       error.statusCode = 400;
       throw error;
     }
@@ -266,32 +248,42 @@ export const updateAvailabilityMiddleware = (req, res, next) => {
     validateAvailabilityActiveStatus(is_active);
 
     next();
-
   } catch (error) {
-
     next(error);
   }
 };
 
-
 export const availableSlotsMiddleware = (req, res, next) => {
-
   try {
-
     const requestedDateString = req.query.date;
 
     const requestedDate = validateAvailabilityDate(requestedDateString);
-    
+
     validateBookingPeriod(requestedDate);
 
     // Store the validated Date for the controller.
     req.requestedDate = requestedDate;
 
     next();
-
   } catch (error) {
-
     next(error);
   }
+};
 
+// ============================================================
+// APPOINTMENT DATE VALIDATION
+// ============================================================
+
+// Validates that the appointment date is within the allowed booking period.
+export const appointmentDateMiddleware = (req, res, next) => {
+  try {
+    const appointmentDateString = req.body.appointment_date;
+    const appointmentDate = validateAvailabilityDate(appointmentDateString);
+
+    validateBookingPeriod(appointmentDate);
+
+    next();
+  } catch (error) {
+    next(error);
+  }
 };
