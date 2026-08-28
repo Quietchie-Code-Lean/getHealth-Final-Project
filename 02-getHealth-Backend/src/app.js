@@ -5,6 +5,8 @@ import authRoutes from "./routes/auth.routes.js";
 import specialtyRouter from "./routes/specialty.routes.js";
 import appointmentRouter from "./routes/appointment.routes.js";
 
+import availabilityRoutes from "./routes/availability.routes.js"
+
 import { errorMiddleware } from "./middlewares/error.middleware.js";
 
 // ============================================================
@@ -36,6 +38,9 @@ app.use("/api/specialties", specialtyRouter);
 
 // Registers the appointment routes under the /api/appointments path.
 app.use("/api/appointments", appointmentRouter);
+
+// Registers the availability routes under the /api path.
+app.use("/api", availabilityRoutes);
 
 // ============================================================
 // GLOBAL ERROR HANDLER
