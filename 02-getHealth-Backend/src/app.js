@@ -1,10 +1,11 @@
+
 import express from "express";
 import cors from "cors";
 
 import authRoutes from "./routes/auth.routes.js";
 import specialtyRouter from "./routes/specialty.routes.js";
 import appointmentRouter from "./routes/appointment.routes.js";
-
+import professionalRoutes from "./routes/professional.routes.js";
 import availabilityRoutes from "./routes/availability.routes.js"
 
 import { errorMiddleware } from "./middlewares/error.middleware.js";
@@ -39,6 +40,9 @@ app.use("/api/specialties", specialtyRouter);
 // Registers the appointment routes under the /api/appointments path.
 app.use("/api/appointments", appointmentRouter);
 
+// Registers the professional routes under the /api/professionals path.
+app.use("/api/professionals", professionalRoutes);
+
 // Registers the availability routes under the /api path.
 app.use("/api", availabilityRoutes);
 
@@ -50,3 +54,4 @@ app.use("/api", availabilityRoutes);
 app.use(errorMiddleware);
 
 export default app;
+
