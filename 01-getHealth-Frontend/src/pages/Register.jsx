@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "../context/AuthContext";
+import { getSpecialities } from "../services/Speciality.services.js";
+
 
 // ============================================================
 // REGISTER COMPONENT
@@ -34,6 +36,9 @@ const Register = () => {
   // Provides access to the patient and professional registration methods.
   const { registerPatient, registerProfessional } = useAuth();
 
+
+
+
   // ============================================================
   // FORM STATE
   // ============================================================
@@ -52,6 +57,9 @@ const Register = () => {
     dateOfBirth: "",
     identificationNumber: "",
 
+    // Patient-specific fields
+    phone: "",
+
     // Professional-specific fields
     specialityId: "",
     licenseNumber: "",
@@ -62,6 +70,30 @@ const Register = () => {
 
   // Tracks the registration request state.
   const [loading, setLoading] = useState(false);
+
+// ============================================================ 
+// SPECIALITIES STATE 
+// ============================================================ 
+
+
+  // Stores the specialties retrieved from the backend API.
+  const [specialities, setSpecialities] = useState([]);
+
+  // Loads the available specialties when the registration page is mounted.
+  useEffect(() => {
+    const loadSpecialities = async () => {
+      try {
+        const data = await getSpecialities();
+
+        setSpecialities(data);
+      } catch (error) {
+        console.error("Error loading specialities:", error);
+      }
+    };
+
+    loadSpecialities();
+  }, []);
+
 
   // ============================================================
   // REGISTRATION TYPE HANDLING
@@ -305,11 +337,11 @@ const Register = () => {
             <label htmlFor="identificationNumber" className={labelClass}>
               Identification number
             </label>
-            
+
             <input
               id="identificationNumber"
               name="identificationNumber"
-              type="text" 
+              type="text"
               value={formData.identificationNumber}
               onChange={handleChange}
               placeholder="Enter your identification number"
@@ -362,10 +394,14 @@ const Register = () => {
                   className={inputClass}
                 >
                   <option value="">Select a speciality</option>
-                  <option value="1">General Medicine</option>
-                  <option value="2">Cardiology</option>
-                  <option value="3">Dermatology</option>
-                  <option value="4">Pediatrics</option>
+
+                  {specialities.map((speciality) => (
+
+                    <option key={speciality.id} value={speciality.id}>
+                      {speciality.name}
+                    </option>
+
+                  ))}
                 </select>
               </div>
 
