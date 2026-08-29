@@ -8,6 +8,10 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+// ============================================================
+// ENUMS
+// ============================================================
+
 enum Role {
   PATIENT
   PROFESSIONAL
@@ -28,6 +32,7 @@ enum ApprovalStatus {
   PENDING
   APPROVED
   REJECTED
+  SUSPENDED
 }
 
 enum AppointmentStatus {
@@ -37,6 +42,10 @@ enum AppointmentStatus {
   CANCELLED
   NO_SHOW
 }
+
+// ============================================================
+// USER
+// ============================================================
 
 model User {
   id           Int      @id @default(autoincrement())
@@ -53,6 +62,10 @@ model User {
   professionalProfile ProfessionalProfile?
 }
 
+// ============================================================
+// PATIENT PROFILE
+// ============================================================
+
 model PatientProfile {
   id                   Int       @id @default(autoincrement())
   patientId            Int       @unique
@@ -64,6 +77,10 @@ model PatientProfile {
   appointments Appointment[]
 }
 
+// ============================================================
+// PROFESSIONAL PROFILE
+// ============================================================
+
 model ProfessionalProfile {
   id                   Int            @id @default(autoincrement())
   professionalId       Int            @unique
@@ -71,6 +88,8 @@ model ProfessionalProfile {
   approvalStatus       ApprovalStatus
   dateOfBirth          DateTime?      @db.Date
   identificationNumber String?        @unique @db.VarChar(50)
+  biography            String?
+  updatedAt            DateTime       @default(now()) @updatedAt
 
   user                    User                     @relation(fields: [professionalId], references: [id])
   appointments            Appointment[]
@@ -78,17 +97,25 @@ model ProfessionalProfile {
   professionalSpecialties ProfessionalSpeciality[]
 }
 
+// ============================================================
+// SPECIALITY
+// ============================================================
+
 model Speciality {
   id          Int      @id @default(autoincrement())
   name        String   @unique @db.VarChar(100)
   description String?  @db.VarChar(255)
   isActive    Boolean  @default(true)
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  updatedAt DateTime @default(now()) @updatedAt
 
   appointments            Appointment[]
   professionalSpecialties ProfessionalSpeciality[]
 }
+
+// ============================================================
+// PROFESSIONAL SPECIALITY
+// ============================================================
 
 model ProfessionalSpeciality {
   id             Int      @id @default(autoincrement())
@@ -101,6 +128,10 @@ model ProfessionalSpeciality {
 
   @@unique([professionalId, specialityId])
 }
+
+// ============================================================
+// AVAILABILITY
+// ============================================================
 
 model Availability {
   id                    Int      @id @default(autoincrement())
@@ -115,6 +146,10 @@ model Availability {
 
   professionalProfile ProfessionalProfile @relation(fields: [professionalProfileId], references: [id])
 }
+
+// ============================================================
+// APPOINTMENT
+// ============================================================
 
 model Appointment {
   id                    Int               @id @default(autoincrement())
