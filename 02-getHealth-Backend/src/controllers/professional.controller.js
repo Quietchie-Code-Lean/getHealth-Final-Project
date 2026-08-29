@@ -19,6 +19,7 @@ import {
 export const getProfessionalsController = async (req, res, next) => {
   
   try {
+
     // API query parameters arrive as strings.
     const { specialty_id, is_active } = req.query;
 
@@ -67,10 +68,7 @@ export const getProfessionalsController = async (req, res, next) => {
     // GET PROFESSIONALS
     // ============================================================
 
-    const professionals = await getProfessionalsService({
-      specialityId,
-      isActive,
-    });
+    const professionals = await getProfessionalsService({specialityId, isActive});
 
 
     // ============================================================
@@ -91,10 +89,7 @@ export const getProfessionalsController = async (req, res, next) => {
           first_name: professional.firstName,
           last_name: professional.lastName,
           license_number: profile?.licenseNumber,
-
-          // Biography does not currently exist in ProfessionalProfile.
-          biography: null,
-
+          biography: profile?.biography,
           approval_status: profile?.approvalStatus,
 
           specialties:
@@ -116,6 +111,7 @@ export const getProfessionalsController = async (req, res, next) => {
     return res.status(200).json({
       professionals: formattedProfessionals,
     });
+
   } catch (error) {
     next(error);
   }
@@ -127,12 +123,10 @@ export const getProfessionalsController = async (req, res, next) => {
 // ============================================================
 
 // Returns one professional by ProfessionalProfile.id.
-export const getProfessionalByIdController = async (
-  req,
-  res,
-  next,
-) => {
+export const getProfessionalByIdController = async ( req, res, next) => {
+
   try {
+
     // Route parameters arrive as strings.
     const { id } = req.params;
 
@@ -143,13 +137,9 @@ export const getProfessionalByIdController = async (
     // VALIDATE PROFESSIONAL ID
     // ============================================================
 
-    if (
-      !Number.isInteger(professionalId) ||
-      professionalId <= 0
-    ) {
-      const error = new Error(
-        "Invalid professional id",
-      );
+    if (!Number.isInteger(professionalId) || professionalId <= 0) {
+
+      const error = new Error("Invalid professional id");
 
       error.statusCode = 400;
 
@@ -161,10 +151,7 @@ export const getProfessionalByIdController = async (
     // GET PROFESSIONAL
     // ============================================================
 
-    const professional =
-      await getProfessionalByIdService(
-        professionalId,
-      );
+    const professional = await getProfessionalByIdService(professionalId);
 
 
     // ============================================================
@@ -172,9 +159,7 @@ export const getProfessionalByIdController = async (
     // ============================================================
 
     if (!professional) {
-      const error = new Error(
-        "Professional not found",
-      );
+      const error = new Error("Professional not found");
 
       error.statusCode = 404;
 
@@ -186,21 +171,25 @@ export const getProfessionalByIdController = async (
     // FORMAT RESPONSE
     // ============================================================
 
+
+
+
+
+    
     const formattedProfessional = {
-      // ProfessionalProfile.id
-      id: professional.id,
-
-      // User.id
-      user_id: professional.user.id,
-
+      
+      id: professional.id,   // ProfessionalProfile.id
+      user_id: professional.user.id,    // User.id
       first_name: professional.user.firstName,
       last_name: professional.user.lastName,
       license_number: professional.licenseNumber,
+      biography: professional.biography,
+      date_of_birth: professional.dateOfBirth, 
+      identification_number: professional.identificationNumber,
+      approval_status: professional.approvalStatus,
 
-      biography: null,
-
-      approval_status:
-        professional.approvalStatus,
+      // ProfessionalProfile does not currently contain createdAt.
+      updated_at: professional.updatedAt,
 
       specialties:
         professional.professionalSpecialties.map(
@@ -389,15 +378,21 @@ export const updateProfessionalController = async (req, res, next) => {
     // BIOGRAPHY
     // ------------------------------------------------------------
 
-    // Biography exists in the API contract but is not currently
-    // available in ProfessionalProfile.
+    // Biography alreday implemented.
+    
     if (biography !== undefined) {
-      const error = new Error("Biography is not currently supported by the database schema");
 
-      error.statusCode = 400;
+      if ( typeof biography !== "string" || !biography.trim() ) {
 
-      throw error;
-    }
+         const error = new Error( "Invalid biography", ); 
+         
+         error.statusCode = 400; 
+
+         throw error; } 
+
+         updateData.biography = biography.trim(); 
+        
+        }
 
 
     // ============================================================
@@ -425,27 +420,30 @@ export const updateProfessionalController = async (req, res, next) => {
     // ============================================================
 
     return res.status(200).json({
-      message: "Professional profile updated successfully",
 
-      professional: {
+       message: "Professional profile updated successfully",
+
+       professional: { 
         
-        id: updatedProfessional.id, // ProfessionalProfile.id
-        user_id:updatedProfessional.professionalId, // User.id
-        license_number:updatedProfessional.licenseNumber,
-        biography: null,
-        date_of_birth: updatedProfessional.dateOfBirth,
-        identification_number: updatedProfessional.identificationNumber,
-        approval_status: updatedProfessional.approvalStatus,
-        updated_at: null, // ProfessionalProfile currently has no updatedAt.
-      },
-    });
-  
-  } catch (error) {
-    next(error);
+
+        id: updatedProfessional.id,         // ProfessionalProfile.id 
+        user_id: updatedProfessional.professionalId,         // User.id 
+        license_number: updatedProfessional.licenseNumber, 
+        biography: updatedProfessional.biography, 
+        date_of_birth: updatedProfessional.dateOfBirth, 
+        identification_number: updatedProfessional.identificationNumber, 
+        approval_status: updatedProfessional.approvalStatus, 
+        updated_at: updatedProfessional.updatedAt, 
+
+      }, 
+
+    }); 
+
+  } catch (error) { 
+    next(error); 
 
   }
 };
-
 
 // ============================================================
 // UPDATE PROFESSIONAL STATUS
@@ -481,19 +479,18 @@ export const updateProfessionalStatusController = async (req, res, next) => {
 
       const { approval_status } = req.body;
 
-      // Current Prisma ApprovalStatus enum:
-      //We still have to implement SUSPENDED.
-      // PENDING
-      // APPROVED
-      // REJECTED
+
+      //Already Implementing, Adjusting the code..
+      
       const allowedApprovalStatuses = [
         "PENDING",
         "APPROVED",
         "REJECTED",
+        "SUSPENDED",
       ];
 
       if (typeof approval_status !== "string" || !allowedApprovalStatuses.includes(approval_status,)) {
-        
+
         const error = new Error("Invalid approval status");
 
         error.statusCode = 400;
@@ -534,12 +531,15 @@ export const updateProfessionalStatusController = async (req, res, next) => {
         professional: {
           id: updatedProfessional.id,
           approval_status: updatedProfessional.approvalStatus,
-          updated_at: null,
+          updated_at: updatedProfessional.updatedAt,
+
         },
+        
       });
 
     } catch (error) {
       next(error);
+
     }
   };
 
@@ -555,6 +555,7 @@ export const updateProfessionalStatusController = async (req, res, next) => {
 export const addProfessionalSpecialityController = async (req, res, next) => {
 
     try {
+
       // ============================================================
       // PROFESSIONAL ID
       // ============================================================
@@ -562,8 +563,7 @@ export const addProfessionalSpecialityController = async (req, res, next) => {
       const { id } = req.params;
 
       // :id represents ProfessionalProfile.id.
-      const professionalId =
-        Number(id);
+      const professionalId = Number(id);
 
       if (!Number.isInteger(professionalId) || professionalId <= 0) {
         const error = new Error("Invalid professional id");
@@ -644,7 +644,7 @@ export const addProfessionalSpecialityController = async (req, res, next) => {
       // CREATE RELATIONSHIP
       // ============================================================
 
-      const professionalSpeciality =await addProfessionalSpecialityService(professionalId, specialityId);
+      const professionalSpeciality = await addProfessionalSpecialityService(professionalId, specialityId);
 
 
       // ============================================================
@@ -678,6 +678,7 @@ export const addProfessionalSpecialityController = async (req, res, next) => {
 export const removeProfessionalSpecialityController = async (req, res, next) => {
 
     try {
+
       // ============================================================
       // ROUTE PARAMETERS
       // ============================================================

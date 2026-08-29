@@ -7,7 +7,7 @@ import prisma from "../config/prisma.js";
 
 // Retrieves all professional users with optional speciality
 // and active-status filters.
-export const getProfessionalsService = async ({specialityId, isActive}) => {
+export const getProfessionalsService = async ({ specialityId, isActive }) => {
 
     const professionals = await prisma.user.findMany({
 
@@ -15,7 +15,7 @@ export const getProfessionalsService = async ({specialityId, isActive}) => {
             role: "PROFESSIONAL",
 
             // Apply the active-status filter only when provided.
-            ...(isActive !== undefined && {isActive}),
+            ...(isActive !== undefined && { isActive }),
 
             // Apply the speciality filter only when provided.
             ...(specialityId !== undefined && {
@@ -42,6 +42,7 @@ export const getProfessionalsService = async ({specialityId, isActive}) => {
                     id: true,
                     licenseNumber: true,
                     approvalStatus: true,
+                    biography: true,
 
                     professionalSpecialties: {
                         select: {
@@ -79,6 +80,10 @@ export const getProfessionalByIdService = async (professionalId) => {
             id: true,
             licenseNumber: true,
             approvalStatus: true,
+            biography: true,
+            dateOfBirth: true,
+            identificationNumber: true,
+            updatedAt: true,
 
             user: {
                 select: {
@@ -155,9 +160,11 @@ export const updateProfessionalService = async (professionalId, updateData) => {
             id: true,
             professionalId: true,
             licenseNumber: true,
+            biography: true,
             dateOfBirth: true,
             identificationNumber: true,
             approvalStatus: true,
+            updatedAt: true,
         },
     });
 
@@ -185,6 +192,7 @@ export const updateProfessionalStatusService = async (professionalId, approvalSt
         select: {
             id: true,
             approvalStatus: true,
+            updatedAt: true,
         },
     });
 
@@ -225,11 +233,11 @@ export const findProfessionalSpecialityService = async (professionalId, speciali
 
     const professionalSpeciality = await prisma.professionalSpeciality.findFirst({
 
-            where: {
-                professionalId,
-                specialityId,
-            },
-        });
+        where: {
+            professionalId,
+            specialityId,
+        },
+    });
 
     return professionalSpeciality;
 };
@@ -244,16 +252,16 @@ export const addProfessionalSpecialityService = async (professionalId, specialit
 
     const professionalSpeciality = await prisma.professionalSpeciality.create({
 
-            data: {
-                professionalId,
-                specialityId,
-            },
+        data: {
+            professionalId,
+            specialityId,
+        },
 
-            select: {
-                professionalId: true,
-                specialityId: true,
-            },
-        });
+        select: {
+            professionalId: true,
+            specialityId: true,
+        },
+    });
 
     return professionalSpeciality;
 };
@@ -266,7 +274,8 @@ export const addProfessionalSpecialityService = async (professionalId, specialit
 // Deletes a professional-speciality relationship.
 export const removeProfessionalSpecialityService = async (professionalSpecialityId) => {
 
-    const deletedProfessionalSpeciality = await prisma.professionalSpeciality.delete({
+    const deletedProfessionalSpeciality =
+        await prisma.professionalSpeciality.delete({
 
             where: {
                 id: professionalSpecialityId,
@@ -275,3 +284,4 @@ export const removeProfessionalSpecialityService = async (professionalSpeciality
 
     return deletedProfessionalSpeciality;
 };
+
