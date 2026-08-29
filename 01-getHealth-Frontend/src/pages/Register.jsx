@@ -71,9 +71,9 @@ const Register = () => {
   // Tracks the registration request state.
   const [loading, setLoading] = useState(false);
 
-// ============================================================ 
-// SPECIALITIES STATE 
-// ============================================================ 
+  // ============================================================ 
+  // SPECIALITIES STATE 
+  // ============================================================ 
 
 
   // Stores the specialties retrieved from the backend API.
@@ -83,9 +83,10 @@ const Register = () => {
   useEffect(() => {
     const loadSpecialities = async () => {
       try {
-        const data = await getSpecialities();
 
-        setSpecialities(data);
+        const data = await getSpecialities();
+        setSpecialities(Array.isArray(data) ? data : []);
+
       } catch (error) {
         console.error("Error loading specialities:", error);
       }
@@ -171,7 +172,7 @@ const Register = () => {
           password: formData.password,
           dateOfBirth: formData.dateOfBirth,
           identificationNumber: formData.identificationNumber,
-          specialityId: formData.specialityId,
+          specialityId: Number(formData.specialityId),
           licenseNumber: formData.licenseNumber,
         };
 
