@@ -63,3 +63,42 @@ export const getAvailableSlotsRequest = async (professionalId, date) => {
   }
 
 };
+
+
+// ============================================================
+// CREATE PROFESSIONAL AVAILABILITY
+// ============================================================
+
+// Creates a recurring availability schedule for a professional.
+export const createProfessionalAvailabilityRequest = async (
+  professionalId,
+  availabilityData,
+  token
+) => {
+
+  try {
+
+    const response = await axios.post(
+      `${API_URL}/professionals/${professionalId}/availability`,
+      availabilityData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.data;
+
+  } catch (error) {
+
+    console.error(
+      "Failed to create professional availability:",
+      error
+    );
+
+    throw error;
+
+  }
+
+};
