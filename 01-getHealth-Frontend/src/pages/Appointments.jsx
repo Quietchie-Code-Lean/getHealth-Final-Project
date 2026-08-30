@@ -1,16 +1,8 @@
 import { useEffect, useState } from "react";
-
 import { useAuth } from "../context/AuthContext.jsx";
+import { createAppointmentRequest } from "../services/Appointment.services.js";
+import { getProfessionalsRequest, getAvailableSlotsRequest } from "../services/Professional.services.js";
 
-import {
-  getMyAppointmentsRequest,
-  createAppointmentRequest,
-} from "../services/Appointment.services.js";
-
-import {
-  getProfessionalsRequest,
-  getAvailableSlotsRequest,
-} from "../services/Professional.services.js";
 
 // ============================================================
 // APPOINTMENTS PAGE
@@ -25,10 +17,8 @@ const Appointments = () => {
   // ============================================================
 
   // Stores the patient's appointments and scheduling data.
-  const [appointments, setAppointments] = useState([]);
   const [professionals, setProfessionals] = useState([]);
-  const [selectedProfessionalSpecialties, setSelectedProfessionalSpecialties] =
-    useState([]);
+  const [selectedProfessionalSpecialties, setSelectedProfessionalSpecialties] = useState([]);
   const [availableSlots, setAvailableSlots] = useState([]);
 
   // ============================================================
@@ -49,42 +39,42 @@ const Appointments = () => {
   // ============================================================
 
   // Controls loading, submission, and error states.
-  const [loading, setLoading] = useState(true);
   const [loadingProfessionals, setLoadingProfessionals] = useState(true);
   const [loadingSlots, setLoadingSlots] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
+
   // ============================================================
-  // LOAD INITIAL DATA
+  // LOAD PROFESSIONALS
   // ============================================================
 
-  // Loads the patient's appointments and available professionals.
+  // Loads the professionals available for appointment scheduling.
   useEffect(() => {
-    const loadInitialData = async () => {
+
+    const loadProfessionals = async () => {
+
       try {
-        setLoading(true);
         setLoadingProfessionals(true);
         setError(null);
 
-        const appointmentsData = await getMyAppointmentsRequest(token);
-        setAppointments(appointmentsData.appointments);
+        const data = await getProfessionalsRequest();
 
-        const professionalsData = await getProfessionalsRequest();
-        setProfessionals(professionalsData.professionals);
+        setProfessionals(data.professionals || []);
       } catch (error) {
-        console.error("Failed to load appointment data:", error);
-        setError("Failed to load appointment data.");
+        console.error("Failed to load professionals:", error);
+
+        setProfessionals([]);
+        setError("Failed to load professionals.");
       } finally {
-        setLoading(false);
         setLoadingProfessionals(false);
       }
     };
 
-    if (token) {
-      loadInitialData();
-    }
-  }, [token]);
+    loadProfessionals();
+  }, []);
+
+
 
   // ============================================================
   // PROFESSIONAL SELECTION
@@ -92,6 +82,7 @@ const Appointments = () => {
 
   // Loads the specialties associated with the selected professional.
   const handleProfessionalChange = (event) => {
+
     const professionalId = event.target.value;
 
     const selectedProfessional = professionals.find(
@@ -118,6 +109,7 @@ const Appointments = () => {
 
   // Updates the appointment form and resets dependent time slots when needed.
   const handleChange = (event) => {
+
     const { name, value } = event.target;
 
     setFormData((previousData) => ({
@@ -139,7 +131,9 @@ const Appointments = () => {
 
   // Loads available appointment times for the selected professional and date.
   useEffect(() => {
+
     const loadAvailableSlots = async () => {
+
       try {
         setLoadingSlots(true);
         setError(null);
@@ -175,7 +169,6 @@ const Appointments = () => {
     try {
       setSubmitting(true);
       setError(null);
-
       const appointmentData = {
         professional_id: Number(formData.professional_id),
         specialty_id: Number(formData.specialty_id),
@@ -184,12 +177,7 @@ const Appointments = () => {
         reason: formData.reason,
       };
 
-      const data = await createAppointmentRequest(token, appointmentData);
-
-      setAppointments((previousAppointments) => [
-        ...previousAppointments,
-        data.appointment,
-      ]);
+      await createAppointmentRequest(token, appointmentData);
 
       setFormData({
         professional_id: "",
@@ -201,7 +189,9 @@ const Appointments = () => {
 
       setSelectedProfessionalSpecialties([]);
       setAvailableSlots([]);
+      
     } catch (error) {
+
       console.error("Failed to create appointment:", error);
       setError("Failed to create appointment.");
     } finally {
@@ -427,69 +417,7 @@ const Appointments = () => {
           </div>
         </form>
 
-        {/* ============================================================
-            MY APPOINTMENTS
-            ============================================================ */}
 
-        <section className="mx-auto mt-12 max-w-4xl">
-          <h2 className="mb-6 text-2xl font-semibold">My appointments</h2>
-
-          {loading && <p className="text-gray-400">Loading appointments...</p>}
-
-          {!loading && appointments.length === 0 && (
-            <p className="text-gray-400">No appointments found.</p>
-          )}
-
-          {!loading && appointments.length > 0 && (
-            <div className="space-y-4">
-              {appointments.map((appointment) => (
-                <div
-                  key={appointment.id}
-                  className="rounded-lg border border-gray-700 p-5"
-                >
-                  <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-                    <p>
-                      <span className="font-medium">Date:</span>{" "}
-                      {appointment.appointment_date}
-                    </p>
-
-                    <p>
-                      <span className="font-medium">Time:</span>{" "}
-                      {appointment.start_time} - {appointment.end_time}
-                    </p>
-
-                    <p>
-                      <span className="font-medium">Status:</span>{" "}
-                      {appointment.status}
-                    </p>
-
-                    <p>
-                      <span className="font-medium">Specialty:</span>{" "}
-                      {appointment.specialty.name}
-                    </p>
-
-                    <p>
-                      <span className="font-medium">Professional:</span>{" "}
-                      {appointment.professional.first_name}{" "}
-                      {appointment.professional.last_name}
-                    </p>
-
-                    <p>
-                      <span className="font-medium">Patient:</span>{" "}
-                      {appointment.patient.first_name}{" "}
-                      {appointment.patient.last_name}
-                    </p>
-                  </div>
-
-                  <p className="mt-4">
-                    <span className="font-medium">Reason:</span>{" "}
-                    {appointment.reason}
-                  </p>
-                </div>
-              ))}
-            </div>
-          )}
-        </section>
       </div>
     </main>
   );
