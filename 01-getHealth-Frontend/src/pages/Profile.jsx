@@ -1,4 +1,4 @@
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/useAuth.js";
 
 import PatientProfile from "./PatientProfile";
 import ProfessionalProfile from "./ProfessionalProfile";
@@ -9,7 +9,6 @@ import ProfessionalProfile from "./ProfessionalProfile";
 
 // Selects the correct profile interface according to the authenticated user's role.
 const Profile = () => {
-
   /* Preset Tailwind styles */
   const loadingMainClass = "flex min-h-[70vh] items-center justify-center";
   const loadingTextClass = "text-gray-500";
@@ -23,16 +22,10 @@ const Profile = () => {
 
   // Displays a loading state while the current session is restored.
   if (authLoading) {
-
     return (
-
       <main className={loadingMainClass}>
-
-        <p className={loadingTextClass}>
-          Loading profile...
-        </p>
+        <p className={loadingTextClass}>Loading profile...</p>
       </main>
-
     );
   }
 
@@ -49,12 +42,10 @@ const Profile = () => {
   // ROLE-BASED PROFILE RENDER
   // ============================================================
 
-
   // Displays the patient profile interface.
   if (user.role === "PATIENT") {
     return <PatientProfile />;
   }
-
 
   // Displays the professional profile interface.
   if (user.role === "PROFESSIONAL") {
@@ -62,7 +53,6 @@ const Profile = () => {
   }
 
   return null;
-  
 };
 
 export default Profile;
