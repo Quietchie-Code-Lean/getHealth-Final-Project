@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext.jsx";
 import { createAppointmentRequest } from "../services/Appointment.services.js";
-import { getProfessionalsRequest, getAvailableSlotsRequest } from "../services/Professional.services.js";
-
+import { getProfessionalsRequest } from "../services/Professional.services.js";
+import { getAvailableSlotsRequest } from "../services/Availability.services.js";
 
 // ============================================================
 // APPOINTMENTS PAGE
@@ -18,7 +18,8 @@ const Appointments = () => {
 
   // Stores the patient's appointments and scheduling data.
   const [professionals, setProfessionals] = useState([]);
-  const [selectedProfessionalSpecialties, setSelectedProfessionalSpecialties] = useState([]);
+  const [selectedProfessionalSpecialties, setSelectedProfessionalSpecialties] =
+    useState([]);
   const [availableSlots, setAvailableSlots] = useState([]);
 
   // ============================================================
@@ -44,16 +45,13 @@ const Appointments = () => {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
-
   // ============================================================
   // LOAD PROFESSIONALS
   // ============================================================
 
   // Loads the professionals available for appointment scheduling.
   useEffect(() => {
-
     const loadProfessionals = async () => {
-
       try {
         setLoadingProfessionals(true);
         setError(null);
@@ -74,15 +72,12 @@ const Appointments = () => {
     loadProfessionals();
   }, []);
 
-
-
   // ============================================================
   // PROFESSIONAL SELECTION
   // ============================================================
 
   // Loads the specialties associated with the selected professional.
   const handleProfessionalChange = (event) => {
-
     const professionalId = event.target.value;
 
     const selectedProfessional = professionals.find(
@@ -109,7 +104,6 @@ const Appointments = () => {
 
   // Updates the appointment form and resets dependent time slots when needed.
   const handleChange = (event) => {
-
     const { name, value } = event.target;
 
     setFormData((previousData) => ({
@@ -131,9 +125,7 @@ const Appointments = () => {
 
   // Loads available appointment times for the selected professional and date.
   useEffect(() => {
-
     const loadAvailableSlots = async () => {
-
       try {
         setLoadingSlots(true);
         setError(null);
@@ -189,9 +181,7 @@ const Appointments = () => {
 
       setSelectedProfessionalSpecialties([]);
       setAvailableSlots([]);
-      
     } catch (error) {
-
       console.error("Failed to create appointment:", error);
       setError("Failed to create appointment.");
     } finally {
@@ -416,8 +406,6 @@ const Appointments = () => {
             </button>
           </div>
         </form>
-
-
       </div>
     </main>
   );
