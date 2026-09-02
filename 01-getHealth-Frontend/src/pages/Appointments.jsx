@@ -25,9 +25,7 @@ const Appointments = () => {
   // Stores the patient's appointments and scheduling data.
 
   const [professionals, setProfessionals] = useState([]);
-
-  const [selectedProfessionalSpecialties, setSelectedProfessionalSpecialties] =
-    useState([]);
+  const [selectedProfessionalSpecialties, setSelectedProfessionalSpecialties] = useState([]);
 
   const [availableSlots, setAvailableSlots] = useState([]);
 

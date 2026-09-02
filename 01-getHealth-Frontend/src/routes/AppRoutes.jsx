@@ -5,12 +5,21 @@ import MainLayout from "../layout/MainLayout.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
 
 import Home from "../pages/Home.jsx";
+
 import Login from "../pages/Login.jsx";
+
 import Register from "../pages/Register.jsx";
+
 import Profile from "../pages/Profile.jsx";
-/* import Professionals from "../pages/Professionals.jsx"; */
+
+import Professionals from "../pages/Professionals.jsx";
+
+import ProfessionalDetails from "../pages/ProfessionalDetails.jsx";
+
 import Appointments from "../pages/Appointments.jsx";
+
 import NotFound from "../pages/NotFound.jsx";
+
 import Specialities from "../pages/Specialities.jsx";
 
 // ============================================================
@@ -20,6 +29,8 @@ import Specialities from "../pages/Specialities.jsx";
 // Defines the application's public and protected page routes.
 
 const AppRoutes = () => {
+  // Defines the application's public and protected page routes.
+
   return (
     <Routes>
       <Route element={<MainLayout />}>
@@ -29,9 +40,18 @@ const AppRoutes = () => {
 
         {/* Displays the home page. */}
         <Route path="/" element={<Home />} />
-
+          
         {/* Displays the professionals page. */}
-        {/* <Route path="/professionals" element={<Professionals />} /> */}
+        <Route path="/professionals" element={<Professionals />} />
+
+        <Route path="/professionals/:id" element={<ProfessionalDetails />} />
+
+        <Route path="/appointments/new" element={<Appointments />} />
+
+        <Route path="/profile" element={<Profile />} />
+
+        <Route path="/login" element={<Login />} />
+
 
         {/* Displays the login page. */}
         <Route path="/login" element={<Login />} />
@@ -39,7 +59,6 @@ const AppRoutes = () => {
         {/* Displays the registration page. */}
         <Route path="/register" element={<Register />} />
 
-        {/* Displays the complete specialties page. */}
         <Route path="/specialities" element={<Specialities />} />
 
         {/* ============================================================

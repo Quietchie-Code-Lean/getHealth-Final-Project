@@ -32,26 +32,11 @@ export const getProfessionalsRequest = async (specialtyId = null) => {
 };
 
 // ============================================================
-// GET AVAILABLE SLOTS
+// GET PROFESSIONAL BY ID
 // ============================================================
+// Retrieves the complete public profile of a professional.
+export const getProfessionalByIdRequest = async (professionalId) => {
+  const response = await axios.get(`${API_URL}/${professionalId}`);
 
-// Retrieves the available appointment slots for a professional on a specific date.
-export const getAvailableSlotsRequest = async (professionalId, date) => {
-  try {
-    const response = await axios.get(
-      `${API_URL}/${professionalId}/available-slots`,
-      {
-        params: {
-          date,
-        },
-      },
-    );
-
-    return response.data;
-  } catch (error) {
-    // Logs the original error for development and propagates it to the caller.
-    console.error("Failed to load available slots:", error);
-
-    throw error;
-  }
+  return response.data;
 };
