@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import {
   loginRequest,
   registerPatientRequest,
@@ -10,7 +10,7 @@ import {
 // AUTH CONTEXT
 // ============================================================
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
 // ============================================================
 // AUTH PROVIDER
@@ -42,8 +42,7 @@ export const AuthProvider = ({ children }) => {
 
       try {
         // Retrieves the authenticated user's profile using the stored token.
-        const data = await getProfileRequest(token);
-
+        const data = await getProfileRequest();
         // Stores the user data together with the associated profile.
         setUser({
           ...data.user,
@@ -86,8 +85,8 @@ export const AuthProvider = ({ children }) => {
   // ============================================================
 
   // Sends the patient registration data to the authentication service.
-  const registerPatient = async (patientData) => {
-    return await registerPatientRequest(patientData);
+  const registerPatient = (patientData) => {
+    return registerPatientRequest(patientData);
   };
 
   // ============================================================
@@ -95,8 +94,8 @@ export const AuthProvider = ({ children }) => {
   // ============================================================
 
   // Sends the professional registration data to the authentication service.
-  const registerProfessional = async (professionalData) => {
-    return await registerProfessionalRequest(professionalData);
+  const registerProfessional = (professionalData) => {
+    return registerProfessionalRequest(professionalData);
   };
 
   // ============================================================
@@ -130,13 +129,4 @@ export const AuthProvider = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
-};
-
-// ============================================================
-// USE AUTH HOOK
-// ============================================================
-
-// Provides a reusable hook for accessing the authentication context.
-export const useAuth = () => {
-  return useContext(AuthContext);
 };

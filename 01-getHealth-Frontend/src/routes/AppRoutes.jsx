@@ -2,6 +2,8 @@ import { Routes, Route } from "react-router-dom";
 
 import MainLayout from "../layout/MainLayout.jsx";
 
+import ProtectedRoute from "./ProtectedRoute.jsx";
+
 import Home from "../pages/Home.jsx";
 
 import Login from "../pages/Login.jsx";
@@ -20,14 +22,26 @@ import NotFound from "../pages/NotFound.jsx";
 
 import Specialities from "../pages/Specialities.jsx";
 
+// ============================================================
+// APPLICATION ROUTES
+// ============================================================
+
+// Defines the application's public and protected page routes.
+
 const AppRoutes = () => {
   // Defines the application's public and protected page routes.
 
   return (
     <Routes>
       <Route element={<MainLayout />}>
-        <Route path="/" element={<Home />} />
+        {/* ============================================================
+            PUBLIC ROUTES
+        ============================================================ */}
 
+        {/* Displays the home page. */}
+        <Route path="/" element={<Home />} />
+          
+        {/* Displays the professionals page. */}
         <Route path="/professionals" element={<Professionals />} />
 
         <Route path="/professionals/:id" element={<ProfessionalDetails />} />
@@ -38,9 +52,36 @@ const AppRoutes = () => {
 
         <Route path="/login" element={<Login />} />
 
+
+        {/* Displays the login page. */}
+        <Route path="/login" element={<Login />} />
+
+        {/* Displays the registration page. */}
         <Route path="/register" element={<Register />} />
 
         <Route path="/specialities" element={<Specialities />} />
+
+        {/* ============================================================
+            PROTECTED ROUTES
+        ============================================================ */}
+
+        {/* Allows authenticated patients and professionals to access their profile. */}
+        <Route
+          element={
+            <ProtectedRoute allowedRoles={["PATIENT", "PROFESSIONAL"]} />
+          }
+        >
+          <Route path="/profile" element={<Profile />} />
+        </Route>
+
+        {/* Allows only authenticated patients to schedule appointments. */}
+        <Route element={<ProtectedRoute allowedRoles={["PATIENT"]} />}>
+          <Route path="/appointments/new" element={<Appointments />} />
+        </Route>
+
+        {/* ============================================================
+            NOT FOUND
+        ============================================================ */}
 
         {/* Catches any URL that does not match an existing route. */}
         <Route path="*" element={<NotFound />} />

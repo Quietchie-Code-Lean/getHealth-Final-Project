@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/useAuth.js";
 import { getSpecialities } from "../services/Speciality.services.js";
-
 
 // ============================================================
 // REGISTER COMPONENT
@@ -11,20 +10,24 @@ import { getSpecialities } from "../services/Speciality.services.js";
 
 const Register = () => {
   /* Preset Tailwind Styles */
-  const pageClass = "flex min-h-[calc(100vh-80px)] items-center justify-center bg-slate-100 px-6 py-10";
+  const pageClass =
+    "flex min-h-[calc(100vh-80px)] items-center justify-center bg-slate-100 px-6 py-10";
   const cardClass = "w-full max-w-lg rounded-md bg-white p-8";
   const headerClass = "mb-6";
   const titleClass = "text-3xl font-semibold text-slate-800";
   const subtitleClass = "mt-2 text-sm text-slate-600";
   const tabsClass = "mb-8 grid grid-cols-2 rounded-md bg-slate-100 p-1";
-  const tabBaseClass = "rounded-md px-4 py-2 text-sm font-medium transition-colors duration-200";
+  const tabBaseClass =
+    "rounded-md px-4 py-2 text-sm font-medium transition-colors duration-200";
   const tabActiveClass = `${tabBaseClass} bg-slate-800 text-white`;
   const tabInactiveClass = `${tabBaseClass} text-slate-600 hover:text-slate-800`;
   const formClass = "space-y-5";
   const labelClass = "mb-2 block text-sm font-medium text-slate-800";
-  const inputClass = "w-full rounded-md border border-slate-300 px-4 py-3 text-slate-800 outline-none transition-colors duration-200 focus:border-slate-800";
+  const inputClass =
+    "w-full rounded-md border border-slate-300 px-4 py-3 text-slate-800 outline-none transition-colors duration-200 focus:border-slate-800";
   const errorClass = "text-sm text-red-600";
-  const buttonClass = "w-full rounded-md bg-slate-800 px-4 py-3 font-semibold text-white transition-colors duration-200 hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-60";
+  const buttonClass =
+    "w-full rounded-md bg-slate-800 px-4 py-3 font-semibold text-white transition-colors duration-200 hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-60";
 
   // ============================================================
   // NAVIGATION AND AUTHENTICATION
@@ -35,9 +38,6 @@ const Register = () => {
 
   // Provides access to the patient and professional registration methods.
   const { registerPatient, registerProfessional } = useAuth();
-
-
-
 
   // ============================================================
   // FORM STATE
@@ -53,7 +53,7 @@ const Register = () => {
     email: "",
     password: "",
 
-    // Shared profile fields 
+    // Shared profile fields
     dateOfBirth: "",
     identificationNumber: "",
 
@@ -71,10 +71,9 @@ const Register = () => {
   // Tracks the registration request state.
   const [loading, setLoading] = useState(false);
 
-  // ============================================================ 
-  // SPECIALITIES STATE 
-  // ============================================================ 
-
+  // ============================================================
+  // SPECIALITIES STATE
+  // ============================================================
 
   // Stores the specialties retrieved from the backend API.
   const [specialities, setSpecialities] = useState([]);
@@ -83,10 +82,8 @@ const Register = () => {
   useEffect(() => {
     const loadSpecialities = async () => {
       try {
-
         const data = await getSpecialities();
         setSpecialities(Array.isArray(data) ? data : []);
-
       } catch (error) {
         console.error("Error loading specialities:", error);
       }
@@ -94,7 +91,6 @@ const Register = () => {
 
     loadSpecialities();
   }, []);
-
 
   // ============================================================
   // REGISTRATION TYPE HANDLING
@@ -189,7 +185,7 @@ const Register = () => {
       // Displays the server error message or a default registration error.
       setError(
         error.response?.data?.message ||
-        "Unable to register. Please check your information.",
+          "Unable to register. Please check your information.",
       );
     } finally {
       // Resets the loading state after the registration request completes.
@@ -330,7 +326,6 @@ const Register = () => {
               required
               className={inputClass}
             />
-
           </div>
 
           {/* Patient and professional identification number field */}
@@ -349,14 +344,11 @@ const Register = () => {
               required
               className={inputClass}
             />
-
           </div>
 
           {/* Displays the patient-specific registration fields */}
           {activeTab === "patient" && (
-
             <div>
-
               <label htmlFor="phone" className={labelClass}>
                 Phone
               </label>
@@ -372,9 +364,7 @@ const Register = () => {
                 required
                 className={inputClass}
               />
-
             </div>
-
           )}
 
           {/* Displays additional fields required for professional registration */}
@@ -397,11 +387,9 @@ const Register = () => {
                   <option value="">Select a speciality</option>
 
                   {specialities.map((speciality) => (
-
                     <option key={speciality.id} value={speciality.id}>
                       {speciality.name}
                     </option>
-
                   ))}
                 </select>
               </div>
