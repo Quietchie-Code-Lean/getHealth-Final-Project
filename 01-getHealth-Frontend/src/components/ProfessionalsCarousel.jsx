@@ -1,10 +1,13 @@
 import { useRef, useState, useEffect } from "react";
 import CardGen from "./CardGen.jsx";
+import { useNavigate } from "react-router-dom";
 
 // ============================================================
 // PROFESSIONALS CAROUSEL COMPONENT
 // ============================================================
 const ProfessionalsCarousel = ({ professionals }) => {
+  const navigate = useNavigate();
+
   const carouselRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
@@ -90,7 +93,10 @@ const ProfessionalsCarousel = ({ professionals }) => {
         {professionals.map((professional) => (
           <div
             key={professional.id}
-            className="w-[calc((100%-3rem)/3)] flex-shrink-0 snap-start"
+            onClick={() => {
+              navigate(`/professionals/${professional.id}`);
+            }}
+            className="w-[calc((100%-3rem)/3)] flex-shrink-0 cursor-pointer snap-start"
           >
             <CardGen
               title={`${professional.first_name} ${professional.last_name}`}

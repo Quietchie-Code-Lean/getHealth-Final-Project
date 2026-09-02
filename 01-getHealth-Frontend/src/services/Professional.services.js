@@ -30,3 +30,13 @@ export const getProfessionalsRequest = async (specialtyId = null) => {
     throw error;
   }
 };
+
+// ============================================================
+// GET PROFESSIONAL BY ID
+// ============================================================
+// Retrieves the complete public profile of a professional.
+export const getProfessionalByIdRequest = async (professionalId) => {
+  const response = await axios.get(`${API_URL}/${professionalId}`);
+
+  return response.data;
+};
