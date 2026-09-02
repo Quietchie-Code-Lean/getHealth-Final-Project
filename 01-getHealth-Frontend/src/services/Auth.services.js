@@ -1,11 +1,12 @@
 import axios from "axios";
+import authAxios from "./axios.js";
 
 // ============================================================
 // AUTH API CONFIGURATION
 // ============================================================
 
 // Defines the base URL used for authentication-related API requests.
-const API_URL = "http://localhost:3000/api/auth";
+const API_URL = `${import.meta.env.VITE_API_URL}/api/auth`;
 
 // ============================================================
 // LOGIN REQUEST
@@ -48,12 +49,8 @@ export const registerProfessionalRequest = async (professionalData) => {
 // ============================================================
 
 // Retrieves the authenticated user's profile using the provided bearer token for authorization.
-export const getProfileRequest = async (token) => {
-  const response = await axios.get(`${API_URL}/profile`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+export const getProfileRequest = async () => {
+  const response = await authAxios.get("/auth/profile");
 
   return response.data;
 };

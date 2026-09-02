@@ -1,31 +1,44 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "../context/AuthContext.jsx";
-import { createAppointmentRequest } from "../services/Appointment.services.js";
-import { getProfessionalsRequest, getAvailableSlotsRequest } from "../services/Professional.services.js";
 
+import { createAppointmentRequest } from "../services/Appointment.services.js";
+
+import {
+  getProfessionalsRequest,
+  getAvailableSlotsRequest,
+} from "../services/Professional.services.js";
 
 // ============================================================
+
 // APPOINTMENTS PAGE
+
 // ============================================================
 
 // Handles the appointment scheduling flow for authenticated patients.
-const Appointments = () => {
-  const { token } = useAuth();
 
+const Appointments = () => {
   // ============================================================
+
   // APPOINTMENT STATE
+
   // ============================================================
 
   // Stores the patient's appointments and scheduling data.
+
   const [professionals, setProfessionals] = useState([]);
-  const [selectedProfessionalSpecialties, setSelectedProfessionalSpecialties] = useState([]);
+
+  const [selectedProfessionalSpecialties, setSelectedProfessionalSpecialties] =
+    useState([]);
+
   const [availableSlots, setAvailableSlots] = useState([]);
 
   // ============================================================
+
   // FORM STATE
+
   // ============================================================
 
   // Stores the values required to create an appointment.
+
   const [formData, setFormData] = useState({
     professional_id: "",
     specialty_id: "",
@@ -35,25 +48,31 @@ const Appointments = () => {
   });
 
   // ============================================================
+
   // REQUEST STATE
+
   // ============================================================
 
   // Controls loading, submission, and error states.
+
   const [loadingProfessionals, setLoadingProfessionals] = useState(true);
+
   const [loadingSlots, setLoadingSlots] = useState(false);
+
   const [submitting, setSubmitting] = useState(false);
+
   const [error, setError] = useState(null);
 
-
   // ============================================================
+
   // LOAD PROFESSIONALS
+
   // ============================================================
 
   // Loads the professionals available for appointment scheduling.
+
   useEffect(() => {
-
     const loadProfessionals = async () => {
-
       try {
         setLoadingProfessionals(true);
         setError(null);
@@ -65,6 +84,7 @@ const Appointments = () => {
         console.error("Failed to load professionals:", error);
 
         setProfessionals([]);
+
         setError("Failed to load professionals.");
       } finally {
         setLoadingProfessionals(false);
@@ -74,15 +94,15 @@ const Appointments = () => {
     loadProfessionals();
   }, []);
 
-
-
   // ============================================================
+
   // PROFESSIONAL SELECTION
+
   // ============================================================
 
   // Loads the specialties associated with the selected professional.
-  const handleProfessionalChange = (event) => {
 
+  const handleProfessionalChange = (event) => {
     const professionalId = event.target.value;
 
     const selectedProfessional = professionals.find(
@@ -100,16 +120,19 @@ const Appointments = () => {
     });
 
     setAvailableSlots([]);
+
     setError(null);
   };
 
   // ============================================================
+
   // FORM HANDLING
+
   // ============================================================
 
   // Updates the appointment form and resets dependent time slots when needed.
-  const handleChange = (event) => {
 
+  const handleChange = (event) => {
     const { name, value } = event.target;
 
     setFormData((previousData) => ({
@@ -126,14 +149,15 @@ const Appointments = () => {
   };
 
   // ============================================================
+
   // LOAD AVAILABLE SLOTS
+
   // ============================================================
 
   // Loads available appointment times for the selected professional and date.
+
   useEffect(() => {
-
     const loadAvailableSlots = async () => {
-
       try {
         setLoadingSlots(true);
         setError(null);
@@ -146,7 +170,9 @@ const Appointments = () => {
         setAvailableSlots(data.available_slots);
       } catch (error) {
         console.error("Failed to load available slots:", error);
+
         setAvailableSlots([]);
+
         setError("No available times for the selected date.");
       } finally {
         setLoadingSlots(false);
@@ -159,16 +185,20 @@ const Appointments = () => {
   }, [formData.professional_id, formData.appointment_date]);
 
   // ============================================================
+
   // CREATE APPOINTMENT
+
   // ============================================================
 
   // Sends the selected appointment data to the backend.
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
       setSubmitting(true);
       setError(null);
+
       const appointmentData = {
         professional_id: Number(formData.professional_id),
         specialty_id: Number(formData.specialty_id),
@@ -177,7 +207,7 @@ const Appointments = () => {
         reason: formData.reason,
       };
 
-      await createAppointmentRequest(token, appointmentData);
+      await createAppointmentRequest(appointmentData);
 
       setFormData({
         professional_id: "",
@@ -188,11 +218,11 @@ const Appointments = () => {
       });
 
       setSelectedProfessionalSpecialties([]);
-      setAvailableSlots([]);
-      
-    } catch (error) {
 
+      setAvailableSlots([]);
+    } catch (error) {
       console.error("Failed to create appointment:", error);
+
       setError("Failed to create appointment.");
     } finally {
       setSubmitting(false);
@@ -200,7 +230,9 @@ const Appointments = () => {
   };
 
   // ============================================================
+
   // APPOINTMENT SCHEDULING FORM
+
   // ============================================================
 
   return (
@@ -416,8 +448,6 @@ const Appointments = () => {
             </button>
           </div>
         </form>
-
-
       </div>
     </main>
   );
