@@ -84,7 +84,7 @@ const ProfessionalsSection = () => {
           ============================================================ */}
       {!loading && !error && professionals.length > 0 && (
         <div className={cardsContainer}>
-          {professionals.map((professional) => (
+          {professionals.slice(0, 3).map((professional) => (
             <CardGen
               key={professional.id}
               title={`${professional.first_name} ${professional.last_name}`}
