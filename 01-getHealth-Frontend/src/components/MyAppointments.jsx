@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/useAuth.js";
 import { getMyAppointmentsRequest } from "../services/Appointment.services.js";
+import { formatAppointmentDate, formatAppointmentTime } from "../utils/dateTime.utils.js";
 
 // ============================================================
 // MY APPOINTMENTS COMPONENT
@@ -8,6 +9,7 @@ import { getMyAppointmentsRequest } from "../services/Appointment.services.js";
 
 // Displays the appointments associated with the authenticated patient.
 const MyAppointments = () => {
+  
   /* Preset Tailwind styles */
   const sectionClass = "rounded-2xl bg-white p-6 shadow-sm";
   const titleClass = "mb-5 text-xl font-semibold text-gray-900";
@@ -105,12 +107,13 @@ const MyAppointments = () => {
               <div className={appointmentGridClass}>
                 <p className={appointmentInfoClass}>
                   <span className={appointmentLabelClass}>Date:</span>{" "}
-                  {appointment.appointment_date}
+                  {formatAppointmentDate(appointment.appointment_date)}
                 </p>
 
                 <p className={appointmentInfoClass}>
                   <span className={appointmentLabelClass}>Time:</span>{" "}
-                  {appointment.start_time} - {appointment.end_time}
+                  {formatAppointmentTime(appointment.start_time)} -{" "}
+                  {formatAppointmentTime(appointment.end_time)}
                 </p>
 
                 <p className={statusClass}>
