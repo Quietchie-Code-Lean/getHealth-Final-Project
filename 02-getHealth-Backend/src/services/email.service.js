@@ -12,17 +12,19 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 // ============================================================
 
 // Sends a generic email using Resend.
-export const sendEmail = async ({to, subject, html}) => {
-
+export const sendEmail = async ({ to, subject, html }) => {
   const emailData = {
     from: process.env.EMAIL_FROM,
-    to: to,
-    subject: subject,
-    html: html,
+    to,
+    subject,
+    html,
   };
 
-  const emailResponse = await resend.emails.send(emailData);
+  const { data, error } = await resend.emails.send(emailData);
 
-  return emailResponse;
-  
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
 };

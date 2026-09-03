@@ -275,8 +275,26 @@ export const createAppointment = async (
       startAppointment,
       endAppointment,
       status: "SCHEDULED",
-      reason,
+      reason
     },
+
+    include: {
+      patientProfile: {
+        include: {
+          user: true,
+        },
+      },
+
+      professionalProfile: {
+        include: {
+          user: true,
+        },
+      },
+
+      speciality: true,
+    },
+
+
   });
 
   // Return the created appointment to the controller.
@@ -566,13 +584,13 @@ export const rescheduleAppointment = async (
   const patientProfile =
     role === "PATIENT"
       ? await prisma.patientProfile.findUnique({
-          where: {
-            patientId: userId,
-          },
-          select: {
-            id: true,
-          },
-        })
+        where: {
+          patientId: userId,
+        },
+        select: {
+          id: true,
+        },
+      })
       : null;
 
   // Check whether the authenticated patient owns the appointment.
@@ -732,26 +750,26 @@ export const cancelAppointment = async (
     const patientProfile =
       role === "PATIENT"
         ? await prisma.patientProfile.findUnique({
-            where: {
-              patientId: userId,
-            },
-            select: {
-              id: true,
-            },
-          })
+          where: {
+            patientId: userId,
+          },
+          select: {
+            id: true,
+          },
+        })
         : null;
 
     // Find the professional profile when the authenticated user is a professional.
     const professionalProfile =
       role === "PROFESSIONAL"
         ? await prisma.professionalProfile.findUnique({
-            where: {
-              professionalId: userId,
-            },
-            select: {
-              id: true,
-            },
-          })
+          where: {
+            professionalId: userId,
+          },
+          select: {
+            id: true,
+          },
+        })
         : null;
 
     // Check whether the user is the patient associated with the appointment.

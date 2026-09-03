@@ -84,3 +84,38 @@ export const getWeekday = (date) => {
 
   return weekdays[date.getUTCDay()];
 };
+
+
+// ============================================================
+// Email formatters
+// ============================================================
+
+
+// Formats a Date value as DD/MM/YYYY.
+export const formatDateForEmail = (date) => {
+  if (!date) {
+    return "";
+  }
+
+  const dateObject = new Date(date);
+
+  const day = String(dateObject.getUTCDate()).padStart(2, "0");
+  const month = String(dateObject.getUTCMonth() + 1).padStart(2, "0");
+  const year = dateObject.getUTCFullYear();
+
+  return `${day}/${month}/${year}`;
+};
+
+// Formats a Date value as HH:mm.
+export const formatTimeForEmail = (time) => {
+  if (!time) {
+    return "";
+  }
+
+  const timeObject = new Date(time);
+
+  const hours = String(timeObject.getUTCHours()).padStart(2, "0");
+  const minutes = String(timeObject.getUTCMinutes()).padStart(2, "0");
+
+  return `${hours}:${minutes}`;
+};

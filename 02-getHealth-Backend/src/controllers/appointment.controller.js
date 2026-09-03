@@ -16,6 +16,10 @@ import {
   formatAppointmentStatus,
 } from "../utils/appointment.utils.js";
 
+import { sendEmail } from "../services/email.service.js";
+import { appointmentConfirmationTemplate } from "../templates/appointmentConfirmation.template.js";
+import { formatDateForEmail, formatTimeForEmail } from "../utils/dateTime.utils.js";
+
 // ============================================================
 // CREATE APPOINTMENT
 // ============================================================
@@ -43,6 +47,50 @@ export const createAppointmentController = async (req, res, next) => {
       start_time,
       reason,
     });
+
+    try {
+
+      const patient = appointment.patientProfile.user;
+      const professional = appointment.professionalProfile.user;
+      const specialty = appointment.speciality;
+
+      const formattedAppointmentDate = formatDateForEmail(
+        appointment.appointmentDate,
+      );
+
+      const formattedStartAppointment = formatTimeForEmail(
+        appointment.startAppointment,
+      );
+
+      console.log("Preparing confirmation email for:", patient.email);
+
+      const emailHtml = appointmentConfirmationTemplate({
+        patientName: `${patient.firstName} ${patient.lastName}`,
+        professionalName: `${professional.firstName} ${professional.lastName}`,
+        specialtyName: specialty.name,
+        appointmentDate: formattedAppointmentDate,
+        startAppointment: formattedStartAppointment,
+      });
+
+      console.log("Confirmation email template generated");
+
+      console.log("Sending confirmation email...");
+
+      await sendEmail({
+        to: patient.email,
+        subject: "getHealth - Appointment confirmation",
+        html: emailHtml,
+      });
+
+      console.log("Confirmation email sent successfully");
+
+    } catch (emailError) {
+      console.error(
+        "Appointment created, but confirmation email failed:",
+        emailError,
+      );
+    }
+
 
     // Return the appointment using the API response format.
     return res.status(201).json({
