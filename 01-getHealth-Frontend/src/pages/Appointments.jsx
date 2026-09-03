@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { createAppointmentRequest } from "../services/Appointment.services.js";
+import { getProfessionalsRequest } from "../services/Professional.services.js";
 
 import {
   getProfessionalAvailabilityRequest,
@@ -25,9 +26,7 @@ const Appointments = () => {
   // Stores the patient's appointments and scheduling data.
 
   const [professionals, setProfessionals] = useState([]);
-  const [selectedProfessionalSpecialties, setSelectedProfessionalSpecialties] =
-    useState([]);
-
+  const [selectedProfessionalSpecialties, setSelectedProfessionalSpecialties] = useState([]);
   const [availableSlots, setAvailableSlots] = useState([]);
 
   // ============================================================
@@ -157,16 +156,21 @@ const Appointments = () => {
 
   useEffect(() => {
     const loadAvailableSlots = async () => {
+
       try {
         setLoadingSlots(true);
         setError(null);
 
-        const data = await getAvailableSlotsRequest(
-          formData.professional_id,
-          formData.appointment_date,
+        const selectedProfessional = professionals.find(
+          (professional) => professional.id === Number(formData.professional_id)
         );
 
+        const professionalUserId = selectedProfessional.user_id;
+
+        const data = await getAvailableSlotsRequest(professionalUserId, formData.appointment_date);
+
         setAvailableSlots(data.available_slots);
+
       } catch (error) {
         console.error("Failed to load available slots:", error);
 
