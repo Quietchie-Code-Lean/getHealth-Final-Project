@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import { createAppointmentRequest } from "../services/Appointment.services.js";
 
 import {
-  getProfessionalsRequest,
+  getProfessionalAvailabilityRequest,
   getAvailableSlotsRequest,
-} from "../services/Professional.services.js";
+} from "../services/Availability.services.js";
 
 // ============================================================
 
@@ -25,7 +25,8 @@ const Appointments = () => {
   // Stores the patient's appointments and scheduling data.
 
   const [professionals, setProfessionals] = useState([]);
-  const [selectedProfessionalSpecialties, setSelectedProfessionalSpecialties] = useState([]);
+  const [selectedProfessionalSpecialties, setSelectedProfessionalSpecialties] =
+    useState([]);
 
   const [availableSlots, setAvailableSlots] = useState([]);
 
