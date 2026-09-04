@@ -3,18 +3,16 @@
 // ============================================================
 
 const Footer = () => {
+
   // ============================================================
   // TAILWIND STYLES
   // ============================================================
 
-  // Define the main footer container styles.
-  const footClass = "w-full bg-slate-800 text-white text-center py-4";
-
-  // Defines the text styling used by footer elements.
-  const textClass = "text-sm";
-
-  // Defines the layout and spacing for the footer content.
-  const footContClass = "flex flex-row justify-evenly";
+  const footerClass = "w-full border-t border-slate-700 bg-slate-800 text-slate-300";
+  const containerClass = "mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-6 py-6 text-center sm:flex-row sm:text-left";
+  const brandClass = "font-bold text-white";
+  const descriptionClass = "text-sm text-slate-400";
+  const copyrightClass = "text-sm text-slate-400";
 
   // ============================================================
   // FOOTER RENDER
@@ -22,14 +20,29 @@ const Footer = () => {
 
   // Renders the footer with the application logo, navigation
   // links, and copyright information.
+
   return (
     <>
-      <footer className={footClass}>
-        <div className={footContClass}>
-          <p className={textClass}> getHealth Logo </p>
-          <p className={textClass}> About | Contact | Privacy | Terms </p>
-          <p className={textClass}>© 2026 getHealth</p>
+      <footer className={footerClass}>
+
+        <div className={containerClass}>
+
+          <div>
+
+            <p className={brandClass}>
+              getHealth
+            </p>
+
+            <p className={descriptionClass}>
+              Healthcare appointments made easier.
+            </p>
+
+          </div>
+
+          <p className={copyrightClass}>© 2026 getHealth</p>
+
         </div>
+
       </footer>
     </>
   );

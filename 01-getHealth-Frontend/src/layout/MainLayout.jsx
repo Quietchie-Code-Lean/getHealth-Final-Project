@@ -4,8 +4,8 @@ import Footer from "../components/Footer.jsx";
 
 const MainLayout = () => {
   /* Preset Tailwind Styles */
-  const ContainerClass = "min-h-screen flex flex-col"
-  const wrapperClass ="flex-1"
+  const ContainerClass = "flex min-h-screen flex-col bg-slate-50";
+  const wrapperClass = "flex-1";
 
 
   return (

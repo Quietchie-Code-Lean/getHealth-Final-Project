@@ -46,12 +46,7 @@ const AppRoutes = () => {
 
         <Route path="/professionals/:id" element={<ProfessionalDetails />} />
 
-        <Route path="/appointments/new" element={<Appointments />} />
-
-        <Route path="/profile" element={<Profile />} />
-
         <Route path="/login" element={<Login />} />
-
 
         {/* Displays the login page. */}
         <Route path="/login" element={<Login />} />

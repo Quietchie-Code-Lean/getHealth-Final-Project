@@ -5,7 +5,7 @@ import React from 'react'
 const CardGen = ({icon, title, description, children, className = "",}) => {
 
     /* Preset Tailwind styles */
-    const genCardClass = `bg-white rounded-2xl border border-gray-200 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 ${className}`;
+    const genCardClass = `h-full rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-md ${className}`;
     const iconClass = "mb-4 text-blue-600";
     const tittleClass = "mb-2 text-xl font-semibold text-gray-900";
     const descriptionClass = "text-sm leading-relaxed text-gray-600";
