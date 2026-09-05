@@ -19,12 +19,10 @@ const ProfessionalAvailability = () => {
   const listClass = "space-y-4";
   const availabilityCardClass = "rounded-xl border border-gray-200 p-4";
   const weekdayClass = "font-semibold text-gray-900";
-  const availabilityContentClass =
-    "mt-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between";
+  const availabilityContentClass = "mt-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between";
   const availabilityInfoClass = "flex flex-wrap gap-6 text-sm text-gray-600";
   const addButtonContainerClass = "flex justify-end";
-  const addButtonClass =
-    "rounded-lg bg-slate-800 px-5 py-2.5 font-medium text-white transition hover:bg-slate-700";
+  const addButtonClass = "rounded-lg bg-slate-800 px-5 py-2.5 font-medium text-white transition hover:bg-slate-700";
 
   /* Add availability form styles */
 
@@ -34,10 +32,8 @@ const ProfessionalAvailability = () => {
   const formInputClass = "rounded-lg border border-gray-300 px-3 py-2";
   const timeFieldsClass = "grid gap-4 sm:grid-cols-2";
   const formActionsClass = "flex justify-end gap-3";
-  const cancelButtonClass =
-    "rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50";
-  const saveButtonClass =
-    "rounded-lg bg-slate-800 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-60";
+  const cancelButtonClass = "rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50";
+  const saveButtonClass = "rounded-lg bg-slate-800 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-60";
 
   // ============================================================
   // AUTHENTICATION
@@ -172,6 +168,7 @@ const ProfessionalAvailability = () => {
 
   return (
     <div className={containerClass}>
+
       <p className={descriptionClass}>
         Define when patients can book appointments.
       </p>
@@ -219,8 +216,7 @@ const ProfessionalAvailability = () => {
           <button
             type="button"
             onClick={() => setShowForm(true)}
-            className={addButtonClass}
-          >
+            className={addButtonClass}>
             + Add availability
           </button>
         </div>
@@ -228,7 +224,9 @@ const ProfessionalAvailability = () => {
 
       {showForm && (
         <form onSubmit={handleSubmit} className={formClass}>
+
           <div className={formFieldClass}>
+
             <label htmlFor="weekday" className={formLabelClass}>
               Day
             </label>
@@ -238,8 +236,8 @@ const ProfessionalAvailability = () => {
               name="weekday"
               value={formData.weekday}
               onChange={handleChange}
-              className={formInputClass}
-            >
+              className={formInputClass}>
+
               <option value="MONDAY">Monday</option>
               <option value="TUESDAY">Tuesday</option>
               <option value="WEDNESDAY">Wednesday</option>
@@ -247,7 +245,9 @@ const ProfessionalAvailability = () => {
               <option value="FRIDAY">Friday</option>
               <option value="SATURDAY">Saturday</option>
               <option value="SUNDAY">Sunday</option>
+
             </select>
+
           </div>
 
           <div className={timeFieldsClass}>
@@ -313,9 +313,13 @@ const ProfessionalAvailability = () => {
             <button type="submit" disabled={saving} className={saveButtonClass}>
               {saving ? "Saving..." : "Save availability"}
             </button>
+
           </div>
+
         </form>
+
       )}
+
     </div>
   );
 };

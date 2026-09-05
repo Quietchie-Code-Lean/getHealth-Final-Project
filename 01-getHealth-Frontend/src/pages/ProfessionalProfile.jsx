@@ -13,24 +13,18 @@ const ProfessionalProfile = () => {
   const mainClass = "min-h-[70vh] bg-gray-50 px-4 py-10";
   const sectionClass = "mx-auto max-w-5xl";
   const headerClass = "mb-6 rounded-2xl bg-white p-6 shadow-sm";
-  const headerContentClass =
-    "flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between";
-  const profileTypeClass =
-    "mb-1 text-sm font-medium uppercase tracking-wide text-blue-600";
+  const headerContentClass = "flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between";
+  const profileTypeClass = "mb-1 text-sm font-medium uppercase tracking-wide text-blue-600";
   const nameClass = "text-3xl font-bold text-gray-900";
   const emailClass = "mt-1 text-gray-500";
   const headerActionsClass = "flex items-center gap-3";
-  const activeStatusClass =
-    "w-fit rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-700";
-  const inactiveStatusClass =
-    "w-fit rounded-full bg-red-100 px-3 py-1 text-sm font-medium text-red-700";
-  const logoutButtonClass =
-    "rounded-lg border border-red-200 px-4 py-2 text-sm font-medium text-red-600 transition hover:bg-red-50";
+  const activeStatusClass = "w-fit rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-700";
+  const inactiveStatusClass = "w-fit rounded-full bg-red-100 px-3 py-1 text-sm font-medium text-red-700";
+  const logoutButtonClass = "rounded-lg border border-red-200 px-4 py-2 text-sm font-medium text-red-600 transition hover:bg-red-50";
   const profileLayoutClass = "grid gap-6 lg:grid-cols-[300px_1fr]";
   const cardClass = "rounded-2xl bg-white p-6 shadow-sm";
   const sectionTitleClass = "mb-5 text-xl font-semibold text-gray-900";
-  const subsectionTitleClass =
-    "mb-4 text-sm font-semibold uppercase tracking-wide text-gray-500";
+  const subsectionTitleClass = "mb-4 text-sm font-semibold uppercase tracking-wide text-gray-500";
   const fieldsContainerClass = "space-y-4";
   const dividerClass = "my-6 border-t border-gray-200";
   const managementColumnClass = "space-y-6";
@@ -50,9 +44,12 @@ const ProfessionalProfile = () => {
 
   return (
     <main className={mainClass}>
+
       <section className={sectionClass}>
+
         {/* Professional profile header */}
         <div className={headerClass}>
+
           <div className={headerContentClass}>
             <div>
               <p className={profileTypeClass}>Professional Profile</p>
@@ -66,18 +63,14 @@ const ProfessionalProfile = () => {
 
             <div className={headerActionsClass}>
               <span
-                className={
-                  user.isActive ? activeStatusClass : inactiveStatusClass
-                }
-              >
+                className={user.isActive ? activeStatusClass : inactiveStatusClass}>
                 {user.isActive ? "Active account" : "Inactive account"}
               </span>
 
               <button
                 type="button"
                 onClick={logout}
-                className={logoutButtonClass}
-              >
+                className={logoutButtonClass}>
                 Logout
               </button>
             </div>
@@ -86,8 +79,10 @@ const ProfessionalProfile = () => {
 
         {/* Professional dashboard layout */}
         <div className={profileLayoutClass}>
+
           {/* Profile information */}
           <aside className={cardClass}>
+
             <h2 className={sectionTitleClass}>Profile Information</h2>
 
             {/* Account information */}
@@ -109,43 +104,42 @@ const ProfessionalProfile = () => {
 
             {/* Professional information */}
             <div>
+
               <h3 className={subsectionTitleClass}>Professional Details</h3>
 
               <div className={fieldsContainerClass}>
-                <ProfileField
-                  label="License number"
-                  value={profile?.licenseNumber}
-                />
 
-                <ProfileField
-                  label="Approval status"
-                  value={profile?.approvalStatus}
-                />
+                <ProfileField label="License number" value={profile?.licenseNumber} />
 
-                <ProfileField
-                  label="Date of birth"
-                  value={formatDate(profile?.dateOfBirth)}
-                />
+                <ProfileField label="Approval status" value={profile?.approvalStatus} />
 
-                <ProfileField
-                  label="Identification number"
-                  value={profile?.identificationNumber}
-                />
+                <ProfileField label="Date of birth" value={formatDate(profile?.dateOfBirth)} />
+
+                <ProfileField label="Identification number" value={profile?.identificationNumber} />
+
               </div>
+
             </div>
+
           </aside>
 
           {/* Professional management area */}
           <div className={managementColumnClass}>
+
             {/* Availability management */}
             <div className={cardClass}>
-              <h2 className={sectionTitleClass}>Availability Schedule</h2>
 
+              <h2 className={sectionTitleClass}>Availability Schedule</h2>
               <ProfessionalAvailability />
+
             </div>
+
           </div>
+
         </div>
+
       </section>
+
     </main>
   );
 };

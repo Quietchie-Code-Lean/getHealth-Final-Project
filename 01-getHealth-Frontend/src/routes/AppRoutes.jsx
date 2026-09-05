@@ -32,7 +32,9 @@ const AppRoutes = () => {
   // Defines the application's public and protected page routes.
 
   return (
+
     <Routes>
+
       <Route element={<MainLayout />}>
         {/* ============================================================
             PUBLIC ROUTES
@@ -40,13 +42,11 @@ const AppRoutes = () => {
 
         {/* Displays the home page. */}
         <Route path="/" element={<Home />} />
-          
+
         {/* Displays the professionals page. */}
         <Route path="/professionals" element={<Professionals />} />
 
         <Route path="/professionals/:id" element={<ProfessionalDetails />} />
-
-        <Route path="/login" element={<Login />} />
 
         {/* Displays the login page. */}
         <Route path="/login" element={<Login />} />
@@ -61,12 +61,10 @@ const AppRoutes = () => {
         ============================================================ */}
 
         {/* Allows authenticated patients and professionals to access their profile. */}
-        <Route
-          element={
-            <ProtectedRoute allowedRoles={["PATIENT", "PROFESSIONAL"]} />
-          }
-        >
+        <Route element={ <ProtectedRoute allowedRoles={["PATIENT", "PROFESSIONAL"]} /> }>
+
           <Route path="/profile" element={<Profile />} />
+
         </Route>
 
         {/* Allows only authenticated patients to schedule appointments. */}
@@ -80,7 +78,9 @@ const AppRoutes = () => {
 
         {/* Catches any URL that does not match an existing route. */}
         <Route path="*" element={<NotFound />} />
+
       </Route>
+
     </Routes>
   );
 };
