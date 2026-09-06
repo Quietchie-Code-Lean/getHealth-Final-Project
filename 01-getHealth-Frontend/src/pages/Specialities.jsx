@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-
 import { getSpecialities } from "../services/Speciality.services.js";
-
 import SpecialitiesCarousel from "../components/SpecialitiesCarousel.jsx";
 
 // ============================================================
@@ -14,17 +12,17 @@ const Specialities = () => {
 
   /* Preset Tailwind Styles */
 
-  const pageClass = "min-h-[70vh] bg-white px-4 py-12 sm:px-6 lg:px-8";
+  const pageClass = "flex-1 bg-slate-950 px-4 py-16 sm:px-6 lg:px-8";
   const sectionClass = "mx-auto max-w-7xl";
   const headerClass = "mb-10";
-  const eyebrowClass = "text-sm font-semibold uppercase tracking-wider text-blue-600";
-  const titleClass = "mt-2 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl";
-  const descriptionClass = "mt-3 max-w-2xl text-base leading-7 text-slate-600";
-  const contentClass = "mt-8";
-  const stateCardClass = "rounded-2xl border border-slate-200 bg-slate-50 px-6 py-10 text-center shadow-sm";
-  const stateTextClass = "text-sm text-slate-600";
-  const errorCardClass = "rounded-2xl border border-red-200 bg-red-50 px-6 py-10 text-center";
-  const errorTextClass = "text-sm text-red-600";
+  const eyebrowClass = "text-sm font-semibold uppercase tracking-wider text-violet-400";
+  const titleClass = "mt-2 text-3xl font-bold tracking-tight text-slate-100 sm:text-4xl";
+  const descriptionClass = "mt-3 max-w-2xl text-base leading-7 text-slate-300";
+  const contentClass = "mt-10";
+  const stateCardClass = "rounded-2xl border border-slate-700 bg-slate-800 px-6 py-10 text-center shadow-sm";
+  const stateTextClass = "text-sm text-slate-400";
+  const errorCardClass = "rounded-2xl border border-red-500/30 bg-red-500/10 px-6 py-10 text-center";
+  const errorTextClass = "text-sm text-red-300";
 
   // ============================================================
   // SPECIALITIES STATE
