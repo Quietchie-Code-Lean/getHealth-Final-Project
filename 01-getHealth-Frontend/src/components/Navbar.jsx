@@ -9,15 +9,16 @@ import SearchBar from "./SearchBar";
 const Navbar = () => {
 
   /* Preset Tailwind Styles */
-  const navClass = "sticky top-0 z-50 w-full border-b border-slate-700 bg-slate-800 text-white shadow-sm";
-  const wrapperClass = "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8";
-  const innerClass = "flex min-h-16 items-center justify-between gap-6";
-  const logoClass = "text-xl font-bold tracking-tight text-white";
-  const linksContainerClass = "flex items-center gap-2 text-sm";
-  const linkBaseClass = "rounded-lg px-3 py-2 font-medium text-slate-200 transition hover:bg-slate-700 hover:text-white";
-  const appointmentLinkClass = "rounded-lg bg-blue-600 px-3 py-2 font-medium text-white transition hover:bg-blue-500";
-  const registerLinkClass = "rounded-lg bg-white px-3 py-2 font-medium text-slate-800 transition hover:bg-slate-100";
-  const logoutButtonClass = "rounded-lg px-3 py-2 font-medium text-slate-200 transition hover:bg-red-500/10 hover:text-red-300";
+
+const navClass = "sticky top-0 z-50 w-full border-b border-slate-700 bg-slate-900/95 text-slate-100 shadow-sm backdrop-blur";
+const wrapperClass = "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8";
+const innerClass = "flex min-h-16 items-center justify-between gap-6";
+const logoClass = "text-xl font-bold tracking-tight text-violet-400 transition hover:text-violet-300";
+const linksContainerClass = "flex items-center gap-2 text-sm";
+const linkBaseClass = "rounded-lg px-3 py-2 font-medium text-slate-300 transition hover:bg-slate-800 hover:text-slate-100";
+const appointmentLinkClass = "rounded-lg bg-violet-600 px-3 py-2 font-medium text-white transition hover:bg-violet-500";
+const registerLinkClass = "rounded-lg border border-violet-500 bg-violet-500/10 px-3 py-2 font-medium text-violet-200 transition hover:bg-violet-500/20 hover:text-white";
+const logoutButtonClass = "rounded-lg px-3 py-2 font-medium text-slate-300 transition hover:bg-red-500/10 hover:text-red-300";
 
   // ============================================================
   // AUTHENTICATION

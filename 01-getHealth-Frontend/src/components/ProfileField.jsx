@@ -8,15 +8,16 @@
 const ProfileField = ({ label, value }) => {
 
   /* Preset Tailwind styles */
-  const labelClass = "text-sm font-medium text-gray-500";
-  const valueClass = "mt-1 font-medium text-gray-900";
+
+  const labelClass = "text-sm font-medium text-slate-400";
+  const valueClass = "mt-1 font-medium text-slate-100";
 
   return (
-    
+
     <div>
 
-        <p className={labelClass}>{label}</p>
-        <p className={valueClass}>{value || "Not provided"}</p>
+      <p className={labelClass}>{label}</p>
+      <p className={valueClass}>{value || "Not provided"}</p>
 
     </div>
   );
