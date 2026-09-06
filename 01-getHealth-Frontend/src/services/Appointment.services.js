@@ -28,3 +28,19 @@ export const createAppointmentRequest = async (appointmentData) => {
 
   return response.data;
 };
+
+// ============================================================
+// CANCEL APPOINTMENT
+// ============================================================
+
+// Cancels an appointment using its ID.
+export const cancelAppointmentRequest = async (appointmentId, cancellationReason) => {
+
+  const response = await authAxios.patch(
+
+    `${API_URL}/${appointmentId}/cancel`, { cancellation_reason: cancellationReason }
+
+  );
+
+  return response.data;
+};

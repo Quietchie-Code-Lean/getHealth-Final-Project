@@ -9,9 +9,10 @@ import ProfessionalProfile from "./ProfessionalProfile";
 
 // Selects the correct profile interface according to the authenticated user's role.
 const Profile = () => {
+  
   /* Preset Tailwind styles */
-  const loadingMainClass = "flex min-h-[70vh] items-center justify-center";
-  const loadingTextClass = "text-gray-500";
+const loadingMainClass = "flex flex-1 items-center justify-center bg-slate-950";
+const loadingTextClass = "text-sm text-slate-400";
 
   // Provides access to the authenticated user and loading state.
   const { user, authLoading } = useAuth();
