@@ -5,11 +5,11 @@ import { useState } from "react";
 // ============================================================
 
 const SearchBar = () => {
+
   /* Preset Tailwind styles */
-  const formClass =
-    "flex items-center w-full max-w-md bg-white border border-gray-200 rounded-full shadow-sm overflow-hidden focus-within:ring-2 focus-within:ring-blue-400";
-  const inputClass = "flex-1 px-4 py-2 outline-none text-sm text-gray-700";
-  const btnClass = "px-4 py-2 text-gray-500 hover:bg-slate-800 transition";
+  const formClass = "flex w-full max-w-md items-center overflow-hidden rounded-full border border-slate-600 bg-slate-800 shadow-sm transition focus-within:border-violet-500 focus-within:ring-2 focus-within:ring-violet-500/30";
+  const inputClass = "flex-1 bg-transparent px-4 py-2 text-sm text-slate-100 outline-none placeholder:text-slate-500";
+  const btnClass = "px-4 py-2 text-slate-400 transition hover:bg-violet-500/10 hover:text-violet-300";
 
   // ============================================================
   // SEARCH STATE

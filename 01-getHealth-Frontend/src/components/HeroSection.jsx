@@ -12,15 +12,15 @@ const HeroSection = () => {
 
   const sectionClass = "relative flex min-h-[560px] items-center overflow-hidden bg-slate-900";
   const backgroundClass = "absolute inset-0 h-full w-full object-cover";
-  const overlayClass = "absolute inset-0 bg-slate-950/65";
+  const overlayClass = "absolute inset-0 bg-slate-950/70";
   const containerClass = "relative z-10 mx-auto w-full max-w-7xl px-6 py-20 sm:px-8 lg:px-12";
   const contentClass = "max-w-2xl";
-  const badgeClass = "mb-5 inline-flex rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-slate-100 backdrop-blur-sm";
-  const titleClass = "text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl";
-  const subtitleClass = "mt-6 max-w-xl text-lg leading-8 text-slate-200";
+  const badgeClass = "mb-5 inline-flex rounded-full border border-violet-400/30 bg-violet-500/10 px-4 py-2 text-sm font-medium text-violet-200 backdrop-blur-sm";
+  const titleClass = "text-4xl font-bold tracking-tight text-slate-100 sm:text-5xl lg:text-6xl";
+  const subtitleClass = "mt-6 max-w-xl text-lg leading-8 text-slate-300";
   const buttonsContainerClass = "mt-8 flex flex-col gap-3 sm:flex-row";
-  const primaryButtonClass = "rounded-lg bg-blue-600 px-6 py-3 text-center font-semibold text-white transition hover:bg-blue-500";
-  const secondaryButtonClass = "rounded-lg border border-white/60 px-6 py-3 text-center font-semibold text-white transition hover:bg-white hover:text-slate-900";
+  const primaryButtonClass = "rounded-lg bg-violet-600 px-6 py-3 text-center font-semibold text-white transition hover:bg-violet-500";
+  const secondaryButtonClass = "rounded-lg border border-slate-400 px-6 py-3 text-center font-semibold text-slate-100 transition hover:border-violet-400 hover:bg-slate-800 hover:text-violet-300";
 
   // ============================================================
   // AUTHENTICATION
@@ -43,7 +43,7 @@ const HeroSection = () => {
       <img
         src={heroImage}
         alt=""
-        className={backgroundClass}/>
+        className={backgroundClass} />
 
       <div className={overlayClass}></div>
 

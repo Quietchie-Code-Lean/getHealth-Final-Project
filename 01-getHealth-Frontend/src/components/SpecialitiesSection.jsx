@@ -14,17 +14,17 @@ const SpecialitiesSection = () => {
 
   /* Preset Tailwind Styles */
 
-  const sectionClass = "bg-white py-16 sm:py-20";
+  const sectionClass = "bg-slate-900 py-16 sm:py-20";
   const containerClass = "mx-auto max-w-7xl px-6 sm:px-8 lg:px-12";
   const headerClass = "mb-10";
-  const eyebrowClass = "text-sm font-semibold uppercase tracking-wider text-blue-600";
-  const titleClass = "mt-2 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl";
-  const descriptionClass = "mt-3 max-w-2xl text-base leading-7 text-slate-600";
+  const eyebrowClass = "text-sm font-semibold uppercase tracking-wider text-violet-400";
+  const titleClass = "mt-2 text-3xl font-bold tracking-tight text-slate-100 sm:text-4xl";
+  const descriptionClass = "mt-3 max-w-2xl text-base leading-7 text-slate-300";
   const cardsContainerClass = "grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3";
-  const stateMessageClass = "rounded-xl border border-slate-200 bg-slate-50 px-6 py-8 text-center text-sm text-slate-500";
-  const errorMessageClass = "rounded-xl border border-red-200 bg-red-50 px-6 py-8 text-center text-sm text-red-600";
+  const stateMessageClass = "rounded-xl border border-slate-700 bg-slate-800 px-6 py-8 text-center text-sm text-slate-400";
+  const errorMessageClass = "rounded-xl border border-red-500/30 bg-red-500/10 px-6 py-8 text-center text-sm text-red-300";
   const actionsClass = "mt-10 flex justify-center";
-  const buttonClass = "rounded-lg bg-slate-800 px-6 py-3 font-semibold text-white transition hover:bg-slate-700";
+  const buttonClass = "rounded-lg bg-violet-600 px-6 py-3 font-semibold text-white transition hover:bg-violet-500";
 
   // ============================================================
   // SPECIALITIES STATE

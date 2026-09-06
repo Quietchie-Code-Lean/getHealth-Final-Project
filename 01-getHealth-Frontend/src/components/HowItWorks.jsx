@@ -8,14 +8,14 @@ const HowItWorks = () => {
 
   /* Preset Tailwind Styles */
 
-  const sectionClass = "bg-white py-16 sm:py-20";
+  const sectionClass = "bg-slate-900 py-16 sm:py-20";
   const containerClass = "mx-auto max-w-7xl px-6 sm:px-8 lg:px-12";
   const headerClass = "mx-auto mb-10 max-w-2xl text-center";
-  const eyebrowClass = "text-sm font-semibold uppercase tracking-wider text-blue-600";
-  const titleClass = "mt-2 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl";
-  const descriptionClass = "mt-4 text-base leading-7 text-slate-600";
+  const eyebrowClass = "text-sm font-semibold uppercase tracking-wider text-violet-400";
+  const titleClass = "mt-2 text-3xl font-bold tracking-tight text-slate-100 sm:text-4xl";
+  const descriptionClass = "mt-4 text-base leading-7 text-slate-300";
   const cardsContainerClass = "grid grid-cols-1 gap-6 md:grid-cols-3";
-  const stepClass = "flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 font-bold text-blue-700";
+  const stepClass = "flex h-10 w-10 items-center justify-center rounded-full bg-violet-500/15 font-bold text-violet-300 ring-1 ring-violet-400/30";
 
   return (
     <section className={sectionClass}>
