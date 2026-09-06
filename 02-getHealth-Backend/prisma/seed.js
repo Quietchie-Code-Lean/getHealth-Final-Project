@@ -8,56 +8,67 @@ const prisma = new PrismaClient();
 // ============================================================
 
 const specialties = [
+
   {
     name: "Cardiology",
     description:
-      "Medical specialty dedicated to the diagnosis and treatment of cardiovascular diseases.",
+      "Medical specialty dedicated to the diagnosis, treatment, and prevention of cardiovascular diseases. Cardiology covers conditions affecting the heart and blood vessels, including hypertension, arrhythmias, coronary artery disease, and heart failure. Specialists also help patients manage cardiovascular risk factors and long-term heart health.",
   },
+  
   {
     name: "Dermatology",
     description:
-      "Medical specialty dedicated to the diagnosis and treatment of skin diseases and conditions.",
+      "Medical specialty focused on the diagnosis and treatment of diseases affecting the skin, hair, and nails. Dermatology covers conditions such as acne, eczema, psoriasis, infections, allergic reactions, and skin lesions. Specialists also evaluate changes in the skin that may require further medical attention.",
   },
+
   {
     name: "Endocrinology",
     description:
-      "Medical specialty focused on hormonal disorders, metabolism, and related conditions.",
+      "Medical specialty focused on hormonal disorders, metabolism, and conditions affecting the endocrine system. Endocrinology includes the diagnosis and treatment of diabetes, thyroid disorders, hormonal imbalances, growth problems, and metabolic diseases. Specialists help patients manage both chronic and newly diagnosed endocrine conditions.",
   },
+
   {
     name: "Gastroenterology",
     description:
-      "Medical specialty dedicated to the digestive system and gastrointestinal diseases.",
+      "Medical specialty dedicated to the diagnosis and treatment of diseases affecting the digestive system. Gastroenterology covers the esophagus, stomach, intestines, liver, pancreas, and gallbladder. Specialists evaluate symptoms such as abdominal pain, digestive discomfort, reflux, and other gastrointestinal conditions.",
   },
+
   {
     name: "Neurology",
     description:
-      "Medical specialty dedicated to the diagnosis and treatment of disorders of the nervous system.",
+      "Medical specialty dedicated to the diagnosis and treatment of disorders affecting the nervous system. Neurology includes conditions involving the brain, spinal cord, nerves, and muscles. Specialists commonly evaluate headaches, seizures, movement disorders, memory problems, neuropathies, and other neurological symptoms.",
   },
+
   {
     name: "Pediatrics",
     description:
-      "Medical specialty dedicated to the health and development of children and adolescents.",
+      "Medical specialty dedicated to the health, growth, and development of infants, children, and adolescents. Pediatrics includes preventive care, routine health checks, vaccinations, diagnosis of childhood illnesses, and monitoring of physical and developmental milestones. Pediatricians support children through the different stages of growth.",
   },
+
   {
     name: "Psychiatry",
     description:
-      "Medical specialty focused on the evaluation and treatment of mental health disorders.",
+      "Medical specialty focused on the evaluation, diagnosis, treatment, and prevention of mental health disorders. Psychiatry includes conditions such as anxiety, depression, mood disorders, sleep problems, and other behavioral or emotional difficulties. Specialists may provide clinical evaluation, treatment planning, and long-term follow-up.",
   },
+
   {
     name: "Traumatology and Orthopedics",
     description:
-      "Medical specialty dedicated to the diagnosis and treatment of musculoskeletal conditions and injuries.",
+      "Medical specialty dedicated to the diagnosis and treatment of injuries and conditions affecting the musculoskeletal system. This includes bones, joints, muscles, tendons, and ligaments. Specialists commonly treat fractures, sports injuries, joint pain, mobility problems, and degenerative orthopedic conditions.",
   },
+
   {
     name: "Gynecology",
     description:
-      "Medical specialty dedicated to women's reproductive health and gynecological conditions.",
+      "Medical specialty dedicated to women's reproductive and gynecological health. Gynecology includes preventive examinations, menstrual disorders, reproductive health, menopause, infections, and conditions affecting the female reproductive system. Specialists provide evaluation, diagnosis, treatment, and ongoing preventive care.",
   },
+
   {
     name: "Ophthalmology",
     description:
-      "Medical specialty dedicated to the diagnosis and treatment of eye diseases and vision disorders.",
+      "Medical specialty dedicated to the diagnosis, treatment, and prevention of eye diseases and vision disorders. Ophthalmology includes conditions affecting vision, the retina, cornea, lens, optic nerve, and other structures of the eye. Specialists also evaluate visual changes and provide medical or surgical treatment when necessary.",
   },
+
 ];
 
 const professionals = [

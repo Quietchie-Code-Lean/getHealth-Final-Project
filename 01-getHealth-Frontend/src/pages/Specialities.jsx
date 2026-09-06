@@ -24,12 +24,25 @@ const Specialities = () => {
   const errorCardClass = "rounded-2xl border border-red-500/30 bg-red-500/10 px-6 py-10 text-center";
   const errorTextClass = "text-sm text-red-300";
 
+  const selectedCardClass = "mb-10 flex min-h-100 flex-col justify-center rounded-2xl border border-violet-500/30 bg-violet-500/10 p-8 shadow-sm";
+  const selectedLabelClass = "text-xs font-bold uppercase tracking-wider text-violet-400";
+  const selectedTitleClass = "mt-2 text-2xl font-bold text-slate-100";
+  const selectedDescriptionClass = "mt-3 max-w-3xl text-sm leading-6 text-slate-300";
+  const carouselTitleClass = "mb-5 text-xl font-semibold text-slate-100";
+
+  const successContentClass = "flex min-h-[60vh] flex-col";
+  const selectedSectionClass = "mb-10";
+  const carouselSectionClass = "mt-auto pt-10";
+
   // ============================================================
   // SPECIALITIES STATE
   // ============================================================
 
   // Stores the healthcare specialities retrieved from the backend API.
   const [specialities, setSpecialities] = useState([]);
+
+  // Stores the currently selected speciality.
+  const [selectedSpeciality, setSelectedSpeciality] = useState(null);
 
   // Stores the loading state while specialities are being fetched.
   const [loading, setLoading] = useState(true);
@@ -54,7 +67,13 @@ const Specialities = () => {
 
         // Stores the returned specialities or an empty array
         // if the response does not contain valid speciality data.
-        setSpecialities(Array.isArray(data) ? data : []);
+        const specialityData = Array.isArray(data) ? data : [];
+
+        setSpecialities(specialityData);
+
+        if (specialityData.length > 0) {
+          setSelectedSpeciality(specialityData[0]);
+        }
 
       } catch (error) {
 
@@ -162,9 +181,49 @@ const Specialities = () => {
           {/* Displays the specialities carousel when data is available. */}
           {!loading && !error && specialities.length > 0 && (
 
-            <SpecialitiesCarousel
-              specialities={specialities}
-            />
+            <div className={successContentClass}>
+
+              {/* Selected speciality */}
+
+              <div className={selectedSectionClass}>
+
+                {selectedSpeciality && (
+
+                  <div className={selectedCardClass}>
+
+                    <p className={selectedLabelClass}>
+                      Selected Speciality
+                    </p>
+
+                    <h2 className={selectedTitleClass}>
+                      {selectedSpeciality.name}
+                    </h2>
+
+                    <p className={selectedDescriptionClass}>
+                      {selectedSpeciality.description || "No description available for this speciality."}
+                    </p>
+
+                  </div>
+
+                )}
+
+              </div>
+
+              {/* Specialities carousel */}
+
+              <div className={carouselSectionClass}>
+
+                <h2 className={carouselTitleClass}>
+                  More Specialities
+                </h2>
+
+                <SpecialitiesCarousel
+                  specialities={specialities}
+                  onSelectSpeciality={setSelectedSpeciality} />
+
+              </div>
+
+            </div>
 
           )}
 
