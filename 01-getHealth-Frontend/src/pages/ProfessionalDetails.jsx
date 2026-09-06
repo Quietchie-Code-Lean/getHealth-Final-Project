@@ -12,31 +12,31 @@ const ProfessionalDetails = () => {
 
   /* Preset Tailwind Styles */
 
-  const pageClass = "min-h-[70vh] bg-slate-50 px-4 py-10";
+  const pageClass = "flex-1 bg-slate-950 px-4 py-10";
   const sectionClass = "mx-auto max-w-6xl";
-  const backButtonClass = "mb-6 inline-flex items-center text-sm font-semibold text-blue-600 transition hover:text-blue-800";
-  const profileContainerClass = "overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm";
-  const profileHeaderClass = "bg-gradient-to-r from-blue-50 to-slate-50 px-6 py-8 sm:px-8";
+  const backButtonClass = "mb-6 inline-flex items-center text-sm font-semibold text-violet-400 transition hover:text-violet-300";
+  const profileContainerClass = "overflow-hidden rounded-2xl border border-slate-700 bg-slate-900 shadow-sm";
+  const profileHeaderClass = "bg-gradient-to-r from-slate-900 via-slate-900 to-violet-950/40 px-6 py-8 sm:px-8";
   const profileHeaderContentClass = "flex flex-col gap-5 sm:flex-row sm:items-center";
-  const avatarClass = "flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-full border-4 border-white bg-blue-100 text-2xl font-bold text-blue-700 shadow-sm";
-  const profileTypeClass = "mb-1 text-xs font-bold uppercase tracking-wider text-blue-600";
-  const nameClass = "text-3xl font-bold tracking-tight text-slate-900";
-  const profileDescriptionClass = "mt-2 text-sm text-slate-600";
+  const avatarClass = "flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-full border-4 border-slate-800 bg-violet-500/15 text-2xl font-bold text-violet-300 shadow-sm";
+  const profileTypeClass = "mb-1 text-xs font-bold uppercase tracking-wider text-violet-400";
+  const nameClass = "text-3xl font-bold tracking-tight text-slate-100";
+  const profileDescriptionClass = "mt-2 text-sm text-slate-400";
   const actionContainerClass = "mt-5 flex flex-wrap gap-3";
-  const appointmentButtonClass = "rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-500";
-  const professionalsButtonClass = "rounded-lg border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50";
+  const appointmentButtonClass = "rounded-lg bg-violet-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-violet-500";
+  const professionalsButtonClass = "rounded-lg border border-slate-600 bg-slate-800 px-5 py-2.5 text-sm font-semibold text-slate-200 transition hover:bg-slate-700";
   const profileGridClass = "grid grid-cols-1 gap-4 p-6 sm:p-8 md:grid-cols-2";
   const infoCardBaseClass = "rounded-xl border px-4 py-4";
   const infoContentClass = "flex items-start gap-3";
-  const infoIconClass = "flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-white text-lg shadow-sm";
+  const infoIconClass = "flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg border border-slate-700 bg-slate-800 text-lg shadow-sm";
   const infoTextContainerClass = "min-w-0";
   const infoTitleClass = "text-xs font-bold uppercase tracking-wide";
-  const infoValueClass = "mt-1 break-words text-sm font-medium leading-6 text-slate-800";
-  const loadingCardClass = "rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-sm";
-  const loadingTextClass = "text-sm text-slate-600";
-  const errorCardClass = "rounded-2xl border border-red-200 bg-white p-8 shadow-sm";
-  const errorTitleClass = "text-xl font-bold text-slate-900";
-  const errorTextClass = "mt-2 text-sm text-slate-600";
+  const infoValueClass = "mt-1 break-words text-sm font-medium leading-6 text-slate-200";
+  const loadingCardClass = "rounded-2xl border border-slate-700 bg-slate-900 p-8 text-center shadow-sm";
+  const loadingTextClass = "text-sm text-slate-400";
+  const errorCardClass = "rounded-2xl border border-red-500/30 bg-red-500/10 p-8 shadow-sm";
+  const errorTitleClass = "text-xl font-bold text-slate-100";
+  const errorTextClass = "mt-2 text-sm text-slate-400";
 
   // ============================================================
   // ROUTE AND NAVIGATION
@@ -251,8 +251,8 @@ const ProfessionalDetails = () => {
               title="Name"
               value={fullName}
               icon="👤"
-              className="border-blue-100 bg-blue-50"
-              titleClass="text-blue-700"
+              className="border-violet-500/20 bg-violet-500/10"
+              titleClass="text-violet-300"
               baseClass={infoCardBaseClass}
               contentClass={infoContentClass}
               iconClass={infoIconClass}
@@ -265,8 +265,8 @@ const ProfessionalDetails = () => {
               title="Specialties"
               value={specialties}
               icon="🩺"
-              className="border-emerald-100 bg-emerald-50"
-              titleClass="text-emerald-700"
+              className="border-emerald-500/20 bg-emerald-500/10"
+              titleClass="text-emerald-300"
               baseClass={infoCardBaseClass}
               contentClass={infoContentClass}
               iconClass={infoIconClass}
@@ -279,8 +279,8 @@ const ProfessionalDetails = () => {
               title="License Number"
               value={professional.license_number || "Not provided"}
               icon="📋"
-              className="border-violet-100 bg-violet-50"
-              titleClass="text-violet-700"
+              className="border-violet-500/20 bg-violet-500/10"
+              titleClass="text-violet-300"
               baseClass={infoCardBaseClass}
               contentClass={infoContentClass}
               iconClass={infoIconClass}
@@ -293,8 +293,8 @@ const ProfessionalDetails = () => {
               title="Biography"
               value={professional.biography || "No biography available"}
               icon="📝"
-              className="border-amber-100 bg-amber-50"
-              titleClass="text-amber-700"
+              className="border-amber-500/20 bg-amber-500/10"
+              titleClass="text-amber-300"
               baseClass={infoCardBaseClass}
               contentClass={infoContentClass}
               iconClass={infoIconClass}
@@ -307,8 +307,8 @@ const ProfessionalDetails = () => {
               title="Date of Birth"
               value={formatDate(professional.date_of_birth)}
               icon="📅"
-              className="border-pink-100 bg-pink-50"
-              titleClass="text-pink-700"
+              className="border-pink-500/20 bg-pink-500/10"
+              titleClass="text-pink-300"
               baseClass={infoCardBaseClass}
               contentClass={infoContentClass}
               iconClass={infoIconClass}
@@ -321,8 +321,8 @@ const ProfessionalDetails = () => {
               title="Identification Number"
               value={professional.identification_number || "Not provided"}
               icon="🪪"
-              className="border-indigo-100 bg-indigo-50"
-              titleClass="text-indigo-700"
+              className="border-indigo-500/20 bg-indigo-500/10"
+              titleClass="text-indigo-300"
               baseClass={infoCardBaseClass}
               contentClass={infoContentClass}
               iconClass={infoIconClass}
@@ -335,8 +335,8 @@ const ProfessionalDetails = () => {
               title="Approval Status"
               value={professional.approval_status || "Not provided"}
               icon="✓"
-              className="border-green-100 bg-green-50"
-              titleClass="text-green-700"
+              className="border-emerald-500/20 bg-emerald-500/10"
+              titleClass="text-emerald-300"
               baseClass={infoCardBaseClass}
               contentClass={infoContentClass}
               iconClass={infoIconClass}

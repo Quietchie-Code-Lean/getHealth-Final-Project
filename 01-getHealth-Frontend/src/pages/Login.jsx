@@ -10,18 +10,18 @@ const Login = () => {
 
   /* Preset Tailwind Styles */
 
-  const pageClass = "flex min-h-[70vh] items-center justify-center bg-slate-50 px-6 py-12";
-  const cardClass = "w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 shadow-sm";
-  const headerClass ="mb-8 text-center";
-  const titleClass = "text-3xl font-bold tracking-tight text-slate-900";
-  const subtitleClass = "mt-3 text-sm leading-6 text-slate-600";
+  const pageClass = "flex flex-1 items-center justify-center bg-slate-950 px-6 py-12";
+  const cardClass = "w-full max-w-md rounded-2xl border border-slate-700 bg-slate-900 p-8 shadow-lg";
+  const headerClass = "mb-8 text-center";
+  const titleClass = "text-3xl font-bold tracking-tight text-slate-100";
+  const subtitleClass = "mt-3 text-sm leading-6 text-slate-400";
   const formClass = "space-y-5";
-  const labelClass = "mb-2 block text-sm font-medium text-slate-800"
-  const inputClass = "w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100";
-  const errorClass = "rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600";
-  const buttonClass = "w-full rounded-lg bg-blue-600 px-4 py-3 font-semibold text-white transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-60";
-  const footerClass = "mt-6 text-center text-sm text-slate-600";
-  const linkClass = "font-semibold text-blue-600 transition hover:text-blue-500";
+  const labelClass = "mb-2 block text-sm font-medium text-slate-300";
+  const inputClass = "w-full rounded-lg border border-slate-600 bg-slate-800 px-4 py-3 text-slate-100 outline-none transition placeholder:text-slate-500 focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20";
+  const errorClass = "rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300";
+  const buttonClass = "w-full rounded-lg bg-violet-600 px-4 py-3 font-semibold text-white transition hover:bg-violet-500 disabled:cursor-not-allowed disabled:opacity-60";
+  const footerClass = "mt-6 text-center text-sm text-slate-400";
+  const linkClass = "font-semibold text-violet-400 transition hover:text-violet-300";
 
 
   // ============================================================

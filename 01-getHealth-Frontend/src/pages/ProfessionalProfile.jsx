@@ -8,25 +8,26 @@ import ProfessionalAvailability from "../components/ProfessionalAvailability.jsx
 // ============================================================
 
 const ProfessionalProfile = () => {
+
   /* Preset Tailwind styles */
 
-  const mainClass = "min-h-[70vh] bg-gray-50 px-4 py-10";
+  const mainClass = "flex-1 bg-slate-950 px-4 py-10";
   const sectionClass = "mx-auto max-w-5xl";
-  const headerClass = "mb-6 rounded-2xl bg-white p-6 shadow-sm";
+  const headerClass = "mb-6 rounded-2xl border border-slate-700 bg-slate-900 p-6 shadow-sm";
   const headerContentClass = "flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between";
-  const profileTypeClass = "mb-1 text-sm font-medium uppercase tracking-wide text-blue-600";
-  const nameClass = "text-3xl font-bold text-gray-900";
-  const emailClass = "mt-1 text-gray-500";
+  const profileTypeClass = "mb-1 text-sm font-medium uppercase tracking-wide text-violet-400";
+  const nameClass = "text-3xl font-bold text-slate-100";
+  const emailClass = "mt-1 text-slate-400";
   const headerActionsClass = "flex items-center gap-3";
-  const activeStatusClass = "w-fit rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-700";
-  const inactiveStatusClass = "w-fit rounded-full bg-red-100 px-3 py-1 text-sm font-medium text-red-700";
-  const logoutButtonClass = "rounded-lg border border-red-200 px-4 py-2 text-sm font-medium text-red-600 transition hover:bg-red-50";
+  const activeStatusClass = "w-fit rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-sm font-medium text-emerald-300";
+  const inactiveStatusClass = "w-fit rounded-full border border-red-500/30 bg-red-500/10 px-3 py-1 text-sm font-medium text-red-300";
+  const logoutButtonClass = "rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-2 text-sm font-medium text-red-300 transition hover:bg-red-500/20 hover:text-red-200";
   const profileLayoutClass = "grid gap-6 lg:grid-cols-[300px_1fr]";
-  const cardClass = "rounded-2xl bg-white p-6 shadow-sm";
-  const sectionTitleClass = "mb-5 text-xl font-semibold text-gray-900";
-  const subsectionTitleClass = "mb-4 text-sm font-semibold uppercase tracking-wide text-gray-500";
+  const cardClass = "rounded-2xl border border-slate-700 bg-slate-900 p-6 shadow-sm";
+  const sectionTitleClass = "mb-5 text-xl font-semibold text-slate-100";
+  const subsectionTitleClass = "mb-4 text-sm font-semibold uppercase tracking-wide text-slate-400";
   const fieldsContainerClass = "space-y-4";
-  const dividerClass = "my-6 border-t border-gray-200";
+  const dividerClass = "my-6 border-t border-slate-700";
   const managementColumnClass = "space-y-6";
 
   // ============================================================

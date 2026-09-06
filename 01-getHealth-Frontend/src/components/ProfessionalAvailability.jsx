@@ -10,30 +10,33 @@ import {
 // ============================================================
 
 const ProfessionalAvailability = () => {
+
   /* Preset Tailwind styles */
+
   const containerClass = "space-y-5";
-  const descriptionClass = "text-sm text-gray-500";
-  const loadingClass = "text-sm text-gray-500";
-  const errorClass = "text-sm text-red-600";
-  const emptyClass = "text-sm text-gray-500";
+  const descriptionClass = "text-sm text-slate-400";
+  const loadingClass = "text-sm text-slate-400";
+  const errorClass = "rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300";
+  const emptyClass = "text-sm text-slate-400";
   const listClass = "space-y-4";
-  const availabilityCardClass = "rounded-xl border border-gray-200 p-4";
-  const weekdayClass = "font-semibold text-gray-900";
+  const availabilityCardClass = "rounded-xl border border-slate-700 bg-slate-800 p-4";
+  const weekdayClass = "font-semibold text-slate-100";
   const availabilityContentClass = "mt-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between";
-  const availabilityInfoClass = "flex flex-wrap gap-6 text-sm text-gray-600";
+  const availabilityInfoClass = "flex flex-wrap gap-6 text-sm text-slate-400";
   const addButtonContainerClass = "flex justify-end";
-  const addButtonClass = "rounded-lg bg-slate-800 px-5 py-2.5 font-medium text-white transition hover:bg-slate-700";
+  const addButtonClass = "rounded-lg bg-violet-600 px-5 py-2.5 font-medium text-white transition hover:bg-violet-500";
 
   /* Add availability form styles */
 
-  const formClass = "space-y-4 rounded-xl border border-gray-200 p-5";
+  const formClass = "space-y-4 rounded-xl border border-slate-700 bg-slate-800 p-5";
   const formFieldClass = "flex flex-col gap-2";
-  const formLabelClass = "text-sm font-medium text-gray-700";
-  const formInputClass = "rounded-lg border border-gray-300 px-3 py-2";
+  const formLabelClass = "text-sm font-medium text-slate-300";
+  const formInputClass = "rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-slate-100 outline-none transition focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20";
   const timeFieldsClass = "grid gap-4 sm:grid-cols-2";
   const formActionsClass = "flex justify-end gap-3";
-  const cancelButtonClass = "rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50";
-  const saveButtonClass = "rounded-lg bg-slate-800 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-60";
+  const cancelButtonClass = "rounded-lg border border-slate-600 bg-slate-800 px-4 py-2 text-sm font-medium text-slate-300 transition hover:bg-slate-700 hover:text-slate-100";
+  const saveButtonClass = "rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-violet-500 disabled:cursor-not-allowed disabled:opacity-60";
+
 
   // ============================================================
   // AUTHENTICATION
