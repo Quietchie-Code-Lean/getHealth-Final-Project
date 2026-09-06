@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useAuth } from "../context/useAuth.js";
 import { getSpecialities } from "../services/Speciality.services.js";
@@ -9,29 +9,31 @@ import { getSpecialities } from "../services/Speciality.services.js";
 // ============================================================
 
 const Register = () => {
+
   /* Preset Tailwind Styles */
-  const pageClass =
-    "flex min-h-[calc(100vh-80px)] items-center justify-center bg-slate-100 px-6 py-10";
-  const cardClass = "w-full max-w-lg rounded-md bg-white p-8";
-  const headerClass = "mb-6";
-  const titleClass = "text-3xl font-semibold text-slate-800";
-  const subtitleClass = "mt-2 text-sm text-slate-600";
-  const tabsClass = "mb-8 grid grid-cols-2 rounded-md bg-slate-100 p-1";
-  const tabBaseClass =
-    "rounded-md px-4 py-2 text-sm font-medium transition-colors duration-200";
-  const tabActiveClass = `${tabBaseClass} bg-slate-800 text-white`;
-  const tabInactiveClass = `${tabBaseClass} text-slate-600 hover:text-slate-800`;
+
+  const pageClass = "flex flex-1 items-center justify-center bg-slate-950 px-6 py-12";
+  const cardClass = "w-full max-w-2xl rounded-2xl border border-slate-700 bg-slate-900 p-8 shadow-lg";
+  const headerClass = "mb-8 text-center";
+  const titleClass = "text-3xl font-bold tracking-tight text-slate-100";
+  const subtitleClass = "mt-3 text-sm leading-6 text-slate-400";
+  const tabsClass = "mb-8 grid grid-cols-2 rounded-lg border border-slate-700 bg-slate-800 p-1";
+  const tabBaseClass = "rounded-md px-4 py-2.5 text-sm font-semibold transition";
+  const tabActiveClass = `${tabBaseClass} bg-violet-600 text-white shadow-sm`;
+  const tabInactiveClass = `${tabBaseClass} text-slate-400 hover:bg-slate-700 hover:text-slate-100`;
   const formClass = "space-y-5";
-  const labelClass = "mb-2 block text-sm font-medium text-slate-800";
-  const inputClass =
-    "w-full rounded-md border border-slate-300 px-4 py-3 text-slate-800 outline-none transition-colors duration-200 focus:border-slate-800";
-  const errorClass = "text-sm text-red-600";
-  const buttonClass =
-    "w-full rounded-md bg-slate-800 px-4 py-3 font-semibold text-white transition-colors duration-200 hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-60";
+  const fieldsRowClass = "grid grid-cols-1 gap-5 md:grid-cols-2";
+  const labelClass = "mb-2 block text-sm font-medium text-slate-300";
+  const inputClass = "w-full rounded-lg border border-slate-600 bg-slate-800 px-4 py-3 text-slate-100 outline-none transition placeholder:text-slate-500 focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20";
+  const errorClass = "rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300";
+  const buttonClass = "w-full rounded-lg bg-violet-600 px-4 py-3 font-semibold text-white transition hover:bg-violet-500 disabled:cursor-not-allowed disabled:opacity-60";
+  const footerClass = "mt-6 text-center text-sm text-slate-400";
+  const linkClass = "font-semibold text-violet-400 transition hover:text-violet-300";
 
   // ============================================================
   // NAVIGATION AND AUTHENTICATION
   // ============================================================
+
 
   // Provides navigation functionality after successful registration.
   const navigate = useNavigate();
@@ -43,7 +45,7 @@ const Register = () => {
   // FORM STATE
   // ============================================================
 
-  // Stores the selected registration type.
+  // Stores the selected registration type. 
   const [activeTab, setActiveTab] = useState("patient");
 
   // Stores the common registration fields and professional-specific data.
@@ -64,7 +66,6 @@ const Register = () => {
     specialityId: "",
     licenseNumber: "",
   });
-
   // Stores the current registration error message.
   const [error, setError] = useState("");
 
@@ -80,16 +81,25 @@ const Register = () => {
 
   // Loads the available specialties when the registration page is mounted.
   useEffect(() => {
+
     const loadSpecialities = async () => {
+
       try {
+
         const data = await getSpecialities();
+
         setSpecialities(Array.isArray(data) ? data : []);
+
       } catch (error) {
+
         console.error("Error loading specialities:", error);
+
       }
+
     };
 
     loadSpecialities();
+
   }, []);
 
   // ============================================================
@@ -99,6 +109,7 @@ const Register = () => {
   // Changes the registration type, clears previous errors,
   // and resets the form data for the selected account type.
   const handleTabChange = (tab) => {
+
     setActiveTab(tab);
     setError("");
 
@@ -113,6 +124,7 @@ const Register = () => {
       specialityId: "",
       licenseNumber: "",
     });
+
   };
 
   // ============================================================
@@ -122,28 +134,34 @@ const Register = () => {
   // Updates the corresponding form field when the user changes
   // an input value.
   const handleChange = (event) => {
+
     const { name, value } = event.target;
 
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
+
   };
 
   // ============================================================
   // REGISTRATION SUBMISSION
   // ============================================================
 
+
   // Submits the registration data according to the selected account type and redirects the user to the login page.
   const handleSubmit = async (event) => {
+
     event.preventDefault();
 
     setError("");
     setLoading(true);
 
     try {
+
       // Registers a new patient using the common account fields.
       if (activeTab === "patient") {
+
         const patientData = {
           firstName: formData.firstName,
           lastName: formData.lastName,
@@ -161,6 +179,7 @@ const Register = () => {
 
       // Registers a new professional using the common and professional-specific account fields.
       if (activeTab === "professional") {
+
         const professionalData = {
           firstName: formData.firstName,
           lastName: formData.lastName,
@@ -175,21 +194,27 @@ const Register = () => {
         const data = await registerProfessional(professionalData);
 
         console.log("Professional registered:", data);
+
       }
 
       // Redirects the user to the login page after registration.
       navigate("/login");
+
     } catch (error) {
+
       console.error("Register error:", error);
 
       // Displays the server error message or a default registration error.
       setError(
         error.response?.data?.message ||
-          "Unable to register. Please check your information.",
+        "Unable to register. Please check your information.",
       );
+
     } finally {
+
       // Resets the loading state after the registration request completes.
       setLoading(false);
+
     }
   };
 
@@ -197,26 +222,36 @@ const Register = () => {
   // REGISTRATION FORM RENDER
   // ============================================================
 
-  // Renders the registration form with account type selection, common account fields, and professional-specific fields.
   return (
     <main className={pageClass}>
+
       <section className={cardClass}>
-        {/* Displays the registration title and account type description */}
+
+        {/* Registration header */}
+
         <div className={headerClass}>
-          <h1 className={titleClass}>Create your account</h1>
+
+          <h1 className={titleClass}>
+            Create your account
+          </h1>
 
           <p className={subtitleClass}>
-            Register as a patient or healthcare professional.
+            Join getHealth as a patient or healthcare professional.
           </p>
+
         </div>
 
-        {/* Allows the user to select the account type */}
+        {/* Account type */}
+
         <div className={tabsClass}>
+
           <button
             type="button"
             onClick={() => handleTabChange("patient")}
             className={
-              activeTab === "patient" ? tabActiveClass : tabInactiveClass
+              activeTab === "patient"
+                ? tabActiveClass
+                : tabInactiveClass
             }
           >
             Patient
@@ -226,56 +261,80 @@ const Register = () => {
             type="button"
             onClick={() => handleTabChange("professional")}
             className={
-              activeTab === "professional" ? tabActiveClass : tabInactiveClass
+              activeTab === "professional"
+                ? tabActiveClass
+                : tabInactiveClass
             }
           >
             Professional
           </button>
+
         </div>
 
-        {/* Handles the submission of the registration data */}
+        {/* Registration form */}
+
         <form onSubmit={handleSubmit} className={formClass}>
-          {/* Patient and professional first name field */}
-          <div>
-            <label htmlFor="firstName" className={labelClass}>
-              First name
-            </label>
 
-            <input
-              id="firstName"
-              name="firstName"
-              type="text"
-              value={formData.firstName}
-              onChange={handleChange}
-              placeholder="Enter your first name"
-              autoComplete="given-name"
-              required
-              className={inputClass}
-            />
+          {/* Name fields */}
+
+          <div className={fieldsRowClass}>
+
+            <div>
+
+              <label
+                htmlFor="firstName"
+                className={labelClass}
+              >
+                First name
+              </label>
+
+              <input
+                id="firstName"
+                name="firstName"
+                type="text"
+                value={formData.firstName}
+                onChange={handleChange}
+                placeholder="First name"
+                autoComplete="given-name"
+                required
+                className={inputClass}
+              />
+
+            </div>
+
+            <div>
+
+              <label
+                htmlFor="lastName"
+                className={labelClass}
+              >
+                Last name
+              </label>
+
+              <input
+                id="lastName"
+                name="lastName"
+                type="text"
+                value={formData.lastName}
+                onChange={handleChange}
+                placeholder="Last name"
+                autoComplete="family-name"
+                required
+                className={inputClass}
+              />
+
+            </div>
+
           </div>
 
-          {/* Patient and professional last name field */}
-          <div>
-            <label htmlFor="lastName" className={labelClass}>
-              Last name
-            </label>
+          {/* Email */}
 
-            <input
-              id="lastName"
-              name="lastName"
-              type="text"
-              value={formData.lastName}
-              onChange={handleChange}
-              placeholder="Enter your last name"
-              autoComplete="family-name"
-              required
-              className={inputClass}
-            />
-          </div>
-
-          {/* Account email field */}
           <div>
-            <label htmlFor="email" className={labelClass}>
+
+            <label
+              htmlFor="email"
+              className={labelClass}
+            >
               Email
             </label>
 
@@ -290,11 +349,17 @@ const Register = () => {
               required
               className={inputClass}
             />
+
           </div>
 
-          {/* Account password field */}
+          {/* Password */}
+
           <div>
-            <label htmlFor="password" className={labelClass}>
+
+            <label
+              htmlFor="password"
+              className={labelClass}
+            >
               Password
             </label>
 
@@ -309,47 +374,68 @@ const Register = () => {
               required
               className={inputClass}
             />
+
           </div>
 
-          {/* Patient and professional date of birth field */}
-          <div>
-            <label htmlFor="dateOfBirth" className={labelClass}>
-              Date of birth
-            </label>
+          {/* Date and identification */}
 
-            <input
-              id="dateOfBirth"
-              name="dateOfBirth"
-              type="date"
-              value={formData.dateOfBirth}
-              onChange={handleChange}
-              required
-              className={inputClass}
-            />
-          </div>
+          <div className={fieldsRowClass}>
 
-          {/* Patient and professional identification number field */}
-          <div>
-            <label htmlFor="identificationNumber" className={labelClass}>
-              Identification number
-            </label>
-
-            <input
-              id="identificationNumber"
-              name="identificationNumber"
-              type="text"
-              value={formData.identificationNumber}
-              onChange={handleChange}
-              placeholder="Enter your identification number"
-              required
-              className={inputClass}
-            />
-          </div>
-
-          {/* Displays the patient-specific registration fields */}
-          {activeTab === "patient" && (
             <div>
-              <label htmlFor="phone" className={labelClass}>
+
+              <label
+                htmlFor="dateOfBirth"
+                className={labelClass}
+              >
+                Date of birth
+              </label>
+
+              <input
+                id="dateOfBirth"
+                name="dateOfBirth"
+                type="date"
+                value={formData.dateOfBirth}
+                onChange={handleChange}
+                required
+                className={inputClass}
+              />
+
+            </div>
+
+            <div>
+
+              <label
+                htmlFor="identificationNumber"
+                className={labelClass}
+              >
+                Identification number
+              </label>
+
+              <input
+                id="identificationNumber"
+                name="identificationNumber"
+                type="text"
+                value={formData.identificationNumber}
+                onChange={handleChange}
+                placeholder="Identification number"
+                required
+                className={inputClass}
+              />
+
+            </div>
+
+          </div>
+
+          {/* Patient fields */}
+
+          {activeTab === "patient" && (
+
+            <div>
+
+              <label
+                htmlFor="phone"
+                className={labelClass}
+              >
                 Phone
               </label>
 
@@ -364,15 +450,23 @@ const Register = () => {
                 required
                 className={inputClass}
               />
+
             </div>
+
           )}
 
-          {/* Displays additional fields required for professional registration */}
+          {/* Professional fields */}
+
           {activeTab === "professional" && (
-            <>
-              {/* Professional speciality selection */}
+
+            <div className={fieldsRowClass}>
+
               <div>
-                <label htmlFor="specialityId" className={labelClass}>
+
+                <label
+                  htmlFor="specialityId"
+                  className={labelClass}
+                >
                   Speciality
                 </label>
 
@@ -384,20 +478,32 @@ const Register = () => {
                   required
                   className={inputClass}
                 >
-                  <option value="">Select a speciality</option>
+
+                  <option value="">
+                    Select a speciality
+                  </option>
 
                   {specialities.map((speciality) => (
-                    <option key={speciality.id} value={speciality.id}>
+                    <option
+                      key={speciality.id}
+                      value={speciality.id}
+                    >
                       {speciality.name}
                     </option>
                   ))}
+
                 </select>
+
               </div>
 
-              {/* Professional license number field */}
+
               <div>
-                <label htmlFor="licenseNumber" className={labelClass}>
-                  Professional license number
+
+                <label
+                  htmlFor="licenseNumber"
+                  className={labelClass}
+                >
+                  Professional license
                 </label>
 
                 <input
@@ -406,27 +512,55 @@ const Register = () => {
                   type="text"
                   value={formData.licenseNumber}
                   onChange={handleChange}
-                  placeholder="Enter your license number"
+                  placeholder="License number"
                   required
                   className={inputClass}
                 />
+
               </div>
-            </>
+
+            </div>
+
           )}
 
-          {/* Displays the registration error when the request fails */}
-          {error && <p className={errorClass}>{error}</p>}
+          {/* Error */}
 
-          {/* Submits the registration form and displays the current loading state */}
-          <button type="submit" disabled={loading} className={buttonClass}>
+          {error && (
+            <p className={errorClass}>
+              {error}
+            </p>
+          )}
+
+          {/* Submit */}
+
+          <button
+            type="submit"
+            disabled={loading}
+            className={buttonClass}
+          >
             {loading
               ? "Creating account..."
               : activeTab === "patient"
-                ? "Register as Patient"
-                : "Register as Professional"}
+                ? "Create Patient Account"
+                : "Create Professional Account"}
           </button>
+
         </form>
+
+        {/* Login link */}
+
+        <p className={footerClass}>
+          Already have an account?{" "}
+          <Link
+            to="/login"
+            className={linkClass}
+          >
+            Login
+          </Link>
+        </p>
+
       </section>
+
     </main>
   );
 };

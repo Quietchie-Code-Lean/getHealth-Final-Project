@@ -3,15 +3,15 @@ import Navbar from "../components/Navbar.jsx";
 import Footer from "../components/Footer.jsx";
 
 const MainLayout = () => {
-  /* Preset Tailwind Styles */
-  const ContainerClass = "min-h-screen flex flex-col"
-  const wrapperClass ="flex-1"
 
+  /* Preset Tailwind Styles */
+const containerClass = "flex min-h-screen flex-col bg-slate-950";
+const wrapperClass = "flex flex-1 flex-col";
 
   return (
     <>
 
-        <div className={ ContainerClass }>
+        <div className={ containerClass }>
           <Navbar />
 
           <main className={ wrapperClass }>

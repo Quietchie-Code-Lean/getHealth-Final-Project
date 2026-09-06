@@ -271,8 +271,7 @@ const Appointments = () => {
             <div>
               <label
                 htmlFor="specialty_id"
-                className="mb-2 block text-sm font-medium"
-              >
+                className="mb-2 block text-sm font-medium">
                 Specialty
               </label>
 
@@ -286,8 +285,7 @@ const Appointments = () => {
                   selectedProfessionalSpecialties.length === 0
                 }
                 required
-                className="w-full rounded-md border border-gray-600 bg-transparent px-3 py-2 outline-none focus:border-gray-400 disabled:cursor-not-allowed disabled:opacity-50"
-              >
+                className="w-full rounded-md border border-gray-600 bg-transparent px-3 py-2 outline-none focus:border-gray-400 disabled:cursor-not-allowed disabled:opacity-50">
                 <option value="">
                   {!formData.professional_id
                     ? "Select a professional first"
@@ -309,10 +307,10 @@ const Appointments = () => {
                 ============================================================ */}
 
             <div>
+
               <label
                 htmlFor="professional_id"
-                className="mb-2 block text-sm font-medium"
-              >
+                className="mb-2 block text-sm font-medium">
                 Professional
               </label>
 
@@ -323,8 +321,8 @@ const Appointments = () => {
                 onChange={handleProfessionalChange}
                 disabled={loadingProfessionals}
                 required
-                className="w-full rounded-md border border-gray-600 bg-transparent px-3 py-2 outline-none focus:border-gray-400 disabled:cursor-not-allowed disabled:opacity-50"
-              >
+                className="w-full rounded-md border border-gray-600 bg-transparent px-3 py-2 outline-none focus:border-gray-400 disabled:cursor-not-allowed disabled:opacity-50">
+                
                 <option value="">
                   {loadingProfessionals
                     ? "Loading professionals..."
@@ -336,7 +334,9 @@ const Appointments = () => {
                     {professional.first_name} {professional.last_name}
                   </option>
                 ))}
+
               </select>
+
             </div>
           </div>
 
@@ -348,8 +348,7 @@ const Appointments = () => {
             <div className="w-full max-w-xs">
               <label
                 htmlFor="appointment_date"
-                className="mb-2 block text-center text-sm font-medium"
-              >
+                className="mb-2 block text-center text-sm font-medium">
                 Date
               </label>
 
@@ -389,8 +388,7 @@ const Appointments = () => {
                 availableSlots.length === 0
               }
               required
-              className="w-full rounded-md border border-gray-600 bg-transparent px-3 py-2 outline-none focus:border-gray-400 disabled:cursor-not-allowed disabled:opacity-50"
-            >
+              className="w-full rounded-md border border-gray-600 bg-transparent px-3 py-2 outline-none focus:border-gray-400 disabled:cursor-not-allowed disabled:opacity-50">
               <option value="">
                 {!formData.appointment_date
                   ? "Select a date first"
@@ -425,8 +423,7 @@ const Appointments = () => {
               onChange={handleChange}
               required
               rows="4"
-              className="w-full resize-none rounded-md border border-gray-600 bg-transparent px-3 py-2 outline-none focus:border-gray-400"
-            />
+              className="w-full resize-none rounded-md border border-gray-600 bg-transparent px-3 py-2 outline-none focus:border-gray-400"/>
           </div>
 
           {/* ============================================================
@@ -445,8 +442,7 @@ const Appointments = () => {
             <button
               type="submit"
               disabled={submitting}
-              className="rounded-md border border-gray-500 px-6 py-2 font-medium transition hover:bg-white hover:text-black disabled:cursor-not-allowed disabled:opacity-50"
-            >
+              className="rounded-md border border-gray-500 px-6 py-2 font-medium transition hover:bg-white hover:text-black disabled:cursor-not-allowed disabled:opacity-50">
               {submitting ? "Creating..." : "Schedule appointment"}
             </button>
           </div>

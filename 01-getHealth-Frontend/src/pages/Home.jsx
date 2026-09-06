@@ -1,5 +1,3 @@
-import React from "react";
-
 import HeroSection from "../components/HeroSection.jsx";
 import HowItWorks from "../components/HowItWorks.jsx";
 import ProfessionalsSection from "../components/ProfessionalsSection.jsx";
@@ -10,8 +8,9 @@ import SpecialitiesSection from "../components/SpecialitiesSection.jsx";
 // ============================================================
 
 const Home = () => {
+  
   /* Preset Tailwind Styles */
-  const pageClass = "bg-slate-100";
+  const pageClass = "min-h-screen";
 
   // ============================================================
   // HOME PAGE RENDER

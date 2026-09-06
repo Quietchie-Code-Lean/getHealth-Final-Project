@@ -1,15 +1,14 @@
 
 
-import React from 'react'
+const CardGen = ({ icon, title, description, children, className = "" }) => {
 
-const CardGen = ({icon, title, description, children, className = "",}) => {
+/* Preset Tailwind styles */
 
-    /* Preset Tailwind styles */
-    const genCardClass = `bg-white rounded-2xl border border-gray-200 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 ${className}`;
-    const iconClass = "mb-4 text-blue-600";
-    const tittleClass = "mb-2 text-xl font-semibold text-gray-900";
-    const descriptionClass = "text-sm leading-relaxed text-gray-600";
-    const extraClass = "mt-4";
+const genCardClass = `h-full rounded-2xl border border-slate-700 bg-slate-800 p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-violet-500/40 hover:bg-slate-700 hover:shadow-md ${className}`;
+const iconClass = "mb-4 text-violet-400";
+const tittleClass = "mb-2 text-xl font-semibold text-slate-100";
+const descriptionClass = "text-sm leading-relaxed text-slate-400";
+const extraClass = "mt-4";
 
 
     return (

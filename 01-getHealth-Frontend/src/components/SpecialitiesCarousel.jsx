@@ -1,7 +1,17 @@
 import { useRef, useState, useEffect } from "react";
 import CardGen from "./CardGen.jsx";
 
-const SpecialitiesCarousel = ({ specialities }) => {
+const SpecialitiesCarousel = ({ specialities, onSelectSpeciality }) => {
+
+  /* Preset Tailwind Styles */
+
+  const carouselWrapperClass = "relative px-12 py-2";
+  const carouselClass = "flex gap-8 overflow-x-auto scroll-smooth snap-x snap-mandatory py-6";
+  const cardWrapperClass = "w-[calc((100%-3rem)/3)] flex-shrink-0 snap-start cursor-pointer";
+  const navigationButtonClass = "absolute top-1/2 z-10 -translate-y-1/2 rounded-full border border-slate-600 bg-slate-800/70 px-3 py-2 text-xl text-slate-200 shadow-md backdrop-blur-sm transition hover:border-violet-500 hover:bg-violet-500/10 hover:text-violet-300 disabled:cursor-not-allowed disabled:opacity-30";
+  const previousButtonClass = `${navigationButtonClass} left-0`;
+  const nextButtonClass = `${navigationButtonClass} right-0`;
+
   // References the carousel element to control and read its scroll position.
   const carouselRef = useRef(null);
 
@@ -9,7 +19,7 @@ const SpecialitiesCarousel = ({ specialities }) => {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
 
-  // Updates theto navigation buttons according to the current carousel position.
+  // Updates the navigation buttons according to the current carousel position.
   const updateScrollButtons = () => {
     const carousel = carouselRef.current;
 
@@ -18,16 +28,16 @@ const SpecialitiesCarousel = ({ specialities }) => {
     setCanScrollLeft(carousel.scrollLeft > 0);
 
     setCanScrollRight(
-      carousel.scrollLeft + carousel.clientWidth < carousel.scrollWidth - 1,
+      carousel.scrollLeft + carousel.clientWidth < carousel.scrollWidth - 1
     );
   };
 
-  // Recalculates the navigation state whenever the specialties list changes.
+
   useEffect(() => {
     updateScrollButtons();
   }, [specialities]);
 
-  // Moves the carousel one card to the left.
+
   const scrollLeft = () => {
     const carousel = carouselRef.current;
 
@@ -37,7 +47,6 @@ const SpecialitiesCarousel = ({ specialities }) => {
 
     if (!card) return;
 
-    // Includes the card width and the gap between cards in the scroll amount.
     const gap = 24;
     const scrollAmount = card.clientWidth + gap;
 
@@ -47,7 +56,7 @@ const SpecialitiesCarousel = ({ specialities }) => {
     });
   };
 
-  // Moves the carousel one card to the right.
+
   const scrollRight = () => {
     const carousel = carouselRef.current;
 
@@ -57,7 +66,6 @@ const SpecialitiesCarousel = ({ specialities }) => {
 
     if (!card) return;
 
-    // Includes the card width and the gap between cards in the scroll amount.
     const gap = 24;
     const scrollAmount = card.clientWidth + gap;
 
@@ -68,47 +76,47 @@ const SpecialitiesCarousel = ({ specialities }) => {
   };
 
   return (
-    <div className="relative">
-      {/* Previous button is disabled when the carousel is at the beginning. */}
+    <div className={carouselWrapperClass}>
+
       <button
         type="button"
         onClick={scrollLeft}
         disabled={!canScrollLeft}
-        className="absolute left-0 top-[130%] z-10 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white px-3 py-2 text-xl shadow-md disabled:cursor-not-allowed disabled:opacity-30"
-        aria-label="Previous speciality"
-      >
+        className={previousButtonClass}
+        aria-label="Previous speciality">
         ←
       </button>
 
       <div
         ref={carouselRef}
         onScroll={updateScrollButtons}
-        className="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory"
-      >
+        className={carouselClass}>
         {specialities.map((speciality) => (
+
           <div
             key={speciality.id}
-            className="w-[calc((100%-3rem)/3)] flex-shrink-0 snap-start"
-          >
+            className={cardWrapperClass}
+            onClick={() => onSelectSpeciality(speciality)}>
+
             <CardGen
               title={speciality.name}
               description={speciality.description}
-              className="h-full"
-            />
+              className="h-full" />
+
           </div>
+
         ))}
       </div>
 
-      {/* Next button is disabled when there are no more cards to display. */}
       <button
         type="button"
         onClick={scrollRight}
         disabled={!canScrollRight}
-        className="absolute right-0 top-[130%] z-10 translate-x-1/2 -translate-y-1/2 rounded-full bg-white px-3 py-2 text-xl shadow-md disabled:cursor-not-allowed disabled:opacity-30"
-        aria-label="Next speciality"
-      >
+        className={nextButtonClass}
+        aria-label="Next speciality">
         →
       </button>
+
     </div>
   );
 };

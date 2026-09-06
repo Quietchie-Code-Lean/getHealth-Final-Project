@@ -1,4 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/useAuth.js";
 import SearchBar from "./SearchBar";
 
 // ============================================================
@@ -6,14 +7,36 @@ import SearchBar from "./SearchBar";
 // ============================================================
 
 const Navbar = () => {
+
   /* Preset Tailwind Styles */
-  const navClass = "w-full bg-slate-800 text-white sticky top-0";
-  const wrapperClass = "px-6";
-  const innerClass = "flex h-16 items-center justify-between";
-  const logoClass = "text-xs font-semibold";
-  const leftGroupClass = "flex gap-4 items-center";
-  const linksContainerClass = "flex gap-4 text-sm";
-  const linkBaseClass = "px-2 py-1 rounded-md transition-colors duration-200";
+
+const navClass = "sticky top-0 z-50 w-full border-b border-slate-700 bg-slate-900/95 text-slate-100 shadow-sm backdrop-blur";
+const wrapperClass = "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8";
+const innerClass = "flex min-h-16 items-center justify-between gap-6";
+const logoClass = "text-xl font-bold tracking-tight text-violet-400 transition hover:text-violet-300";
+const linksContainerClass = "flex items-center gap-2 text-sm";
+const linkBaseClass = "rounded-lg px-3 py-2 font-medium text-slate-300 transition hover:bg-slate-800 hover:text-slate-100";
+const appointmentLinkClass = "rounded-lg bg-violet-600 px-3 py-2 font-medium text-white transition hover:bg-violet-500";
+const registerLinkClass = "rounded-lg border border-violet-500 bg-violet-500/10 px-3 py-2 font-medium text-violet-200 transition hover:bg-violet-500/20 hover:text-white";
+const logoutButtonClass = "rounded-lg px-3 py-2 font-medium text-slate-300 transition hover:bg-red-500/10 hover:text-red-300";
+
+  // ============================================================
+  // AUTHENTICATION
+  // ============================================================
+
+  const { user, authLoading, logout } = useAuth();
+
+  const navigate = useNavigate();
+
+  // ============================================================
+  // LOGOUT
+  // ============================================================
+
+  const handleLogout = () => {
+    logout();
+
+    navigate("/");
+  };
 
   // ============================================================
   // NAVBAR RENDER
@@ -25,37 +48,94 @@ const Navbar = () => {
       <nav className={navClass}>
         <div className={wrapperClass}>
           <div className={innerClass}>
-            {/* Application logo */}
-            <h2 className={logoClass}>getHealth</h2>
 
+            {/* Application logo */}
+
+            <NavLink
+              to="/"
+              className={logoClass}>
+              getHealth
+            </NavLink>
             {/* Search bar */}
+
             <SearchBar />
 
             {/* Navigation links */}
-            <div className={leftGroupClass}>
-              <div className={linksContainerClass}>
-                <NavLink to="/" className={linkBaseClass}>
-                  Home
-                </NavLink>
-                <NavLink to="/professionals" className={linkBaseClass}>
-                  Professionals
-                </NavLink>
-                <NavLink to="/specialities" className={linkBaseClass}>
-                  Specialities
-                </NavLink>
-                <NavLink to="/register" className={linkBaseClass}>
-                  Register
+
+            <div className={linksContainerClass}>
+
+              <NavLink
+                to="/"
+                className={linkBaseClass}>
+                Home
+              </NavLink>
+
+              <NavLink
+                to="/professionals"
+                className={linkBaseClass} >
+                Professionals
+              </NavLink>
+
+              <NavLink
+                to="/specialities"
+                className={linkBaseClass}>
+                Specialities
+              </NavLink>
+
+              {/* ============================================================
+                AUTHENTICATED PATIENT LINKS
+            ============================================================ */}
+
+              {!authLoading && user?.role === "PATIENT" && (
+
+                <NavLink
+                  to="/appointments/new"
+                  className={appointmentLinkClass}>
+                  Book Appointment
                 </NavLink>
 
-                {/*
-                        <NavLink to="/login" className={linkBaseClass}>Logout</NavLink>
-                        <NavLink to="/login" className={linkBaseClass}>Profile</NavLink> 
-                        */}
+              )}
 
-                <NavLink to="/login" className={linkBaseClass}>
-                  Login
-                </NavLink>
-              </div>
+              {/* ============================================================
+                AUTHENTICATED USER LINKS
+            ============================================================ */}
+
+              {!authLoading && user && (
+                <>
+                  <NavLink
+                    to="/profile"
+                    className={linkBaseClass}>
+                    Profile
+                  </NavLink>
+
+                  <button
+                    type="button"
+                    onClick={handleLogout}
+                    className={logoutButtonClass}>
+                    Logout
+                  </button>
+                </>
+              )}
+
+              {/* ============================================================
+                  GUEST LINKS
+                  ============================================================ */}
+
+              {!authLoading && !user && (
+                <>
+                  <NavLink
+                    to="/login"
+                    className={linkBaseClass}>
+                    Login
+                  </NavLink>
+                  <NavLink
+                    to="/register"
+                    className={registerLinkClass}>
+                    Register
+                  </NavLink>
+                </>
+              )}
+
             </div>
           </div>
         </div>

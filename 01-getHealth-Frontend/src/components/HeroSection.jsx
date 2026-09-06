@@ -1,58 +1,87 @@
-import React from "react";
+import { Link } from "react-router-dom";
+import { useAuth } from "../context/useAuth.js";
+import heroImage from "../assets/hero.png";
+
+// ============================================================
+// HERO SECTION COMPONENT
+// ============================================================
 
 const HeroSection = () => {
-  /* Preset Tailwind styles */
-  const sectionClass =
-    "relative min-h-[520px] flex items-center bg-cover bg-center bg-no-repeat";
-  const overlayClass = "absolute inset-0 bg-slate-950/60";
-  const containerClass =
-    "relative z-10 w-full max-w-7xl mx-auto px-6 py-20 md:px-10 lg:px-16";
+
+  /* Preset Tailwind Styles */
+
+  const sectionClass = "relative flex min-h-[560px] items-center overflow-hidden bg-slate-900";
+  const backgroundClass = "absolute inset-0 h-full w-full object-cover";
+  const overlayClass = "absolute inset-0 bg-slate-950/70";
+  const containerClass = "relative z-10 mx-auto w-full max-w-7xl px-6 py-20 sm:px-8 lg:px-12";
   const contentClass = "max-w-2xl";
-  const titleClass = "text-5xl md:text-6xl font-bold tracking-tight text-white";
-  const subtitleClass =
-    "mt-6 text-lg md:text-xl leading-relaxed text-slate-200";
-  const buttonsContainerClass = "mt-8 flex flex-col gap-4 sm:flex-row";
-  const primaryBtnClass =
-    "rounded-md bg-slate-800 px-6 py-3 font-medium text-white transition-colors duration-200 hover:bg-slate-700";
-  const secondaryBtnClass =
-    "rounded-md border border-white px-6 py-3 font-medium text-white transition-colors duration-200 hover:bg-white hover:text-slate-800";
+  const badgeClass = "mb-5 inline-flex rounded-full border border-violet-400/30 bg-violet-500/10 px-4 py-2 text-sm font-medium text-violet-200 backdrop-blur-sm";
+  const titleClass = "text-4xl font-bold tracking-tight text-slate-100 sm:text-5xl lg:text-6xl";
+  const subtitleClass = "mt-6 max-w-xl text-lg leading-8 text-slate-300";
+  const buttonsContainerClass = "mt-8 flex flex-col gap-3 sm:flex-row";
+  const primaryButtonClass = "rounded-lg bg-violet-600 px-6 py-3 text-center font-semibold text-white transition hover:bg-violet-500";
+  const secondaryButtonClass = "rounded-lg border border-slate-400 px-6 py-3 text-center font-semibold text-slate-100 transition hover:border-violet-400 hover:bg-slate-800 hover:text-violet-300";
+
+  // ============================================================
+  // AUTHENTICATION
+  // ============================================================
+
+  const { user } = useAuth();
+
+  const appointmentPath =
+    user?.role === "PATIENT"
+      ? "/appointments/new"
+      : "/login";
 
   // ============================================================
   // HERO SECTION RENDER
   // ============================================================
 
-  // Renders the hero section with a background image, overlay,
-  // descriptive content, and appointment-related actions.
-
   return (
-    <section
-      className={sectionClass}
-      style={{ backgroundImage: "url('/images/hero-healthcare.jpg')" }}
-    >
-      {/* Background overlay */}
+    <section className={sectionClass}>
+
+      <img
+        src={heroImage}
+        alt=""
+        className={backgroundClass} />
+
       <div className={overlayClass}></div>
 
-      {/* Hero content */}
       <div className={containerClass}>
         <div className={contentClass}>
-          <h1 className={titleClass}>getHealth</h1>
 
-          <h2 className={subtitleClass}>
-            Find healthcare professionals and book your appointment in just a
-            few steps.
-          </h2>
+          <span className={badgeClass}>
+            Your healthcare, easier
+          </span>
+
+          <h1 className={titleClass}>
+            Find the right healthcare professional for you
+          </h1>
+
+          <p className={subtitleClass}>
+            Explore healthcare professionals, check their availability and
+            book your appointment in just a few simple steps.
+          </p>
 
           <div className={buttonsContainerClass}>
-            <button type="button" className={primaryBtnClass}>
-              Book Appointment
-            </button>
 
-            <button type="button" className={secondaryBtnClass}>
+            <Link
+              to={appointmentPath}
+              className={primaryButtonClass}>
+              Book Appointment
+            </Link>
+
+            <Link
+              to="/professionals"
+              className={secondaryButtonClass}>
               Find Professionals
-            </button>
+            </Link>
+
           </div>
+
         </div>
       </div>
+
     </section>
   );
 };
