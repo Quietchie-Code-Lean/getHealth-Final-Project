@@ -254,8 +254,8 @@ const DEFAULT_PASSWORD = "Test1234!";
 // AVAILABILITY GENERATOR
 // ============================================================
 
-// Defines the weekdays available for professional schedules.
-const createAvailabilitySchedule = (professionalIndex) => {
+// Creates the same availability schedule for all professionals.
+const createAvailabilitySchedule = () => {
   const weekdays = [
     "MONDAY",
     "TUESDAY",
@@ -265,59 +265,11 @@ const createAvailabilitySchedule = (professionalIndex) => {
     "SATURDAY",
   ];
 
-  // Defines different schedule patterns to distribute availability
-  // across professionals while keeping the seed data reproducible.
-  const schedules = [
-    {
-      days: [0, 2, 4],
-      startHour: 8,
-      blocks: 6,
-    },
-    {
-      days: [1, 3, 5],
-      startHour: 9,
-      blocks: 6,
-    },
-    {
-      days: [0, 1, 4],
-      startHour: 10,
-      blocks: 8,
-    },
-    {
-      days: [2, 3, 5],
-      startHour: 11,
-      blocks: 6,
-    },
-    {
-      days: [0, 2, 3, 5],
-      startHour: 13,
-      blocks: 6,
-    },
-    {
-      days: [1, 3, 4],
-      startHour: 14,
-      blocks: 8,
-    },
-    {
-      days: [0, 3, 5],
-      startHour: 15,
-      blocks: 6,
-    },
-    {
-      days: [1, 2, 4],
-      startHour: 16,
-      blocks: 4,
-    },
-  ];
-
-  // Selects a schedule pattern based on the professional index.
-  const schedule = schedules[professionalIndex % schedules.length];
-
-  // Creates individual 30-minute availability blocks for each weekday.
-  return schedule.days.flatMap((dayIndex) => {
-    return Array.from({ length: schedule.blocks }, (_, blockIndex) => {
+  // Creates 30-minute availability blocks from 08:00 to 18:00.
+  return weekdays.flatMap((weekday) => {
+    return Array.from({ length: 20 }, (_, blockIndex) => {
       // Calculates the start time of the current 30-minute block.
-      const startMinutes = schedule.startHour * 60 + blockIndex * 30;
+      const startMinutes = 8 * 60 + blockIndex * 30;
 
       // Calculates the end time of the current 30-minute block.
       const endMinutes = startMinutes + 30;
@@ -342,7 +294,7 @@ const createAvailabilitySchedule = (professionalIndex) => {
 
       // Returns the availability record for the current time slot.
       return {
-        weekday: weekdays[dayIndex],
+        weekday,
         startTime: new Date(`1970-01-01T${startTime}.000Z`),
         endTime: new Date(`1970-01-01T${endTime}.000Z`),
         slotDuration: 30,
@@ -388,10 +340,10 @@ async function main() {
     console.log("Specialties updated successfully.");
 
     // ============================================================
-    // CREATE INITIAL AVAILABILITY
+    // RESET PROFESSIONAL AVAILABILITY
     // ============================================================
 
-    for (const [professionalIndex, professional] of professionals.entries()) {
+    for (const professional of professionals) {
       const user = await prisma.user.findUnique({
         where: {
           email: professional.email,
@@ -424,36 +376,27 @@ async function main() {
         continue;
       }
 
-      const availabilityCount = await prisma.availability.count({
+      // Removes the current availability schedule.
+      await prisma.availability.deleteMany({
         where: {
           professionalProfileId: professionalProfile.id,
         },
       });
 
-      // Creates initial availability only when the professional
-      // does not already have availability records.
-      if (availabilityCount === 0) {
-        await prisma.availability.createMany({
-          data: createAvailabilitySchedule(professionalIndex).map(
-            (availability) => ({
-              professionalProfileId: professionalProfile.id,
-              ...availability,
-            }),
-          ),
-        });
+      // Creates the standard availability schedule.
+      await prisma.availability.createMany({
+        data: createAvailabilitySchedule().map((availability) => ({
+          professionalProfileId: professionalProfile.id,
+          ...availability,
+        })),
+      });
 
-        console.log(
-          `Availability created for ${professional.firstName} ${professional.lastName}.`,
-        );
-      } else {
-        console.log(
-          `Availability already exists for ${professional.firstName} ${professional.lastName}.`,
-        );
-      }
+      console.log(
+        `Availability reset for ${professional.firstName} ${professional.lastName}.`,
+      );
     }
 
-    console.log("Initial availability process completed.");
-
+    console.log("Availability synchronization completed.");
     return;
   }
 
@@ -544,7 +487,7 @@ async function main() {
 
   const hashedPassword = await bcrypt.hash(DEFAULT_PASSWORD, 10);
 
-  for (const [professionalIndex, professional] of professionals.entries()) {
+  for (const professional of professionals) {
     const createdUser = await prisma.user.create({
       data: {
         firstName: professional.firstName,
@@ -569,7 +512,7 @@ async function main() {
             },
 
             availabilities: {
-              create: createAvailabilitySchedule(professionalIndex),
+              create: createAvailabilitySchedule(),
             },
           },
         },
@@ -603,13 +546,17 @@ async function main() {
   console.log("============================================================");
   console.log("SEED COMPLETED");
   console.log("============================================================");
+
   console.log(`Specialties: ${specialtyCount}`);
   console.log(`Professionals: ${professionalCount}`);
+
   console.log(
     `Professional-Specialty relations: ${professionalSpecialtyCount}`,
   );
+
   console.log(`Availabilities: ${availabilityCount}`);
   console.log(`Default password: ${DEFAULT_PASSWORD}`);
+
   console.log("============================================================");
 }
 
