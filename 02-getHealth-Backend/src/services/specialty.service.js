@@ -31,7 +31,11 @@ export const getSpecialtyById = async (id) => {
 // ============================================================
 
 // Creates a new specialty after checking that its name is not already in use.
-export const createSpecialty = async (name, description) => {
+export const createSpecialty = async (
+  name,
+  description,
+  detailedDescription,
+) => {
   // Check whether a specialty with the same name already exists.
   const existing = await prisma.speciality.findUnique({
     where: {
@@ -51,6 +55,7 @@ export const createSpecialty = async (name, description) => {
     data: {
       name,
       description,
+      detailedDescription,
     },
   });
 
@@ -62,7 +67,13 @@ export const createSpecialty = async (name, description) => {
 // ============================================================
 
 // Updates an existing specialty after validating its existence and name uniqueness.
-export const updateSpecialty = async (id, name, description, isActive) => {
+export const updateSpecialty = async (
+  id,
+  name,
+  description,
+  detailedDescription,
+  isActive,
+) => {
   // Find the specialty that will be updated.
   const existingSpecialty = await prisma.speciality.findUnique({
     where: {
@@ -99,6 +110,7 @@ export const updateSpecialty = async (id, name, description, isActive) => {
     data: {
       name,
       description,
+      detailedDescription,
       isActive,
     },
   });

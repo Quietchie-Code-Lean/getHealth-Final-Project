@@ -8,67 +8,76 @@ const prisma = new PrismaClient();
 // ============================================================
 
 const specialties = [
-
   {
     name: "Cardiology",
     description:
       "Medical specialty dedicated to the diagnosis, treatment, and prevention of cardiovascular diseases. Cardiology covers conditions affecting the heart and blood vessels, including hypertension, arrhythmias, coronary artery disease, and heart failure. Specialists also help patients manage cardiovascular risk factors and long-term heart health.",
+    detailedDescription:
+      "Cardiology focuses on the health of the heart and circulatory system. Cardiologists evaluate, diagnose, and treat conditions such as high blood pressure, coronary artery disease, heart rhythm disorders, heart failure, and other cardiovascular problems. Consultations may include assessment of cardiovascular risk factors, review of symptoms and medical history, and recommendations for lifestyle changes, medication, diagnostic testing, or specialized treatment when necessary.",
   },
-  
   {
     name: "Dermatology",
     description:
       "Medical specialty focused on the diagnosis and treatment of diseases affecting the skin, hair, and nails. Dermatology covers conditions such as acne, eczema, psoriasis, infections, allergic reactions, and skin lesions. Specialists also evaluate changes in the skin that may require further medical attention.",
+    detailedDescription:
+      "Dermatology specializes in the health of the skin, hair, and nails. Dermatologists diagnose and treat a wide range of conditions, including acne, eczema, psoriasis, skin infections, allergic reactions, pigmentation disorders, and suspicious or changing skin lesions. A dermatology consultation may involve a detailed examination of the affected area, evaluation of symptoms and medical history, and recommendations for medical treatment, preventive care, or additional testing when appropriate.",
   },
-
   {
     name: "Endocrinology",
     description:
       "Medical specialty focused on hormonal disorders, metabolism, and conditions affecting the endocrine system. Endocrinology includes the diagnosis and treatment of diabetes, thyroid disorders, hormonal imbalances, growth problems, and metabolic diseases. Specialists help patients manage both chronic and newly diagnosed endocrine conditions.",
+    detailedDescription:
+      "Endocrinology focuses on hormones, metabolism, and the glands that regulate essential functions throughout the body. Endocrinologists evaluate and treat conditions such as diabetes, thyroid disorders, hormonal imbalances, metabolic diseases, and certain growth or reproductive disorders. Care may include reviewing laboratory results, assessing symptoms and risk factors, adjusting treatment plans, and providing long-term follow-up for chronic endocrine conditions.",
   },
-
   {
     name: "Gastroenterology",
     description:
       "Medical specialty dedicated to the diagnosis and treatment of diseases affecting the digestive system. Gastroenterology covers the esophagus, stomach, intestines, liver, pancreas, and gallbladder. Specialists evaluate symptoms such as abdominal pain, digestive discomfort, reflux, and other gastrointestinal conditions.",
+    detailedDescription:
+      "Gastroenterology focuses on the diagnosis and treatment of conditions affecting the digestive system, including the esophagus, stomach, intestines, liver, pancreas, and gallbladder. Gastroenterologists evaluate symptoms such as abdominal pain, heartburn, reflux, nausea, changes in bowel habits, and digestive discomfort. Depending on the condition, evaluation may include laboratory tests, imaging studies, endoscopic procedures, medication, dietary recommendations, and ongoing medical follow-up.",
   },
-
   {
     name: "Neurology",
     description:
       "Medical specialty dedicated to the diagnosis and treatment of disorders affecting the nervous system. Neurology includes conditions involving the brain, spinal cord, nerves, and muscles. Specialists commonly evaluate headaches, seizures, movement disorders, memory problems, neuropathies, and other neurological symptoms.",
+    detailedDescription:
+      "Neurology specializes in disorders affecting the brain, spinal cord, peripheral nerves, and muscles. Neurologists evaluate symptoms such as persistent headaches, dizziness, seizures, memory difficulties, tremors, movement disorders, weakness, numbness, and other neurological changes. A consultation generally includes a detailed neurological examination and review of medical history, with additional diagnostic tests or treatment recommendations when clinically appropriate.",
   },
-
   {
     name: "Pediatrics",
     description:
       "Medical specialty dedicated to the health, growth, and development of infants, children, and adolescents. Pediatrics includes preventive care, routine health checks, vaccinations, diagnosis of childhood illnesses, and monitoring of physical and developmental milestones. Pediatricians support children through the different stages of growth.",
+    detailedDescription:
+      "Pediatrics provides comprehensive medical care for infants, children, and adolescents throughout their different stages of development. Pediatricians monitor physical and emotional development, perform routine health assessments, provide preventive care and vaccination guidance, and diagnose and treat common childhood illnesses. Pediatric consultations also support parents and caregivers with recommendations related to nutrition, development, sleep, hygiene, and overall healthy growth.",
   },
-
   {
     name: "Psychiatry",
     description:
       "Medical specialty focused on the evaluation, diagnosis, treatment, and prevention of mental health disorders. Psychiatry includes conditions such as anxiety, depression, mood disorders, sleep problems, and other behavioral or emotional difficulties. Specialists may provide clinical evaluation, treatment planning, and long-term follow-up.",
+    detailedDescription:
+      "Psychiatry focuses on the evaluation and treatment of mental health and emotional conditions that can affect daily life and overall well-being. Psychiatrists assess symptoms, personal history, emotional health, and other relevant factors when diagnosing conditions such as anxiety, depression, mood disorders, sleep difficulties, and other behavioral or emotional concerns. Treatment may include psychotherapy recommendations, medication when appropriate, lifestyle guidance, and ongoing follow-up to evaluate progress.",
   },
-
   {
     name: "Traumatology and Orthopedics",
     description:
       "Medical specialty dedicated to the diagnosis and treatment of injuries and conditions affecting the musculoskeletal system. This includes bones, joints, muscles, tendons, and ligaments. Specialists commonly treat fractures, sports injuries, joint pain, mobility problems, and degenerative orthopedic conditions.",
+    detailedDescription:
+      "Traumatology and Orthopedics focuses on injuries and disorders affecting the musculoskeletal system, including bones, joints, muscles, tendons, and ligaments. Specialists diagnose and treat conditions such as fractures, sports injuries, joint pain, mobility problems, tendon injuries, and degenerative orthopedic diseases. Depending on the condition, treatment may involve medication, rehabilitation, physical therapy, activity recommendations, diagnostic imaging, or surgical evaluation.",
   },
-
   {
     name: "Gynecology",
     description:
       "Medical specialty dedicated to women's reproductive and gynecological health. Gynecology includes preventive examinations, menstrual disorders, reproductive health, menopause, infections, and conditions affecting the female reproductive system. Specialists provide evaluation, diagnosis, treatment, and ongoing preventive care.",
+    detailedDescription:
+      "Gynecology provides medical care focused on the female reproductive system and women's health throughout different stages of life. Gynecologists evaluate and treat menstrual disorders, reproductive health concerns, infections, hormonal changes, menopause-related symptoms, and other gynecological conditions. Consultations may also include preventive examinations, health education, contraceptive counseling, and recommendations for appropriate screening and ongoing care.",
   },
-
   {
     name: "Ophthalmology",
     description:
       "Medical specialty dedicated to the diagnosis, treatment, and prevention of eye diseases and vision disorders. Ophthalmology includes conditions affecting vision, the retina, cornea, lens, optic nerve, and other structures of the eye. Specialists also evaluate visual changes and provide medical or surgical treatment when necessary.",
+    detailedDescription:
+      "Ophthalmology focuses on the diagnosis, treatment, and prevention of diseases affecting the eyes and visual system. Ophthalmologists evaluate vision problems and conditions involving structures such as the cornea, lens, retina, optic nerve, and other parts of the eye. Consultations may include vision testing and a detailed eye examination, with treatment ranging from corrective recommendations and medication to specialized procedures or surgery when clinically indicated.",
   },
-
 ];
 
 const professionals = [
@@ -242,6 +251,108 @@ const professionals = [
 const DEFAULT_PASSWORD = "Test1234!";
 
 // ============================================================
+// AVAILABILITY GENERATOR
+// ============================================================
+
+// Defines the weekdays available for professional schedules.
+const createAvailabilitySchedule = (professionalIndex) => {
+  const weekdays = [
+    "MONDAY",
+    "TUESDAY",
+    "WEDNESDAY",
+    "THURSDAY",
+    "FRIDAY",
+    "SATURDAY",
+  ];
+
+  // Defines different schedule patterns to distribute availability
+  // across professionals while keeping the seed data reproducible.
+  const schedules = [
+    {
+      days: [0, 2, 4],
+      startHour: 8,
+      blocks: 6,
+    },
+    {
+      days: [1, 3, 5],
+      startHour: 9,
+      blocks: 6,
+    },
+    {
+      days: [0, 1, 4],
+      startHour: 10,
+      blocks: 8,
+    },
+    {
+      days: [2, 3, 5],
+      startHour: 11,
+      blocks: 6,
+    },
+    {
+      days: [0, 2, 3, 5],
+      startHour: 13,
+      blocks: 6,
+    },
+    {
+      days: [1, 3, 4],
+      startHour: 14,
+      blocks: 8,
+    },
+    {
+      days: [0, 3, 5],
+      startHour: 15,
+      blocks: 6,
+    },
+    {
+      days: [1, 2, 4],
+      startHour: 16,
+      blocks: 4,
+    },
+  ];
+
+  // Selects a schedule pattern based on the professional index.
+  const schedule = schedules[professionalIndex % schedules.length];
+
+  // Creates individual 30-minute availability blocks for each weekday.
+  return schedule.days.flatMap((dayIndex) => {
+    return Array.from({ length: schedule.blocks }, (_, blockIndex) => {
+      // Calculates the start time of the current 30-minute block.
+      const startMinutes = schedule.startHour * 60 + blockIndex * 30;
+
+      // Calculates the end time of the current 30-minute block.
+      const endMinutes = startMinutes + 30;
+
+      // Converts the start time from total minutes to hours and minutes.
+      const startHour = Math.floor(startMinutes / 60);
+      const startMinute = startMinutes % 60;
+
+      // Converts the end time from total minutes to hours and minutes.
+      const endHour = Math.floor(endMinutes / 60);
+      const endMinute = endMinutes % 60;
+
+      // Formats the start time as HH:MM:SS.
+      const startTime = `${String(startHour).padStart(2, "0")}:${String(
+        startMinute,
+      ).padStart(2, "0")}:00`;
+
+      // Formats the end time as HH:MM:SS.
+      const endTime = `${String(endHour).padStart(2, "0")}:${String(
+        endMinute,
+      ).padStart(2, "0")}:00`;
+
+      // Returns the availability record for the current time slot.
+      return {
+        weekday: weekdays[dayIndex],
+        startTime: new Date(`1970-01-01T${startTime}.000Z`),
+        endTime: new Date(`1970-01-01T${endTime}.000Z`),
+        slotDuration: 30,
+        availableSlot: true,
+      };
+    });
+  });
+};
+
+// ============================================================
 // MAIN SEED
 // ============================================================
 
@@ -255,9 +366,95 @@ async function main() {
   const appointmentCount = await prisma.appointment.count();
 
   if (appointmentCount > 0) {
-    throw new Error(
-      `Seed aborted: ${appointmentCount} appointment(s) exist. Delete them before running this seed.`,
+    console.log(
+      `Found ${appointmentCount} appointment(s). Updating specialties and availability without deleting existing data...`,
     );
+
+    // ============================================================
+    // UPDATE SPECIALTIES
+    // ============================================================
+
+    for (const specialty of specialties) {
+      await prisma.speciality.update({
+        where: {
+          name: specialty.name,
+        },
+        data: {
+          detailedDescription: specialty.detailedDescription,
+        },
+      });
+    }
+
+    console.log("Specialties updated successfully.");
+
+    // ============================================================
+    // CREATE INITIAL AVAILABILITY
+    // ============================================================
+
+    for (const [professionalIndex, professional] of professionals.entries()) {
+      const user = await prisma.user.findUnique({
+        where: {
+          email: professional.email,
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      if (!user) {
+        console.log(
+          `Professional not found: ${professional.firstName} ${professional.lastName}`,
+        );
+        continue;
+      }
+
+      const professionalProfile = await prisma.professionalProfile.findUnique({
+        where: {
+          professionalId: user.id,
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      if (!professionalProfile) {
+        console.log(
+          `Professional profile not found: ${professional.firstName} ${professional.lastName}`,
+        );
+        continue;
+      }
+
+      const availabilityCount = await prisma.availability.count({
+        where: {
+          professionalProfileId: professionalProfile.id,
+        },
+      });
+
+      // Creates initial availability only when the professional
+      // does not already have availability records.
+      if (availabilityCount === 0) {
+        await prisma.availability.createMany({
+          data: createAvailabilitySchedule(professionalIndex).map(
+            (availability) => ({
+              professionalProfileId: professionalProfile.id,
+              ...availability,
+            }),
+          ),
+        });
+
+        console.log(
+          `Availability created for ${professional.firstName} ${professional.lastName}.`,
+        );
+      } else {
+        console.log(
+          `Availability already exists for ${professional.firstName} ${professional.lastName}.`,
+        );
+      }
+    }
+
+    console.log("Initial availability process completed.");
+
+    return;
   }
 
   // ============================================================
@@ -347,7 +544,7 @@ async function main() {
 
   const hashedPassword = await bcrypt.hash(DEFAULT_PASSWORD, 10);
 
-  for (const professional of professionals) {
+  for (const [professionalIndex, professional] of professionals.entries()) {
     const createdUser = await prisma.user.create({
       data: {
         firstName: professional.firstName,
@@ -369,6 +566,10 @@ async function main() {
               create: professional.specialties.map((specialtyName) => ({
                 specialityId: createdSpecialties[specialtyName].id,
               })),
+            },
+
+            availabilities: {
+              create: createAvailabilitySchedule(professionalIndex),
             },
           },
         },
@@ -395,7 +596,10 @@ async function main() {
   const professionalSpecialtyCount =
     await prisma.professionalSpeciality.count();
 
+  const availabilityCount = await prisma.availability.count();
+
   console.log("");
+
   console.log("============================================================");
   console.log("SEED COMPLETED");
   console.log("============================================================");
@@ -404,6 +608,7 @@ async function main() {
   console.log(
     `Professional-Specialty relations: ${professionalSpecialtyCount}`,
   );
+  console.log(`Availabilities: ${availabilityCount}`);
   console.log(`Default password: ${DEFAULT_PASSWORD}`);
   console.log("============================================================");
 }
