@@ -89,7 +89,7 @@ export const getSpecialtyByIdController = async (req, res) => {
 export const createSpecialtyController = async (req, res) => {
   try {
     // Extract specialty data from the request body.
-    const { name, description } = req.body;
+    const { name, description, detailed_description } = req.body;
 
     // Validate that the specialty name is provided.
     if (typeof name !== "string" || !name.trim()) {
@@ -102,7 +102,11 @@ export const createSpecialtyController = async (req, res) => {
     const cleanName = name.trim();
 
     // Delegate specialty creation and business validation to the service.
-    const specialty = await createSpecialty(cleanName, description);
+    const specialty = await createSpecialty(
+      cleanName,
+      description,
+      detailed_description,
+    );
 
     // Return the created specialty using the API response format.
     return res.status(201).json({
@@ -144,7 +148,7 @@ export const updateSpecialtyController = async (req, res) => {
     }
 
     // Extract update data from the request body.
-    const { name, description, is_active } = req.body;
+    const { name, description, detailed_description, is_active } = req.body;
 
     // Validate the specialty name.
     if (typeof name !== "string" || !name.trim()) {
@@ -175,6 +179,7 @@ export const updateSpecialtyController = async (req, res) => {
       id,
       cleanName,
       description,
+      detailed_description,
       is_active,
     );
 

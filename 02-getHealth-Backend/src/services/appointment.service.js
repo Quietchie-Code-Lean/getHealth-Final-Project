@@ -12,21 +12,29 @@ import {
 // AVAILABILITY HELPERS
 // ============================================================
 
-// Finds the active availability configured for a professional on a given date.
-const getProfessionalAvailability = async (professionalId, appointmentDate) => {
+// Finds the specific availability slot configured for a professional on a given date and time.
+const getProfessionalAvailability = async (
+  professionalId,
+  appointmentDate,
+  startTime,
+) => {
   // Determine which weekday corresponds to the requested date.
   const weekday = getWeekday(appointmentDate);
 
-  // Search for an active availability configuration.
+  // Convert the requested time into a comparable Date value.
+  const requestedStartTime = minutesToDate(timeToMinutes(startTime));
+
+  // Search for the specific active availability slot.
   const availability = await prisma.availability.findFirst({
     where: {
       professionalProfileId: professionalId,
       weekday,
+      startTime: requestedStartTime,
       availableSlot: true,
     },
   });
 
-  // Return the availability found for the requested day.
+  // Return the matching availability slot.
   return availability;
 };
 
@@ -220,16 +228,19 @@ export const createAppointment = async (
   // FIND AVAILABILITY
   // ============================================================
 
-  // Find the professional's availability for the requested weekday.
+  // Find the specific professional availability slot selected by the patient.
   const availability = await getProfessionalAvailability(
     Number(professional_id),
     appointmentDate,
+    start_time,
   );
 
-  // Stop the process if the professional does not work on this day.
+  // Stop the process if the professional does not have this slot available.
   if (!availability) {
-    const error = new Error("No availability configured for this day");
-    error.statusCode = 404;
+    const error = new Error(
+      "Selected time is outside professional availability",
+    );
+    error.statusCode = 400;
     throw error;
   }
 
@@ -275,26 +286,21 @@ export const createAppointment = async (
       startAppointment,
       endAppointment,
       status: "SCHEDULED",
-      reason
+      reason,
     },
-
     include: {
       patientProfile: {
         include: {
           user: true,
         },
       },
-
       professionalProfile: {
         include: {
           user: true,
         },
       },
-
       speciality: true,
     },
-
-
   });
 
   // Return the created appointment to the controller.
@@ -584,13 +590,13 @@ export const rescheduleAppointment = async (
   const patientProfile =
     role === "PATIENT"
       ? await prisma.patientProfile.findUnique({
-        where: {
-          patientId: userId,
-        },
-        select: {
-          id: true,
-        },
-      })
+          where: {
+            patientId: userId,
+          },
+          select: {
+            id: true,
+          },
+        })
       : null;
 
   // Check whether the authenticated patient owns the appointment.
@@ -635,16 +641,19 @@ export const rescheduleAppointment = async (
   // FIND AVAILABILITY
   // ============================================================
 
-  // Find the professional's availability for the new date.
+  // Find the specific professional availability slot selected for the new date and time.
   const availability = await getProfessionalAvailability(
     appointment.professionalProfileId,
     appointmentDate,
+    start_time,
   );
 
-  // Stop the process if the professional does not work that day.
+  // Stop the process if the professional does not have this slot available.
   if (!availability) {
-    const error = new Error("No availability configured for this day");
-    error.statusCode = 404;
+    const error = new Error(
+      "Selected time is outside professional availability",
+    );
+    error.statusCode = 400;
     throw error;
   }
 
@@ -750,26 +759,26 @@ export const cancelAppointment = async (
     const patientProfile =
       role === "PATIENT"
         ? await prisma.patientProfile.findUnique({
-          where: {
-            patientId: userId,
-          },
-          select: {
-            id: true,
-          },
-        })
+            where: {
+              patientId: userId,
+            },
+            select: {
+              id: true,
+            },
+          })
         : null;
 
     // Find the professional profile when the authenticated user is a professional.
     const professionalProfile =
       role === "PROFESSIONAL"
         ? await prisma.professionalProfile.findUnique({
-          where: {
-            professionalId: userId,
-          },
-          select: {
-            id: true,
-          },
-        })
+            where: {
+              professionalId: userId,
+            },
+            select: {
+              id: true,
+            },
+          })
         : null;
 
     // Check whether the user is the patient associated with the appointment.
@@ -921,13 +930,9 @@ export const updateAppointmentStatus = async (
   // Define valid transitions supported by the current appointment workflow.
   const validTransitions = {
     SCHEDULED: ["CONFIRMED", "COMPLETED", "NO_SHOW"],
-
     CONFIRMED: ["COMPLETED", "NO_SHOW"],
-
     COMPLETED: [],
-
     NO_SHOW: [],
-
     CANCELLED: [],
   };
 
