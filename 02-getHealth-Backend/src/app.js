@@ -21,8 +21,19 @@ const app = express();
 // GLOBAL MIDDLEWARE
 // ============================================================
 
-// Enables Cross-Origin Resource Sharing for client requests.
-app.use(cors());
+
+// Defines the frontend origins allowed to communicate with the API.
+const allowedOrigins = [
+    "http://localhost:5173",
+    process.env.FRONTEND_URL,
+].filter(Boolean);
+
+// Enables Cross-Origin Resource Sharing for approved frontend origins.
+app.use(
+    cors({
+        origin: allowedOrigins,
+    })
+);
 
 // Parses incoming requests with JSON payloads.
 app.use(express.json());
