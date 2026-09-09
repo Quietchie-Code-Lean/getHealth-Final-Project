@@ -76,13 +76,15 @@ export const createAppointmentController = async (req, res, next) => {
 
       console.log("Sending confirmation email...");
 
-      await sendEmail({
+      const emailResult = await sendEmail({
         to: patient.email,
         subject: "getHealth - Appointment confirmation",
         html: emailHtml,
       });
 
-      console.log("Confirmation email sent successfully");
+      if (emailResult) {
+        console.log("Confirmation email sent successfully");
+      }
 
     } catch (emailError) {
       console.error(
