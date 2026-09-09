@@ -34,6 +34,20 @@ export const sendEmail = async ({ to, subject, html }) => {
     Boolean(process.env.EMAIL_APP_PASSWORD),
   );
 
+
+  // ============================================================
+  // EMAIL SAFETY SWITCH
+  // ============================================================
+
+  // Allows email delivery to be disabled without affecting
+  // appointment creation or the rest of the application.
+  if (process.env.EMAIL_ENABLED !== "true") {
+    console.log("Email sending is currently disabled.");
+
+    return null;
+  }
+
+
   const emailData = {
     from: process.env.EMAIL_USER,
     to,
@@ -50,7 +64,7 @@ export const sendEmail = async ({ to, subject, html }) => {
     return info;
 
   } catch (error) {
-    
+
     console.error("Nodemailer sendMail failed:", error);
 
     throw error;
