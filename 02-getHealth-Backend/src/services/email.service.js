@@ -24,6 +24,16 @@ const transporter = nodemailer.createTransport({
 // Sends a generic email using Nodemailer.
 export const sendEmail = async ({ to, subject, html }) => {
 
+  console.log("Nodemailer sendEmail called");
+  console.log("From:", process.env.EMAIL_USER);
+  console.log("To:", to);
+
+  // Never log the actual password.
+  console.log(
+    "App password configured:",
+    Boolean(process.env.EMAIL_APP_PASSWORD),
+  );
+
   const emailData = {
     from: process.env.EMAIL_USER,
     to,
@@ -31,7 +41,19 @@ export const sendEmail = async ({ to, subject, html }) => {
     html,
   };
 
-  const info = await transporter.sendMail(emailData);
+  try {
 
-  return info;
+    const info = await transporter.sendMail(emailData);
+
+    console.log("Nodemailer response:", info.messageId);
+
+    return info;
+
+  } catch (error) {
+    
+    console.error("Nodemailer sendMail failed:", error);
+
+    throw error;
+  }
+
 };
