@@ -73,3 +73,22 @@ export const sendEmail = async ({ to, subject, html }) => {
   }
 
 };
+
+
+  // ============================================================
+  // EMAIL VERIFICATION
+  // ============================================================
+
+export const verifyEmailConnection = async () => {
+  try {
+    
+    await transporter.verify();
+
+    console.log("SMTP connection verified successfully.");
+  } catch (error) {
+
+    console.error("SMTP connection verification failed:", error);
+
+    throw error;
+  }
+};
