@@ -6,14 +6,15 @@ import nodemailer from "nodemailer";
 // ============================================================
 
 
-// Creates the Nodemailer transporter using the Gmail account
-// credentials stored in .env.
+// Creates the Nodemailer transporter using the SMTP Provider.
+// credentials stored in Evironment Variables.
 const transporter = nodemailer.createTransport({
-  service: "gmail",
-
+  host: process.env.SMTP_HOST,
+  port: Number(process.env.SMTP_PORT),
+  secure: false,
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_APP_PASSWORD,
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS ,
   },
 });
 
@@ -21,17 +22,17 @@ const transporter = nodemailer.createTransport({
 // SEND EMAIL
 // ============================================================
 
-// Sends a generic email using Nodemailer.
+// Sends a generic transactional email using Nodemailer.
 export const sendEmail = async ({ to, subject, html }) => {
 
   console.log("Nodemailer sendEmail called");
-  console.log("From:", process.env.EMAIL_USER);
+  console.log("From:", process.env.EMAIL_FROM);
   console.log("To:", to);
 
-  // Never log the actual password.
+  // Never log the actual SMTP key.
   console.log(
-    "App password configured:",
-    Boolean(process.env.EMAIL_APP_PASSWORD),
+    "SMTP credentials configured:",
+    Boolean(process.env.SMTP_USER && process.env.SMTP_PASS),
   );
 
 
@@ -45,11 +46,11 @@ export const sendEmail = async ({ to, subject, html }) => {
     console.log("Email sending is currently disabled.");
 
     return null;
+
   }
 
-
   const emailData = {
-    from: process.env.EMAIL_USER,
+    from: `"${process.env.EMAIL_FROM_NAME}" <${process.env.EMAIL_FROM}>`,
     to,
     subject,
     html,
@@ -68,6 +69,26 @@ export const sendEmail = async ({ to, subject, html }) => {
     console.error("Nodemailer sendMail failed:", error);
 
     throw error;
+
   }
 
+};
+
+
+  // ============================================================
+  // EMAIL VERIFICATION
+  // ============================================================
+
+export const verifyEmailConnection = async () => {
+  try {
+    
+    await transporter.verify();
+
+    console.log("SMTP connection verified successfully.");
+  } catch (error) {
+
+    console.error("SMTP connection verification failed:", error);
+
+    throw error;
+  }
 };
